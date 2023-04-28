@@ -13,3 +13,12 @@ Difficulty::~Difficulty()
 {
     delete ui;
 }
+
+void Difficulty::on_pushButton_clicked()
+{
+    hide();
+    Game game;
+    game.show();
+    game.exec();
+}
+

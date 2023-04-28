@@ -2,6 +2,7 @@
 #define DIFFICULTY_H
 
 #include <QDialog>
+#include "game.h"
 
 namespace Ui {
 class Difficulty;
@@ -14,6 +15,9 @@ class Difficulty : public QDialog
 public:
     explicit Difficulty(QWidget *parent = nullptr);
     ~Difficulty();
+
+private slots:
+    void on_pushButton_clicked();
 
 private:
     Ui::Difficulty *ui;
