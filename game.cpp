@@ -12,15 +12,35 @@ Game::Game(QWidget *parent) :
         ui->tableWidget->setRowHeight(i,80);
     }
 
+    setWindowFlags(Qt::Window);
+
+
+    for(int i=0;i<8;i++){
+        for(int j=0; j<8;j++){
+            if(i==1 || i==6){
+                ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(1)));
+            }
+        }
+    }
+
+
+
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
+            if(!ui->tableWidget->item(i,j)){
+               ui->tableWidget->setItem(i,j,new QTableWidgetItem(""));
+            }
             if((i+j)%2==0){
-                ui->tableWidget->setItem(i,j,new QTableWidgetItem(""));
                 ui->tableWidget->item(i,j)->setBackground(Qt::black);
 
             }
         }
     }
+
+
+
+
+
 
 }
 
@@ -35,5 +55,17 @@ void Game::on_pushButton_clicked()
     Difficulty difficulty;
     difficulty.show();
     difficulty.exec();
+}
+
+
+void Game::on_tableWidget_cellClicked(int row, int column)
+{
+
+    if(piece==1 || ui->tableWidget->item(row,column)->text()=="1"){
+        White_bishop white_bishop;
+        white_bishop.step(ui,row,column,RowOld,ColumnOld,piece);
+    }
+
+
 }
 

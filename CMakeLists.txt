@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        white_bishop.cpp
+        white_bishop.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
