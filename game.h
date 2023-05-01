@@ -2,7 +2,7 @@
 #define GAME_H
 
 #include <QDialog>
-#include "difficulty.h"
+#include "humanormachine.h"
 #include "white_bishop.h"
 
 namespace Ui {
@@ -16,11 +16,14 @@ class Game : public QDialog
 public:
     explicit Game(QWidget *parent = nullptr);
     ~Game();
+    void saved_game_load();
 
 private slots:
     void on_pushButton_clicked();
 
     void on_tableWidget_cellClicked(int row, int column);
+
+    void on_pushButton_2_clicked();
 
 private:
     Ui::Game *ui;

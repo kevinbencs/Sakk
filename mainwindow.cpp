@@ -13,12 +13,23 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
+//new game
 void MainWindow::on_pushButton_clicked()
 {
     hide();
-    Difficulty difficulty;
-    difficulty.show();
-    difficulty.exec();
+    HumanOrMachine humanOrMachine;
+    humanOrMachine.show();
+    humanOrMachine.exec();
+}
+
+//load the saved game
+void MainWindow::on_pushButton_2_clicked()
+{
+    hide();
+    Game game;
+    game.saved_game_load();
+    game.show();
+    game.exec();
+
 }
 

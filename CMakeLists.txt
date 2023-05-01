@@ -19,6 +19,9 @@ set(PROJECT_SOURCES
         game.cpp
         game.h
         game.ui
+        humanormachine.cpp
+        humanormachine.h
+        humanormachine.ui
         main.cpp
         mainwindow.cpp
         mainwindow.h

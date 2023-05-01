@@ -15,7 +15,7 @@ void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
                 if((i+j)%2==0){
-                    ui->tableWidget->item(i,j)->setBackground(Qt::black);
+                    ui->tableWidget->item(i,j)->setBackground(Qt::gray);
                 }
                 else{
                     ui->tableWidget->item(i,j)->setBackground(Qt::white);
@@ -30,7 +30,7 @@ void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
             if(ui->tableWidget->item(row-1,column)->background()==Qt::green){
                 piece=0;
                 if((row+column)%2){
-                    ui->tableWidget->item(row-1,column)->setBackground(Qt::black);
+                    ui->tableWidget->item(row-1,column)->setBackground(Qt::gray);
                 }
                 else{
                     ui->tableWidget->item(row-1,column)->setBackground(Qt::white);
@@ -45,14 +45,14 @@ void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
                     RowOld=row;
                 }
 
-                if(ui->tableWidget->item(row-1,column-1)->text()!=""){
+                if(ui->tableWidget->item(row-1,column-1)->text().toInt()<0){
                     ui->tableWidget->item(row-1,column-1)->setBackground(Qt::green);
                     piece=1;
                     ColumnOld=column;
                     RowOld=row;
                 }
 
-                if(ui->tableWidget->item(row-1,column+1)->text()!=""){
+                if(ui->tableWidget->item(row-1,column+1)->text().toInt()<0){
                     ui->tableWidget->item(row-1,column+1)->setBackground(Qt::green);
                     piece=1;
                     ColumnOld=column;
