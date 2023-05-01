@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "humanormachine.h"
 #include "white_bishop.h"
+#include "black_bishop.h"
 
 namespace Ui {
 class Game;
@@ -30,6 +31,8 @@ private:
     int piece;
     int RowOld;
     int ColumnOld;
+    int BlackOrWhite=1;
+
 };
 
 #endif // GAME_H

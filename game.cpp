@@ -119,11 +119,15 @@ void Game::saved_game_load()
 void Game::on_tableWidget_cellClicked(int row, int column)
 {
 
-    if(piece==1 || ui->tableWidget->item(row,column)->text()=="1"){
+    if((piece==1 || ui->tableWidget->item(row,column)->text()=="1") && BlackOrWhite==1){
         White_bishop white_bishop;
-        white_bishop.step(ui,row,column,RowOld,ColumnOld,piece);
+        white_bishop.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
     }
 
+    if((piece==-1 || ui->tableWidget->item(row,column)->text()=="-1") && BlackOrWhite==-1){
+        Black_bishop black_bishop;
+        black_bishop.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    }
 
 }
 
