@@ -6,6 +6,8 @@ Game::Game(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game)
 {
+
+    qApp->setStyleSheet("QDialog{background-color: black}");
     ui->setupUi(this);
     setWindowFlag(Qt::Window);
     for(int i=0;i<8;i++){
@@ -103,10 +105,12 @@ void Game::saved_game_load()
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(""));
             }
             if((i+j)%2==0){
-                ui->tableWidget->item(i,j)->setBackground(Qt::black);
+                ui->tableWidget->item(i,j)->setBackground(Qt::gray);
             }
         }
     }
+    str>>BlackOrWhite;
+
     str.flush();
     in.close();
 }
@@ -127,6 +131,21 @@ void Game::on_tableWidget_cellClicked(int row, int column)
     if((piece==-1 || ui->tableWidget->item(row,column)->text()=="-1") && BlackOrWhite==-1){
         Black_bishop black_bishop;
         black_bishop.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    }
+
+    if((piece==3 || ui->tableWidget->item(row,column)->text()=="3") && BlackOrWhite==1){
+        White_pawn white_pawn;
+        white_pawn.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    }
+
+    if((piece==-3 || ui->tableWidget->item(row,column)->text()=="-3") && BlackOrWhite==-1){
+        Black_pawn black_pawn;
+        black_pawn.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    }
+
+    if((piece==5 || ui->tableWidget->item(row,column)->text()=="5") && BlackOrWhite==1){
+        White_rook white_rook;
+        white_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
     }
 
 }
@@ -163,10 +182,11 @@ void Game::on_pushButton_2_clicked()
                 str<<ui->tableWidget->item(i,j)->text()+" ";
             }
         }
-        if(i!=7){
-            str<<'\n';
-        }
+
+        str<<'\n';
+
     }
+    str<<BlackOrWhite;
 
     str.flush();
     out.close();

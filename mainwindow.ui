@@ -202,6 +202,12 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuT_me">
+    <property name="title">
+     <string>Téma</string>
+    </property>
+   </widget>
+   <addaction name="menuT_me"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

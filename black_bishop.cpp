@@ -39,15 +39,13 @@ void Black_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
                 }
             }
 
-            if(ui->tableWidget->item(row-1,column)->background()==Qt::green){
-                piece=0;
-            }
-            else{
+            ColumnOld=column;
+            RowOld=row;
+
+            if(piece==0){
                 if(ui->tableWidget->item(row+1,column)->text()==""){
                     ui->tableWidget->item(row+1,column)->setBackground(Qt::green);
                     piece=-1;
-                    ColumnOld=column;
-                    RowOld=row;
                     if(ui->tableWidget->item(row+2,column)->text()=="" && row==1){
                         ui->tableWidget->item(row+2,column)->setBackground(Qt::green);
                     }
@@ -56,16 +54,15 @@ void Black_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
                 if(ui->tableWidget->item(row+1,column-1)->text().toInt()>0){
                     ui->tableWidget->item(row+1,column-1)->setBackground(Qt::green);
                     piece=-1;
-                    ColumnOld=column;
-                    RowOld=row;
                 }
 
                 if(ui->tableWidget->item(row+1,column+1)->text().toInt()>0){
                     ui->tableWidget->item(row+1,column+1)->setBackground(Qt::green);
                     piece=-1;
-                    ColumnOld=column;
-                    RowOld=row;
                 }
+            }
+            else{
+                piece=0;
             }
         }
     }

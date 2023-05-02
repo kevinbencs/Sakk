@@ -5,6 +5,9 @@
 #include "humanormachine.h"
 #include "white_bishop.h"
 #include "black_bishop.h"
+#include "white_pawn.h"
+#include "black_pawn.h"
+#include "white_rook.h"
 
 namespace Ui {
 class Game;
@@ -28,7 +31,7 @@ private slots:
 
 private:
     Ui::Game *ui;
-    int piece;
+    int piece=0;
     int RowOld;
     int ColumnOld;
     int BlackOrWhite=1;

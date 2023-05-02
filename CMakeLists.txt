@@ -15,6 +15,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         black_bishop.cpp
         black_bishop.h
+        black_pawn.cpp
+        black_pawn.h
         difficulty.cpp
         difficulty.h
         difficulty.ui
@@ -30,6 +32,10 @@ set(PROJECT_SOURCES
         mainwindow.ui
         white_bishop.cpp
         white_bishop.h
+        white_pawn.cpp
+        white_pawn.h
+        white_rook.cpp
+        white_rook.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
