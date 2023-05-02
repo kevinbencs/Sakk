@@ -158,6 +158,11 @@ void Game::on_tableWidget_cellClicked(int row, int column)
         white_queen.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
     }
 
+    if((piece==-8 || ui->tableWidget->item(row,column)->text()=="-8") && BlackOrWhite==-1){
+        Black_queen black_queen;
+        black_queen.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    }
+
 }
 
 
