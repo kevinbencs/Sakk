@@ -51,15 +51,20 @@ void Black_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
                     }
                 }
 
-                if(ui->tableWidget->item(row+1,column-1)->text().toInt()>0){
-                    ui->tableWidget->item(row+1,column-1)->setBackground(Qt::green);
-                    piece=-1;
+                if(piece==0){
+                    if(ui->tableWidget->item(row+1,column-1)->text().toInt()>0){
+                        ui->tableWidget->item(row+1,column-1)->setBackground(Qt::green);
+                        piece=-1;
+                    }
                 }
 
-                if(ui->tableWidget->item(row+1,column+1)->text().toInt()>0){
-                    ui->tableWidget->item(row+1,column+1)->setBackground(Qt::green);
-                    piece=-1;
+                if(piece==8){
+                    if(ui->tableWidget->item(row+1,column+1)->text().toInt()>0){
+                        ui->tableWidget->item(row+1,column+1)->setBackground(Qt::green);
+                        piece=-1;
+                    }
                 }
+
             }
             else{
                 piece=0;

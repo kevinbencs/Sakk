@@ -148,6 +148,11 @@ void Game::on_tableWidget_cellClicked(int row, int column)
         white_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
     }
 
+    if((piece==-5 || ui->tableWidget->item(row,column)->text()=="-5") && BlackOrWhite==-1){
+        Black_rook black_rook;
+        black_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    }
+
 }
 
 

@@ -8,6 +8,7 @@
 #include "white_pawn.h"
 #include "black_pawn.h"
 #include "white_rook.h"
+#include "black_rook.h"
 
 namespace Ui {
 class Game;

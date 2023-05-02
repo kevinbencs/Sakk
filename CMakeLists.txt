@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
         black_bishop.h
         black_pawn.cpp
         black_pawn.h
+        black_rook.cpp
+        black_rook.h
         difficulty.cpp
         difficulty.h
         difficulty.ui
