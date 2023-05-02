@@ -163,6 +163,16 @@ void Game::on_tableWidget_cellClicked(int row, int column)
         black_queen.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
     }
 
+    if((piece==4 || ui->tableWidget->item(row,column)->text()=="4") && BlackOrWhite==1){
+        White_knight white_knight;
+        white_knight.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    }
+
+    if((piece==-4 || ui->tableWidget->item(row,column)->text()=="-4") && BlackOrWhite==-1){
+        Black_knight black_knight;
+        black_knight.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    }
+
 }
 
 

@@ -15,6 +15,8 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         black_bishop.cpp
         black_bishop.h
+        black_knight.cpp
+        black_knight.h
         black_pawn.cpp
         black_pawn.h
         black_queen.cpp
@@ -36,6 +38,8 @@ set(PROJECT_SOURCES
         mainwindow.ui
         white_bishop.cpp
         white_bishop.h
+        white_knight.cpp
+        white_knight.h
         white_pawn.cpp
         white_pawn.h
         white_queen.cpp

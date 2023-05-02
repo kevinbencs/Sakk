@@ -11,6 +11,8 @@
 #include "black_rook.h"
 #include "white_queen.h"
 #include "black_queen.h"
+#include "white_knight.h"
+#include "black_knight.h"
 
 namespace Ui {
 class Game;
