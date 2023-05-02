@@ -36,6 +36,8 @@ set(PROJECT_SOURCES
         white_bishop.h
         white_pawn.cpp
         white_pawn.h
+        white_queen.cpp
+        white_queen.h
         white_rook.cpp
         white_rook.h
 )
