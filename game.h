@@ -13,6 +13,9 @@
 #include "black_queen.h"
 #include "white_knight.h"
 #include "black_knight.h"
+#include "white_king.h"
+#include "black_king.h"
+#include "check.h"
 
 namespace Ui {
 class Game;
@@ -40,6 +43,9 @@ private:
     int RowOld;
     int ColumnOld;
     int BlackOrWhite=1;
+    int king_row,king_column,KnightAndBishop=0,AttackerRow,AttackerColumn;
+    bool white_rook_is_ok;
+    int OldRow, OldColumn;
 
 };
 

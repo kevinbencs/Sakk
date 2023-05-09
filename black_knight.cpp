@@ -90,7 +90,7 @@ void Black_knight::step(Ui::Game *ui, const int &row, const int &column, int &Ro
                     }
                 }
 
-                if((row+2)<8 && (column+1)<=8){
+                if((row+2)<8 && (column+1)<8){
                     piece=-4;
                     if(ui->tableWidget->item(row+2,column+1)->text()==""){
                         ui->tableWidget->item(row+2,column+1)->setBackground(Qt::green);
@@ -102,7 +102,7 @@ void Black_knight::step(Ui::Game *ui, const int &row, const int &column, int &Ro
                     }
                 }
 
-                if((row-2)>=0 && (column+1)<=8){
+                if((row-2)>=0 && (column+1)<8){
                     piece=-4;
                     if(ui->tableWidget->item(row-2,column+1)->text()==""){
                         ui->tableWidget->item(row-2,column+1)->setBackground(Qt::green);

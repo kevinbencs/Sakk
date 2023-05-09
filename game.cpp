@@ -7,7 +7,7 @@ Game::Game(QWidget *parent) :
     ui(new Ui::Game)
 {
 
-    qApp->setStyleSheet("QDialog{background-color: black}");
+    //qApp->setStyleSheet("QDialog{background-color: black}");
     ui->setupUi(this);
     setWindowFlag(Qt::Window);
     for(int i=0;i<8;i++){
@@ -20,7 +20,7 @@ Game::Game(QWidget *parent) :
 
     for(int i=0;i<8;i++){
         for(int j=0; j<8;j++){
-            if(i==6){
+           /* if(i==6){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(1)));
             }
             if(i==1){
@@ -36,11 +36,11 @@ Game::Game(QWidget *parent) :
 
             if(i==0 && (j==1 || j==6)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(-4)));
-            }
+            }*/
 
             if(i==7 && (j==1 || j==6)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(4)));
-            }
+            }/*
 
             if(i==0 && (j==2 || j==5)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(-3)));
@@ -48,14 +48,14 @@ Game::Game(QWidget *parent) :
 
             if(i==7 && (j==2 || j==5)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(3)));
-            }
+            }*/
         }
     }
 
-    ui->tableWidget->setItem(0,3,new QTableWidgetItem(QString::number(-8)));
+    //ui->tableWidget->setItem(0,3,new QTableWidgetItem(QString::number(-8)));
     ui->tableWidget->setItem(0,4,new QTableWidgetItem(QString::number(-10)));
 
-    ui->tableWidget->setItem(7,3,new QTableWidgetItem(QString::number(8)));
+    //ui->tableWidget->setItem(7,3,new QTableWidgetItem(QString::number(8)));
     ui->tableWidget->setItem(7,4,new QTableWidgetItem(QString::number(10)));
 
 
@@ -122,55 +122,146 @@ void Game::saved_game_load()
 
 void Game::on_tableWidget_cellClicked(int row, int column)
 {
+    Check check;
 
-    if((piece==1 || ui->tableWidget->item(row,column)->text()=="1") && BlackOrWhite==1){
-        White_bishop white_bishop;
-        white_bishop.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+
+    if(ui->label->text()=="<p align=center><span style= font-size:22pt><b>Sakk<b><span><p>"){
+        if(BlackOrWhite==1){
+            if((piece==10 || ui->tableWidget->item(row,column)->text()=="10")){
+                White_king white_king;
+                white_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+
+            }
+            if(KnightAndBishop==0){
+                if(piece==5 || ui->tableWidget->item(row,column)->text()=="5"){
+                    White_rook white_rook;
+                    white_rook.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                }
+                if(piece==3 || ui->tableWidget->item(row,column)->text()=="3"){
+                    White_pawn white_pawn;
+                    white_pawn.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                }
+                if(piece==8 || ui->tableWidget->item(row,column)->text()=="8"){
+                    White_queen white_queen;
+                    white_queen.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                }
+
+            }
+            else{
+                if(piece==5 || ui->tableWidget->item(row,column)->text()=="5"){
+                    White_rook white_rook;
+                    white_rook.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                }
+                if(piece==3 || ui->tableWidget->item(row,column)->text()=="3"){
+                    White_pawn white_pawn;
+                    white_pawn.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                }
+                if(piece==8 || ui->tableWidget->item(row,column)->text()=="8"){
+                    White_queen white_queen;
+                    white_queen.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                }
+            }
+
+        }
+
+
+        if((piece==-10 || ui->tableWidget->item(row,column)->text()=="-10") && BlackOrWhite==-1){
+            Black_king black_king;
+            black_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+
+    }
+    else{
+        if((piece==1 || ui->tableWidget->item(row,column)->text()=="1") && BlackOrWhite==1){
+            White_bishop white_bishop;
+            white_bishop.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==-1 || ui->tableWidget->item(row,column)->text()=="-1") && BlackOrWhite==-1){
+            Black_bishop black_bishop;
+            black_bishop.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==3 || ui->tableWidget->item(row,column)->text()=="3") && BlackOrWhite==1){
+            White_pawn white_pawn;
+            white_pawn.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==-3 || ui->tableWidget->item(row,column)->text()=="-3") && BlackOrWhite==-1){
+            Black_pawn black_pawn;
+            black_pawn.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==5 || ui->tableWidget->item(row,column)->text()=="5") && BlackOrWhite==1){
+            White_rook white_rook;
+            white_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==-5 || ui->tableWidget->item(row,column)->text()=="-5") && BlackOrWhite==-1){
+            Black_rook black_rook;
+            black_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==8 || ui->tableWidget->item(row,column)->text()=="8") && BlackOrWhite==1){
+            White_queen white_queen;
+            white_queen.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==-8 || ui->tableWidget->item(row,column)->text()=="-8") && BlackOrWhite==-1){
+            Black_queen black_queen;
+            black_queen.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==4 || ui->tableWidget->item(row,column)->text()=="4") && BlackOrWhite==1){
+            White_knight white_knight;
+            white_knight.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==-4 || ui->tableWidget->item(row,column)->text()=="-4") && BlackOrWhite==-1){
+            Black_knight black_knight;
+            black_knight.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==10 || ui->tableWidget->item(row,column)->text()=="10") && BlackOrWhite==1){
+            White_king white_king;
+            white_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+        if((piece==-10 || ui->tableWidget->item(row,column)->text()=="-10") && BlackOrWhite==-1){
+            Black_king black_king;
+            black_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+        }
+
+
     }
 
-    if((piece==-1 || ui->tableWidget->item(row,column)->text()=="-1") && BlackOrWhite==-1){
-        Black_bishop black_bishop;
-        black_bishop.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    if(BlackOrWhite==-1){
+        for(int i=0;i<8 ;i++){
+            for(int j=0;j<8;j++){
+                if(ui->tableWidget->item(i,j)->text()=="-10"){
+                    king_column=j;
+                    king_row=i;
+                }
+            }
+        }
     }
 
-    if((piece==3 || ui->tableWidget->item(row,column)->text()=="3") && BlackOrWhite==1){
-        White_pawn white_pawn;
-        white_pawn.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    if(BlackOrWhite==1){
+        for(int i=0;i<8 ;i++){
+            for(int j=0;j<8;j++){
+                if(ui->tableWidget->item(i,j)->text()=="10"){
+                    king_column=j;
+                    king_row=i;
+                }
+            }
+        }
     }
 
-    if((piece==-3 || ui->tableWidget->item(row,column)->text()=="-3") && BlackOrWhite==-1){
-        Black_pawn black_pawn;
-        black_pawn.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
-    }
 
-    if((piece==5 || ui->tableWidget->item(row,column)->text()=="5") && BlackOrWhite==1){
-        White_rook white_rook;
-        white_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
-    }
 
-    if((piece==-5 || ui->tableWidget->item(row,column)->text()=="-5") && BlackOrWhite==-1){
-        Black_rook black_rook;
-        black_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
-    }
-
-    if((piece==8 || ui->tableWidget->item(row,column)->text()=="8") && BlackOrWhite==1){
-        White_queen white_queen;
-        white_queen.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
-    }
-
-    if((piece==-8 || ui->tableWidget->item(row,column)->text()=="-8") && BlackOrWhite==-1){
-        Black_queen black_queen;
-        black_queen.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
-    }
-
-    if((piece==4 || ui->tableWidget->item(row,column)->text()=="4") && BlackOrWhite==1){
-        White_knight white_knight;
-        white_knight.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
-    }
-
-    if((piece==-4 || ui->tableWidget->item(row,column)->text()=="-4") && BlackOrWhite==-1){
-        Black_knight black_knight;
-        black_knight.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+    if(check.king_check(ui,BlackOrWhite,king_row,king_column,AttackerRow,AttackerColumn,KnightAndBishop)){
+        ui->label->setText("<p align=center><span style= font-size:22pt><b>Sakk<b><span><p>");
     }
 
 }
