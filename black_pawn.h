@@ -1,8 +1,9 @@
 #ifndef BLACK_PAWN_H
 #define BLACK_PAWN_H
 
-#include "game.h"
-#include "ui_game.h"
+
+#include "check.h"
+#include <vector>
 
 class Black_pawn
 {

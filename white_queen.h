@@ -1,12 +1,11 @@
 #ifndef WHITE_QUEEN_H
 #define WHITE_QUEEN_H
 
-#include "game.h"
-#include "ui_game.h"
 #include "white_pawn.h"
 #include "white_rook.h"
 
-class White_queen
+
+class White_queen: public White_rook, public White_pawn
 {
 public:
     White_queen();

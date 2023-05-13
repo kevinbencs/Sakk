@@ -1,7 +1,7 @@
 #ifndef BLACK_KING_H
 #define BLACK_KING_H
 
-#include "game.h"
+
 #include "ui_game.h"
 
 class Black_king

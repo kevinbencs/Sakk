@@ -1,7 +1,7 @@
 #ifndef BLACK_BISHOP_H
 #define BLACK_BISHOP_H
 
-#include "game.h"
+
 #include "ui_game.h"
 
 class Black_bishop

@@ -8,19 +8,7 @@ White_rook::White_rook()
 
 
 
-void White_rook::green_cell_disappear(Ui::Game* ui)
-{
-    for(int i=0;i<8;i++){
-        for(int j=0;j<8;j++){
-            if((i+j)%2==0){
-                ui->tableWidget->item(i,j)->setBackground(Qt::gray);
-            }
-            else{
-                ui->tableWidget->item(i,j)->setBackground(Qt::white);
-            }
-        }
-    }
-}
+
 
 
 
@@ -96,19 +84,20 @@ void White_rook::step_right(Ui::Game* ui, const int &row, const int &column, int
 
 void White_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite)
 {
+    Check check;
+
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
         ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(5)));
         ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
 
-        green_cell_disappear(ui);
+        check.green_cell_disappear(ui);
         piece=0;
         BlackOrWhite=-1;
     }
     else{
         if(ui->tableWidget->item(row,column)->text()=="5"){
 
-            green_cell_disappear(ui);
-            Check check;
+            check.green_cell_disappear(ui);
 
             if(piece==0){
 
@@ -218,40 +207,56 @@ void White_rook::down_check_step(Ui::Game* ui,const int &row, const int &column,
 
 void White_rook::king_column_black_queen_rook_column_equal_step(Ui::Game* ui,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow)
 {
-    if(column>AttackerColumn){
-        right_check_step(ui, row, column,AttackerColumn);
-    }
-    if(column<AttackerColumn){
-        left_check_step(ui,row, column,AttackerColumn);
-    }
-    if(column==AttackerColumn){
-        if(row<AttackerRow){
-            down_check_step(ui,row,column,AttackerRow);
+    Check check;
+
+    if(check.step_white_right_and_left_check(ui,row,column)){
+        if(column>AttackerColumn){
+            right_check_step(ui, row, column,AttackerColumn);
         }
-        else{
-            up_check_step(ui,row,column,AttackerRow);
+        if(column<AttackerColumn){
+            left_check_step(ui,row, column,AttackerColumn);
         }
     }
+
+    if(check.step_white_up_and_down_check(ui,row,column)){
+        if(column==AttackerColumn){
+            if(row<AttackerRow){
+                down_check_step(ui,row,column,AttackerRow);
+            }
+            else{
+                up_check_step(ui,row,column,AttackerRow);
+            }
+        }
+    }
+
 }
 
 
 
 void White_rook::king_row_black_queen_rook_row_equal_step(Ui::Game* ui,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow)
 {
-    if(row>AttackerRow){
-        up_check_step(ui,row,column,AttackerRow);
-    }
-    if(row<AttackerRow){
-        down_check_step(ui,row,column,AttackerRow);
-    }
-    if(row==AttackerRow){
-        if(column<AttackerColumn){
-            left_check_step(ui,row,column,AttackerColumn);
+    Check check;
+
+    if(check.step_white_up_and_down_check(ui,row,column)){
+        if(row>AttackerRow){
+            up_check_step(ui,row,column,AttackerRow);
         }
-        if(column>AttackerColumn){
-            right_check_step(ui,row,column,AttackerColumn);
+        if(row<AttackerRow){
+            down_check_step(ui,row,column,AttackerRow);
         }
     }
+
+    if(check.step_white_right_and_left_check(ui,row,column)){
+        if(row==AttackerRow){
+            if(column<AttackerColumn){
+                left_check_step(ui,row,column,AttackerColumn);
+            }
+            if(column>AttackerColumn){
+                right_check_step(ui,row,column,AttackerColumn);
+            }
+        }
+    }
+
 }
 
 
@@ -259,22 +264,30 @@ void White_rook::king_row_black_queen_rook_row_equal_step(Ui::Game* ui,const int
 
 void White_rook::king_dialog_black_queen_pawn_equal_left_down_step(Ui::Game* ui,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column)
 {
+    Check check;
+
     if(row>=AttackerRow && row<king_row){
-        if(column>king_column-king_row+row){
-            right_check_step(ui,row,column,king_column-king_row+row);
+        if(check.step_white_right_and_left_check(ui,row,column)){
+            if(column>king_column-king_row+row){
+                right_check_step(ui,row,column,king_column-king_row+row);
+            }
+            if(column<king_column-king_row+row){
+                left_check_step(ui,row,column,king_column-king_row+row);
+            }
         }
-        if(column<king_column-king_row+row){
-            left_check_step(ui,row,column,king_column-king_row+row);
-        }
+
     }
 
     if(column>=AttackerColumn && column<king_column){
-        if(row>king_row-king_column+column){
-            up_check_step(ui,row,column,king_row-king_column+column);
+        if(check.step_white_up_and_down_check(ui,row,column)){
+            if(row>king_row-king_column+column){
+                up_check_step(ui,row,column,king_row-king_column+column);
+            }
+            if(row<king_row-king_column+column){
+                down_check_step(ui,row,column,king_row-king_column+column);
+            }
         }
-        if(row<king_row-king_column+column){
-            down_check_step(ui,row,column,king_row-king_column+column);
-        }
+
     }
 }
 
@@ -282,22 +295,30 @@ void White_rook::king_dialog_black_queen_pawn_equal_left_down_step(Ui::Game* ui,
 
 void White_rook::king_dialog_black_queen_pawn_equal_left_up_step(Ui::Game* ui,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column)
 {
+    Check check;
+
     if(row<=AttackerRow && row>king_row){
-        if(column>king_column+king_row-row){
-            right_check_step(ui,row,column,king_column+king_row-row);
+        if(check.step_white_right_and_left_check(ui,row,column)){
+            if(column>king_column+king_row-row){
+                right_check_step(ui,row,column,king_column+king_row-row);
+            }
+            if(column<king_column+king_row-row){
+                left_check_step(ui,row,column,king_column+king_row-row);
+            }
         }
-        if(column<king_column+king_row-row){
-            left_check_step(ui,row,column,king_column+king_row-row);
-        }
+
     }
 
     if(column>=AttackerColumn && column<king_column){
-        if(row>king_row+king_column-column){
-            up_check_step(ui,row,column,king_row+king_column-column);
+        if(check.step_white_up_and_down_check(ui,row,column)){
+            if(row>king_row+king_column-column){
+                up_check_step(ui,row,column,king_row+king_column-column);
+            }
+            if(row<king_row+king_column-column){
+                down_check_step(ui,row,column,king_row+king_column-column);
+            }
         }
-        if(row<king_row+king_column-column){
-            down_check_step(ui,row,column,king_row+king_column-column);
-        }
+
     }
 }
 
@@ -306,22 +327,30 @@ void White_rook::king_dialog_black_queen_pawn_equal_left_up_step(Ui::Game* ui,co
 
 void White_rook::king_dialog_black_queen_pawn_equal_right_down_step(Ui::Game* ui,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column)
 {
+    Check check;
+
     if(row>=AttackerRow && row<king_row){
-        if(column>king_column+king_row-row){
-            right_check_step(ui,row,column,king_column+king_row-row);
+        if(check.step_white_right_and_left_check(ui,row,column)){
+            if(column>king_column+king_row-row){
+                right_check_step(ui,row,column,king_column+king_row-row);
+            }
+            if(column<king_column+king_row-row){
+                left_check_step(ui,row,column,king_column+king_row-row);
+            }
         }
-        if(column<king_column+king_row-row){
-            left_check_step(ui,row,column,king_column+king_row-row);
-        }
+
     }
 
     if(column<=AttackerColumn && column>king_column){
-        if(row>king_row+king_column-column){
-            up_check_step(ui,row,column,king_row+king_column-column);
+        if(check.step_white_up_and_down_check(ui,row,column)){
+            if(row>king_row+king_column-column){
+                up_check_step(ui,row,column,king_row+king_column-column);
+            }
+            if(row<king_row+king_column-column){
+                down_check_step(ui,row,column,king_row+king_column-column);
+            }
         }
-        if(row<king_row+king_column-column){
-            down_check_step(ui,row,column,king_row+king_column-column);
-        }
+
     }
 }
 
@@ -329,40 +358,50 @@ void White_rook::king_dialog_black_queen_pawn_equal_right_down_step(Ui::Game* ui
 
 void White_rook::king_dialog_black_queen_pawn_equal_right_up_step(Ui::Game* ui,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column)
 {
+    Check check;
+
     if(row<=AttackerRow && row>king_row){
-        if(column>king_column-king_row+row){
-            right_check_step(ui,row,column,king_column-king_row+row);
+        if(check.step_white_right_and_left_check(ui,row,column)){
+            if(column>king_column-king_row+row){
+                right_check_step(ui,row,column,king_column-king_row+row);
+            }
+            if(column<king_column-king_row+row){
+                left_check_step(ui,row,column,king_column-king_row+row);
+            }
         }
-        if(column<king_column-king_row+row){
-            left_check_step(ui,row,column,king_column-king_row+row);
-        }
+
     }
 
     if(column<=AttackerColumn && column>king_column){
-        if(row>king_row-king_column+column){
-            up_check_step(ui,row,column,king_row-king_column+column);
+        if(check.step_white_up_and_down_check(ui,row,column)){
+            if(row>king_row-king_column+column){
+                up_check_step(ui,row,column,king_row-king_column+column);
+            }
+            if(row<king_row-king_column+column){
+                down_check_step(ui,row,column,king_row-king_column+column);
+            }
         }
-        if(row<king_row-king_column+column){
-            down_check_step(ui,row,column,king_row-king_column+column);
-        }
+
     }
 }
 
 
 void White_rook::check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column)
 {
+    Check check;
+
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
         ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(5)));
         ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
 
-        green_cell_disappear(ui);
+        check.green_cell_disappear(ui);
 
         BlackOrWhite=-1;
         piece=0;
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
-        green_cell_disappear(ui);
+        check.green_cell_disappear(ui);
 
         if(piece==0){
             if((king_row<=row && row<=AttackerRow) || (king_row>=row && row>=AttackerRow) || (king_column<=column && column<=AttackerColumn) || (king_column>=column && column>=AttackerColumn)){
@@ -401,31 +440,41 @@ void White_rook::check_step(Ui::Game *ui, const int &row, const int &column, int
     }
 }
 
+
+
 void White_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite)
 {
+    Check check;
+
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
         ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(5)));
         ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
 
-        green_cell_disappear(ui);
+        check.green_cell_disappear(ui);
 
         BlackOrWhite=-1;
         piece=0;
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
-        green_cell_disappear(ui);
+        check.green_cell_disappear(ui);
 
         if(piece==0){
 
             if(row==AttackerRow){
-                right_check_step(ui,row,column,AttackerColumn);
-                left_check_step(ui,row,column,AttackerColumn);
+                if(check.step_white_right_and_left_check(ui,row,column)){
+                    right_check_step(ui,row,column,AttackerColumn);
+                    left_check_step(ui,row,column,AttackerColumn);
+                }
+
             }
 
             if(column==AttackerColumn){
-                up_check_step(ui,row,column,AttackerRow);
-                down_check_step(ui,row,column,AttackerRow);
+                if(check.step_white_up_and_down_check(ui,row,column)){
+                    up_check_step(ui,row,column,AttackerRow);
+                    down_check_step(ui,row,column,AttackerRow);
+                }
+
             }
 
             piece=5;

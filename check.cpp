@@ -6,6 +6,21 @@ Check::Check()
 }
 
 
+void Check::green_cell_disappear(Ui::Game* ui)
+{
+    for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
+            if((i+j)%2==0){
+                ui->tableWidget->item(i,j)->setBackground(Qt::gray);
+            }
+            else{
+                ui->tableWidget->item(i,j)->setBackground(Qt::white);
+            }
+        }
+    }
+}
+
+
 bool Check::king_check(Ui::Game* ui,const int &BlackOrWhite,const int &row, const int &column, int &AttackerRow, int &AttackerColumn,int &KnightAndBishop)
 {
     Black_king black_king;
@@ -475,3 +490,4 @@ bool Check::step_white_knight_check(Ui::Game* ui,const int &row, const int &colu
 
     return true;
 }
+

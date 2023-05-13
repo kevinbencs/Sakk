@@ -1,8 +1,6 @@
 #ifndef CHECK_H
 #define CHECK_H
 
-#include "game.h"
-#include "ui_game.h"
 #include "white_king.h"
 #include "black_king.h"
 
@@ -35,6 +33,8 @@ public:
     bool step_white_right_up_and_left_down_check(Ui::Game* ui,const int &row, const int &column);
     bool step_white_left_up_and_right_down_check(Ui::Game* ui,const int &row, const int &column);
     bool step_white_knight_check(Ui::Game* ui,const int &row, const int &column);
+
+    void green_cell_disappear(Ui::Game* ui);
 
 };
 

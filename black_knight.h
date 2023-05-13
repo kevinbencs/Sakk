@@ -1,8 +1,8 @@
 #ifndef BLACK_KNIGHT_H
 #define BLACK_KNIGHT_H
 
-#include "game.h"
-#include "ui_game.h"
+
+#include "check.h"
 
 class Black_knight
 {

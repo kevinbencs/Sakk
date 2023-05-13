@@ -1,8 +1,8 @@
 #ifndef BLACK_ROOK_H
 #define BLACK_ROOK_H
 
-#include "game.h"
-#include "ui_game.h"
+
+#include "check.h"
 
 class Black_rook
 {

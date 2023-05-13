@@ -7,6 +7,7 @@ Black_knight::Black_knight()
 
 void Black_knight::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite)
 {
+
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
         ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(-4)));
 

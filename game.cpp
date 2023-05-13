@@ -1,15 +1,19 @@
 #include "game.h"
 #include "ui_game.h"
 #include <QFile>
+#include <QIcon>
+#include <QTableWidgetItem>
 
 Game::Game(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game)
 {
 
-    //qApp->setStyleSheet("QDialog{background-color: black}");
+    qApp->setStyleSheet("QDialog{border-color: rgb(0, 0, 0); background-color: rgb(21%,20%,20%)}");
+    //qApp->setStyleSheet("QDialog{border-color: rgb(0, 0, 0)}");
     ui->setupUi(this);
     setWindowFlag(Qt::Window);
+    setWindowIcon(QIcon("Gui/Chess.jpg"));
     for(int i=0;i<8;i++){
         ui->tableWidget->setColumnWidth(i,80);
         ui->tableWidget->setRowHeight(i,80);
@@ -20,27 +24,27 @@ Game::Game(QWidget *parent) :
 
     for(int i=0;i<8;i++){
         for(int j=0; j<8;j++){
-           /* if(i==6){
+            if(i==6){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(1)));
-            }
+            }/*
             if(i==1){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(-1)));
             }
 
             if(i==7 && (j==0 || j==7)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(5)));
-            }
+            }*/
             if(i==0 && (j==0 || j==7)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(-5)));
             }
 
-            if(i==0 && (j==1 || j==6)){
+            /*if(i==0 && (j==1 || j==6)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(-4)));
-            }*/
+            }
 
             if(i==7 && (j==1 || j==6)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(4)));
-            }/*
+            }
 
             if(i==0 && (j==2 || j==5)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(-3)));
@@ -52,11 +56,20 @@ Game::Game(QWidget *parent) :
         }
     }
 
-    //ui->tableWidget->setItem(0,3,new QTableWidgetItem(QString::number(-8)));
+    ui->tableWidget->setItem(0,3,new QTableWidgetItem(QString::number(-8)));
     ui->tableWidget->setItem(0,4,new QTableWidgetItem(QString::number(-10)));
 
     //ui->tableWidget->setItem(7,3,new QTableWidgetItem(QString::number(8)));
     ui->tableWidget->setItem(7,4,new QTableWidgetItem(QString::number(10)));
+
+   /* QImage* img=new QImage("Gui/black_bishop.png");
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));*/
+
+    //ui->tableWidget->setItem(1,1,picture);
+
+
 
 
     for(int i=0;i<8;i++){
@@ -72,7 +85,11 @@ Game::Game(QWidget *parent) :
     }
 
 
-
+   /* for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
+            ui->tableWidget->item(i,j)->setFlags(Qt::NoItemFlags);
+        }
+    }*/
 
 
 
@@ -145,6 +162,14 @@ void Game::on_tableWidget_cellClicked(int row, int column)
                     White_queen white_queen;
                     white_queen.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
                 }
+                if(piece==4 || ui->tableWidget->item(row,column)->text()=="4"){
+                    White_knight white_knight;
+                    white_knight.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                }
+                if(piece==1 || ui->tableWidget->item(row,column)->text()=="1"){
+                    White_bishop white_bishop;
+                    white_bishop.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                }
 
             }
             else{
@@ -159,6 +184,10 @@ void Game::on_tableWidget_cellClicked(int row, int column)
                 if(piece==8 || ui->tableWidget->item(row,column)->text()=="8"){
                     White_queen white_queen;
                     white_queen.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                }
+                if(piece==1 || ui->tableWidget->item(row,column)->text()=="1"){
+                    White_bishop white_bishop;
+                    white_bishop.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
                 }
             }
 

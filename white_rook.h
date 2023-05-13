@@ -1,8 +1,7 @@
 #ifndef WHITE_ROOK_H
 #define WHITE_ROOK_H
 
-#include "game.h"
-#include "ui_game.h"
+
 #include "check.h"
 
 class White_rook
@@ -15,7 +14,7 @@ public:
     void step_left(Ui::Game* ui, const int &row, const int &column, int &piece);
     void step_right(Ui::Game* ui,const int &row, const int &column,int &piece);
 
-    void green_cell_disappear(Ui::Game* ui);
+
 
     void left_check_step(Ui::Game* ui, const int &row, const int &column, const int &AttackerColumn);
     void right_check_step(Ui::Game* ui, const int &row, const int &column, const int &AttackerColumn);
@@ -32,6 +31,7 @@ public:
     void check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite);
 
     void check_step(Ui::Game* ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn, int &BlackOrWhite, int &king_row, int &king_column);
+
 };
 
 #endif // WHITE_ROOK_H

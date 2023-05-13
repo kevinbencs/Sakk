@@ -1,12 +1,10 @@
 #ifndef WHITE_PAWN_H
 #define WHITE_PAWN_H
 
-#include "game.h"
-#include "ui_game.h"
+
 #include "check.h"
-#include "white_rook.h"
 #include <vector>
-#include <iterator>
+
 
 class White_pawn
 {

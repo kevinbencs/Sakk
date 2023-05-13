@@ -1,8 +1,9 @@
 #ifndef BLACK_QUEEN_H
 #define BLACK_QUEEN_H
 
-#include "game.h"
-#include "ui_game.h"
+
+#include "black_pawn.h"
+#include "black_rook.h"
 
 class Black_queen
 {
