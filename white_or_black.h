@@ -2,6 +2,9 @@
 #define WHITE_OR_BLACK_H
 
 #include <QDialog>
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
 
 namespace Ui {
 class White_or_black;
@@ -15,8 +18,15 @@ public:
     explicit White_or_black(QWidget *parent = nullptr);
     ~White_or_black();
 
+private slots:
+    void on_Action_triggered();
+
 private:
     Ui::White_or_black *ui;
+    QMenuBar* menuBar;
+    QMenu* menu;
+    QAction* Action;
+    int theme;
 };
 
 #endif // WHITE_OR_BLACK_H

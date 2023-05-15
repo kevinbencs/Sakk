@@ -2,6 +2,7 @@
 #define WHITE_BISHOP_H
 
 #include "check.h"
+#include "ui_game.h"
 
 
 class White_bishop
@@ -9,9 +10,8 @@ class White_bishop
 public:
     White_bishop();
     void step(Ui::Game* ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite);
-
     void check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column);
-    void check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column);
+    void check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn, int &BlackOrWhite);
 
 private:
     void step_up(Ui::Game* ui, const int &row, const int &column);

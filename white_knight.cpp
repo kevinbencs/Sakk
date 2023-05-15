@@ -553,5 +553,47 @@ void White_knight::check_step(Ui::Game* ui,const int &row,const int &column, int
 
 void White_knight::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite)
 {
+    Check check;
+    if(ui->tableWidget->item(row,column)->background()==Qt::green){
+        ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(4)));
+        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
 
+        check.green_cell_disappear(ui);
+        piece=0;
+        BlackOrWhite=-1;
+        ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
+    }
+    else{
+        if(ui->tableWidget->item(row,column)->text()=="4"){
+
+            check.green_cell_disappear(ui);
+
+            if(piece==0){
+
+                if(check.step_white_knight_check(ui,row,column)){
+                    std::vector<std::pair<int,int>> v;
+                    v.push_back(std::make_pair(AttackerRow,AttackerColumn));
+
+                    step_1_check(ui,row,column,v);
+                    step_2_check(ui,row,column,v);
+                    step_3_check(ui,row,column,v);
+                    step_4_check(ui,row,column,v);
+                    step_5_check(ui,row,column,v);
+                    step_6_check(ui,row,column,v);
+                    step_7_check(ui,row,column,v);
+                    step_8_check(ui,row,column,v);
+
+                    piece=4;
+                }
+
+            }
+            else{
+                piece=0;
+            }
+
+            OldColumn=column;
+            OldRow=row;
+
+        }
+    }
 }

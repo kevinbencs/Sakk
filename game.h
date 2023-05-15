@@ -16,6 +16,9 @@
 #include "white_king.h"
 #include "black_king.h"
 #include "check.h"
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
 
 namespace Ui {
 class Game;
@@ -37,6 +40,8 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_Action_triggered();
+
 private:
     Ui::Game *ui;
     int piece=0;
@@ -46,6 +51,13 @@ private:
     int king_row,king_column,KnightAndBishop=0,AttackerRow,AttackerColumn;
     bool white_rook_is_ok;
     int OldRow, OldColumn;
+    bool WhiteKingRookDidNotMoveLeft=true, WhiteKingRookDidNotMoveRight=true;
+    bool BlackKingRookDidNotMoveLeft=true, BlackKingRookDidNotMoveRight=true;
+
+    QMenuBar* menuBar;
+    QMenu* menu;
+    QAction* Action;
+    int theme;
 
 };
 

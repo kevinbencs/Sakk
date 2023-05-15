@@ -8,7 +8,7 @@ class Black_king
 {
 public:
     Black_king();
-    void step(Ui::Game* ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite);
+    void step(Ui::Game* ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,bool &BlackKingRookDidNotMoveRight,bool &BlackKingRookDidNotMoveLeft);
     bool there_is_no_white_bishop(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
     bool there_is_no_white_knight(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
     bool there_is_no_white_queen_and_rook_left(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
@@ -23,6 +23,7 @@ public:
     bool there_is_no_white_queen_and_pawn(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
     bool there_is_no_white_king(Ui::Game* ui,const int &row, const int &column);
 
+private:
     bool there_is_no_white_bishop(Ui::Game* ui, const int &row, const int &column);
     bool there_is_no_white_knight(Ui::Game* ui, const int &row, const int &column);
     bool there_is_no_white_queen_and_rook_left(Ui::Game* ui, const int &row, const int &column);
@@ -45,6 +46,8 @@ public:
     void step_6(Ui::Game *ui, const int &row, const int &column,  int &piece);
     void step_7(Ui::Game *ui, const int &row, const int &column,  int &piece);
     void step_8(Ui::Game *ui, const int &row, const int &column,  int &piece);
+    void step_castling_left(Ui::Game* ui, const int &row, const int &column);
+    void step_castling_right(Ui::Game* ui, const int &row, const int &column);
 };
 
 #endif // BLACK_KING_H

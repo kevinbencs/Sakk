@@ -9,10 +9,12 @@ White_bishop::White_bishop()
 
 void White_bishop::step_up(Ui::Game* ui, const int &row, const int &column)
 {
-    if(ui->tableWidget->item(row-1,column)->text()==""){
-        ui->tableWidget->item(row-1,column)->setBackground(Qt::green);
-        if(ui->tableWidget->item(row-2,column)->text()=="" && row==6){
-            ui->tableWidget->item(row-2,column)->setBackground(Qt::green);
+    if(row>0){
+        if(ui->tableWidget->item(row-1,column)->text()==""){
+            ui->tableWidget->item(row-1,column)->setBackground(Qt::green);
+            if(row==6 && ui->tableWidget->item(row-2,column)->text()==""){
+                ui->tableWidget->item(row-2,column)->setBackground(Qt::green);
+            }
         }
     }
 }
@@ -20,7 +22,7 @@ void White_bishop::step_up(Ui::Game* ui, const int &row, const int &column)
 
 void White_bishop::step_up_right(Ui::Game* ui, const int &row, const int &column)
 {
-    if(column!=7){
+    if(column!=7 && row>0){
         if(ui->tableWidget->item(row-1,column+1)->text().toInt()<0){
             ui->tableWidget->item(row-1,column+1)->setBackground(Qt::green);
         }
@@ -32,7 +34,7 @@ void White_bishop::step_up_right(Ui::Game* ui, const int &row, const int &column
 
 void White_bishop::step_up_left(Ui::Game* ui, const int &row, const int &column)
 {
-    if(column!=0){
+    if(column!=0 && row>0){
         if(ui->tableWidget->item(row-1,column-1)->text().toInt()<0){
             ui->tableWidget->item(row-1,column-1)->setBackground(Qt::green);
         }
@@ -44,9 +46,13 @@ void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(1)));
-
         ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+        if(row==0){
+            ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(8)));
+        }
+        else{
+            ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(1)));
+        }
 
         check.green_cell_disappear(ui);
 
@@ -62,8 +68,12 @@ void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
                 piece=1;
                 if(check.step_white_up_and_down_check(ui,row,column)){
                     step_up(ui, row, column);
-                    step_up_right(ui, row, column);
+                }
+                if(check.step_white_left_up_and_right_down_check(ui,row,column)){
                     step_up_left(ui, row, column);
+                }
+                if(check.step_white_right_up_and_left_down_check(ui,row,column)){
+                    step_up_right(ui, row, column);
                 }
             }
             else{
@@ -81,25 +91,34 @@ void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
 
 void White_bishop::check_step_move(Ui::Game* ui, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow)
 {
+    Check check;
+    if(check.step_white_left_up_and_right_down_check(ui,row,column)){
+        if(AttackerRow==row-1 && AttackerColumn==column-1){
+            ui->tableWidget->item(row-1,column-1)->setBackground(Qt::green);
+        }
+    }
+    if(check.step_white_right_up_and_left_down_check(ui,row,column)){
+        if(row-1==AttackerRow && AttackerColumn==column+1){
+            ui->tableWidget->item(row-1,column+1)->setBackground(Qt::green);
+        }
+    }
 
-    if(row-1==AttackerRow && AttackerColumn==column+1){
-        ui->tableWidget->item(row-1,column+1)->setBackground(Qt::green);
-    }
-    if(AttackerRow==row-1 && AttackerColumn==column-1){
-        ui->tableWidget->item(row-1,column-1)->setBackground(Qt::green);
-    }
+
 }
 
 
 
 void White_bishop::check_step_move(Ui::Game* ui, const int &row, const int &column, std::vector<std::pair<int,int>> v, const int &AttackerColumn, const int &AttackerRow)
 {
-    for(int i=0;i<v.size();i++){
-        if(v[i].first==row-1 && v[i].second==column){
-            ui->tableWidget->item(row-1,column)->setBackground(Qt::green);
-        }
-        if(row==6 && v[i].first==row-2 && v[i].second==column){
-            ui->tableWidget->item(row-2,column)->setBackground(Qt::green);
+    Check check;
+    if(check.step_white_up_and_down_check(ui,row,column)){
+        for(int i=0;i<v.size();i++){
+            if(v[i].first==row-1 && v[i].second==column){
+                ui->tableWidget->item(row-1,column)->setBackground(Qt::green);
+            }
+            if(row==6 && v[i].first==row-2 && v[i].second==column){
+                ui->tableWidget->item(row-2,column)->setBackground(Qt::green);
+            }
         }
     }
     check_step_move(ui,row,column,AttackerColumn,AttackerRow);
@@ -187,9 +206,13 @@ void White_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(1)));
-
         ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
+        if(row==0){
+            ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(8)));
+        }
+        else{
+            ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(1)));
+        }
 
         check.green_cell_disappear(ui);
 
@@ -204,31 +227,29 @@ void White_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
 
             if(piece==0){
                 piece=1;
-                if(check.step_white_up_and_down_check(ui,row,column)){
-                    //column
-                    if(king_column==AttackerColumn){
-                        check_step_move(ui,row,column,king_column,AttackerRow);
-                    }
-                    //row
-                    if(king_row==AttackerRow){
-                        row_equal_check_step(ui,row,column,king_column,king_row,AttackerColumn);
-                    }
-                    //dialog
-                    if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
-                        dialog_left_up(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow);
-                    }
+                //column
+                if(king_column==AttackerColumn){
+                    check_step_move(ui,row,column,king_column,AttackerRow);
+                }
+                //row
+                if(king_row==AttackerRow){
+                    row_equal_check_step(ui,row,column,king_column,king_row,AttackerColumn);
+                }
+                //dialog
+                if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
+                    dialog_left_up(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow);
+                }
 
-                    if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
-                        dialog_right_down(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow);
-                    }
+                if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
+                    dialog_right_down(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow);
+                }
 
-                    if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
-                        dialog_right_up(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow);
-                    }
+                if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
+                    dialog_right_up(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow);
+                }
 
-                    if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
-                        dialog_left_down(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow);
-                    }
+                if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
+                    dialog_left_down(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow);
                 }
             }
             else{
@@ -248,13 +269,17 @@ void White_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
 
 
 
-void White_bishop::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column)
+void White_bishop::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite)
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(1)));
-
         ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
+        if(row==0){
+            ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(8)));
+        }
+        else{
+            ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(1)));
+        }
 
         check.green_cell_disappear(ui);
 
@@ -269,9 +294,7 @@ void White_bishop::check_knight_and_bishop_step(Ui::Game *ui, const int &row, co
 
             if(piece==0){
                 piece=1;
-                if(check.step_white_up_and_down_check(ui,row,column)){
-                    check_step_move(ui,row,column,AttackerColumn,AttackerRow);
-                }
+                check_step_move(ui,row,column,AttackerColumn,AttackerRow);
             }
             else{
                 piece=0;

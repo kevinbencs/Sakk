@@ -82,13 +82,20 @@ void White_rook::step_right(Ui::Game* ui, const int &row, const int &column, int
 
 
 
-void White_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite)
+void White_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
         ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(5)));
         ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+
+        if(ColumnOld==7){
+            WhiteKingRookDidNotMoveRight=false;
+        }
+        if(ColumnOld==0){
+            WhiteKingRookDidNotMoveLeft=false;
+        }
 
         check.green_cell_disappear(ui);
         piece=0;
@@ -262,7 +269,7 @@ void White_rook::king_row_black_queen_rook_row_equal_step(Ui::Game* ui,const int
 
 
 
-void White_rook::king_dialog_black_queen_pawn_equal_left_down_step(Ui::Game* ui,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column)
+void White_rook::king_dialog_black_queen_pawn_equal_left_down_step(Ui::Game* ui, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow, const int &king_row, const int &king_column)
 {
     Check check;
 
@@ -386,13 +393,20 @@ void White_rook::king_dialog_black_queen_pawn_equal_right_up_step(Ui::Game* ui,c
 }
 
 
-void White_rook::check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column)
+void White_rook::check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
         ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(5)));
         ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
+
+        if(OldColumn==7){
+            WhiteKingRookDidNotMoveRight=false;
+        }
+        if(OldColumn==0){
+            WhiteKingRookDidNotMoveLeft=false;
+        }
 
         check.green_cell_disappear(ui);
 
@@ -442,13 +456,20 @@ void White_rook::check_step(Ui::Game *ui, const int &row, const int &column, int
 
 
 
-void White_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite)
+void White_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
         ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(5)));
         ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
+
+        if(OldColumn==7){
+            WhiteKingRookDidNotMoveRight=false;
+        }
+        if(OldColumn==0){
+            WhiteKingRookDidNotMoveLeft=false;
+        }
 
         check.green_cell_disappear(ui);
 

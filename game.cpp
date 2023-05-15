@@ -3,14 +3,14 @@
 #include <QFile>
 #include <QIcon>
 #include <QTableWidgetItem>
+#include <fstream>
 
 Game::Game(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Game)
 {
 
-    qApp->setStyleSheet("QDialog{border-color: rgb(0, 0, 0); background-color: rgb(21%,20%,20%)}");
-    //qApp->setStyleSheet("QDialog{border-color: rgb(0, 0, 0)}");
+
     ui->setupUi(this);
     setWindowFlag(Qt::Window);
     setWindowIcon(QIcon("Gui/Chess.jpg"));
@@ -21,19 +21,50 @@ Game::Game(QWidget *parent) :
 
     setWindowFlags(Qt::Window);
 
+    menuBar=new QMenuBar();
+    menu=new QMenu("Sötét téma");
+    Action=new QAction("Bekapcsol");
+    menu->addAction(Action);
+    menuBar->addMenu(menu);
+
+
+    this->layout()->setMenuBar(menuBar);
+
+    connect(Action,&QAction::triggered,this,&Game::on_Action_triggered);
+
+    std::ifstream in("Theme");
+    in>>theme;
+
+    in.close();
+
+    if(theme==0){
+        qApp->setStyleSheet("Game{border-color: rgb(19%,19%,19%); background-color: rgb(19%,19%,19%)}");
+        ui->pushButton->setStyleSheet(" background-color: rgb(31%,30%,30%); color: rgb(80%,80%,80%)");
+        ui->pushButton_2->setStyleSheet("border-color: rgb(31%,30%,30%); background-color: rgb(31%,30%,30%); color: rgb(80%,80%,80%)");
+        Action->setText("Kikapcsol");
+        menuBar->setStyleSheet("border-color: rgb(23%,23%,23%); background-color: rgb(23%,23%,23%); color: rgb(80%,80%,80%)");
+    }
+    else{
+        qApp->setStyleSheet("Game{border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%)}");
+        ui->pushButton->setStyleSheet("");
+        ui->pushButton_2->setStyleSheet("");
+        Action->setText("Bekapcsol");
+        menuBar->setStyleSheet("border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%); color: rgb(0%,0%,0%)");
+    }
+
 
     for(int i=0;i<8;i++){
         for(int j=0; j<8;j++){
-            if(i==6){
+            /*if(i==6){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(1)));
-            }/*
+            }
             if(i==1){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(-1)));
-            }
+            }*/
 
             if(i==7 && (j==0 || j==7)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(5)));
-            }*/
+            }
             if(i==0 && (j==0 || j==7)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(-5)));
             }
@@ -48,18 +79,18 @@ Game::Game(QWidget *parent) :
 
             if(i==0 && (j==2 || j==5)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(-3)));
-            }
+            }*/
 
             if(i==7 && (j==2 || j==5)){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(QString::number(3)));
-            }*/
+            }
         }
     }
 
     ui->tableWidget->setItem(0,3,new QTableWidgetItem(QString::number(-8)));
     ui->tableWidget->setItem(0,4,new QTableWidgetItem(QString::number(-10)));
 
-    //ui->tableWidget->setItem(7,3,new QTableWidgetItem(QString::number(8)));
+    ui->tableWidget->setItem(7,3,new QTableWidgetItem(QString::number(8)));
     ui->tableWidget->setItem(7,4,new QTableWidgetItem(QString::number(10)));
 
    /* QImage* img=new QImage("Gui/black_bishop.png");
@@ -85,15 +116,44 @@ Game::Game(QWidget *parent) :
     }
 
 
-   /* for(int i=0;i<8;i++){
+    for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
             ui->tableWidget->item(i,j)->setFlags(Qt::NoItemFlags);
         }
-    }*/
+    }
 
 
 
 }
+
+
+
+void Game::on_Action_triggered()
+{
+    if(Action->text()=="Bekapcsol"){
+        qApp->setStyleSheet("Game{border-color: rgb(19%,19%,19%); background-color: rgb(19%,19%,19%)}");
+        ui->pushButton->setStyleSheet(" background-color: rgb(31%,30%,30%); color: rgb(80%,80%,80%)");
+        ui->pushButton_2->setStyleSheet("border-color: rgb(31%,30%,30%); background-color: rgb(31%,30%,30%); color: rgb(80%,80%,80%)");
+        Action->setText("Kikapcsol");
+        menuBar->setStyleSheet("border-color: rgb(23%,23%,23%); background-color: rgb(23%,23%,23%); color: rgb(80%,80%,80%)");
+        theme=0;
+    }
+    else{
+        qApp->setStyleSheet("Game{border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%)}");
+        ui->pushButton->setStyleSheet("");
+        ui->pushButton_2->setStyleSheet("");
+        Action->setText("Bekapcsol");
+        menuBar->setStyleSheet("border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%); color: rgb(0%,0%,0%)");
+        theme=1;
+    }
+
+    std::ofstream out("Theme");
+    out<<theme;
+
+    out.close();
+}
+
+
 
 Game::~Game()
 {
@@ -141,18 +201,17 @@ void Game::on_tableWidget_cellClicked(int row, int column)
 {
     Check check;
 
-
     if(ui->label->text()=="<p align=center><span style= font-size:22pt><b>Sakk<b><span><p>"){
         if(BlackOrWhite==1){
             if((piece==10 || ui->tableWidget->item(row,column)->text()=="10")){
                 White_king white_king;
-                white_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+                white_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight);
 
             }
             if(KnightAndBishop==0){
                 if(piece==5 || ui->tableWidget->item(row,column)->text()=="5"){
                     White_rook white_rook;
-                    white_rook.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                    white_rook.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight);
                 }
                 if(piece==3 || ui->tableWidget->item(row,column)->text()=="3"){
                     White_pawn white_pawn;
@@ -175,7 +234,7 @@ void Game::on_tableWidget_cellClicked(int row, int column)
             else{
                 if(piece==5 || ui->tableWidget->item(row,column)->text()=="5"){
                     White_rook white_rook;
-                    white_rook.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                    white_rook.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight);
                 }
                 if(piece==3 || ui->tableWidget->item(row,column)->text()=="3"){
                     White_pawn white_pawn;
@@ -185,19 +244,71 @@ void Game::on_tableWidget_cellClicked(int row, int column)
                     White_queen white_queen;
                     white_queen.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
                 }
+                if(piece==4 || ui->tableWidget->item(row,column)->text()=="4"){
+                    White_knight white_knight;
+                    white_knight.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                }
                 if(piece==1 || ui->tableWidget->item(row,column)->text()=="1"){
                     White_bishop white_bishop;
-                    white_bishop.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                    white_bishop.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
                 }
             }
 
         }
+        else{
+            if(piece==-10 || ui->tableWidget->item(row,column)->text()=="-10"){
+                Black_king black_king;
+                black_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,BlackKingRookDidNotMoveRight,BlackKingRookDidNotMoveLeft);
+            }
+            if(KnightAndBishop==0){
+                if(piece==-5 || ui->tableWidget->item(row,column)->text()=="-5"){
+                    Black_rook black_rook;
+                    black_rook.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column,BlackKingRookDidNotMoveRight,BlackKingRookDidNotMoveLeft);
+                }
+                if(piece==-3 || ui->tableWidget->item(row,column)->text()=="-3"){
+                    Black_pawn black_pawn;
+                    black_pawn.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                }
+                if(piece==-8 || ui->tableWidget->item(row,column)->text()=="-8"){
+                    Black_queen black_queen;
+                    black_queen.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                }
+                if(piece==-4 || ui->tableWidget->item(row,column)->text()=="-4"){
+                    Black_knight black_knight;
+                    black_knight.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                }
+                if(piece==-1 || ui->tableWidget->item(row,column)->text()=="-1"){
+                    Black_bishop black_bishop;
+                    black_bishop.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column);
+                }
 
-
-        if((piece==-10 || ui->tableWidget->item(row,column)->text()=="-10") && BlackOrWhite==-1){
-            Black_king black_king;
-            black_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+            }
+            else{
+                if(piece==-5 || ui->tableWidget->item(row,column)->text()=="-5"){
+                    Black_rook black_rook;
+                    black_rook.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,BlackKingRookDidNotMoveRight,BlackKingRookDidNotMoveLeft);
+                }
+                if(piece==-3 || ui->tableWidget->item(row,column)->text()=="-3"){
+                    Black_pawn black_pawn;
+                    black_pawn.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                }
+                if(piece==-8 || ui->tableWidget->item(row,column)->text()=="-8"){
+                    Black_queen black_queen;
+                    black_queen.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                }
+                if(piece==-4 || ui->tableWidget->item(row,column)->text()=="-4"){
+                    Black_knight black_knight;
+                    black_knight.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                }
+                if(piece==-1 || ui->tableWidget->item(row,column)->text()=="-1"){
+                    Black_bishop black_bishop;
+                    black_bishop.check_knight_and_bishop_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite);
+                }
+            }
         }
+
+
+
 
 
     }
@@ -224,12 +335,12 @@ void Game::on_tableWidget_cellClicked(int row, int column)
 
         if((piece==5 || ui->tableWidget->item(row,column)->text()=="5") && BlackOrWhite==1){
             White_rook white_rook;
-            white_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+            white_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight);
         }
 
         if((piece==-5 || ui->tableWidget->item(row,column)->text()=="-5") && BlackOrWhite==-1){
             Black_rook black_rook;
-            black_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+            black_rook.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,BlackKingRookDidNotMoveRight,BlackKingRookDidNotMoveLeft);
         }
 
         if((piece==8 || ui->tableWidget->item(row,column)->text()=="8") && BlackOrWhite==1){
@@ -254,12 +365,12 @@ void Game::on_tableWidget_cellClicked(int row, int column)
 
         if((piece==10 || ui->tableWidget->item(row,column)->text()=="10") && BlackOrWhite==1){
             White_king white_king;
-            white_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+            white_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight);
         }
 
         if((piece==-10 || ui->tableWidget->item(row,column)->text()=="-10") && BlackOrWhite==-1){
             Black_king black_king;
-            black_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite);
+            black_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,BlackKingRookDidNotMoveRight,BlackKingRookDidNotMoveLeft);
         }
 
 

@@ -73,7 +73,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>TextLabel</string>
+          <string>Melyik szeretnél lenni?</string>
          </property>
         </widget>
        </item>
@@ -93,14 +93,21 @@
        <item>
         <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>PushButton</string>
+          <string>Fehér</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_2">
          <property name="text">
-          <string>PushButton</string>
+          <string>Fekete</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_3">
+         <property name="text">
+          <string>Random</string>
          </property>
         </widget>
        </item>

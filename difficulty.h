@@ -2,7 +2,10 @@
 #define DIFFICULTY_H
 
 #include <QDialog>
-#include "game.h"
+#include "white_or_black.h"
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
 
 namespace Ui {
 class Difficulty;
@@ -19,8 +22,14 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_Action_triggered();
+
 private:
     Ui::Difficulty *ui;
+    QMenuBar* menuBar;
+    QMenu* menu;
+    QAction* Action;
+    int theme;
 };
 
 #endif // DIFFICULTY_H

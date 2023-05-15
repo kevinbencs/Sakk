@@ -21,7 +21,10 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_actionBekapcsol_triggered();
+
 private:
     Ui::MainWindow *ui;
+    int theme;
 };
 #endif // MAINWINDOW_H

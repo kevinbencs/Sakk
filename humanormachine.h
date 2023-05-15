@@ -4,6 +4,9 @@
 #include <QDialog>
 #include "difficulty.h"
 #include "game.h"
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
 
 namespace Ui {
 class HumanOrMachine;
@@ -22,8 +25,15 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_Action_triggered();
+
+
 private:
     Ui::HumanOrMachine *ui;
+    QMenuBar* menuBar;
+    QMenu* menu;
+    QAction* Action;
+    int theme;
 };
 
 #endif // HUMANORMACHINE_H

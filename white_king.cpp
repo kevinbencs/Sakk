@@ -703,12 +703,49 @@ void White_king::step_8(Ui::Game *ui, const int &row, const int &column,  int &p
 }
 
 
-void White_king::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite)
+
+void White_king::step_castling_right(Ui::Game* ui,const int &row, const int &column)
+{
+    if(row==7 && there_is_no_black_bishop(ui,row,column+2) && there_is_no_black_knight(ui,row,column+2) && there_is_no_black_queen_and_rook(ui,row,column+2) && there_is_no_black_queen_and_pawn(ui,row,column+2) && there_is_no_black_king(ui,row,column+2)){
+        if(ui->tableWidget->item(row,column+1)->text()=="" && ui->tableWidget->item(row,column+2)->text()=="" && ui->tableWidget->item(row,column+3)->text()=="5"){
+            ui->tableWidget->item(row,column+2)->setBackground(Qt::green);
+        }
+    }
+}
+
+
+
+void White_king::step_castling_left(Ui::Game* ui,const int &row, const int &column)
+{
+    if(row==7 && there_is_no_black_bishop(ui,row,column-2) && there_is_no_black_knight(ui,row,column-2) && there_is_no_black_queen_and_rook(ui,row,column-2) && there_is_no_black_queen_and_pawn(ui,row,column-2) && there_is_no_black_king(ui,row,column-2)){
+        if(ui->tableWidget->item(row,column-1)->text()=="" && ui->tableWidget->item(row,column-2)->text()=="" && ui->tableWidget->item(row,column-4)->text()=="5"){
+            ui->tableWidget->item(row,column-2)->setBackground(Qt::green);
+        }
+    }
+}
+
+
+
+
+void White_king::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight)
 {
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
         ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(10)));
 
         ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+
+        if(row==7 && column==6 && WhiteKingRookDidNotMoveRight){
+            ui->tableWidget->setItem(row,column-1,new QTableWidgetItem(QString::number(5)));
+            ui->tableWidget->setItem(row,column+1,new QTableWidgetItem(""));
+            WhiteKingRookDidNotMoveLeft=false;
+            WhiteKingRookDidNotMoveRight=false;
+        }
+        if(row==7 && column==2 && WhiteKingRookDidNotMoveLeft){
+            ui->tableWidget->setItem(row,column+1,new QTableWidgetItem(QString::number(5)));
+            ui->tableWidget->setItem(row,column-2,new QTableWidgetItem(""));
+            WhiteKingRookDidNotMoveLeft=false;
+            WhiteKingRookDidNotMoveRight=false;
+        }
 
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
@@ -749,6 +786,13 @@ void White_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
                 step_6(ui, row, column, piece);
                 step_7(ui, row, column, piece);
                 step_8(ui, row, column, piece);
+                if(WhiteKingRookDidNotMoveRight){
+                    step_castling_right(ui,row,column);
+                }
+                if(WhiteKingRookDidNotMoveLeft){
+                    step_castling_left(ui,row,column);
+                }
+                piece=10;
 
             }
             else{
