@@ -43,6 +43,12 @@ private slots:
     void on_Action_triggered();
 
 private:
+    bool get_White_CanMove();
+    bool be_draw_white();
+    bool get_Black_CanMove();
+    bool be_draw_black();
+    bool there_is_no_draw_and_checkmatt();
+
     Ui::Game *ui;
     int piece=0;
     int RowOld;
@@ -53,6 +59,7 @@ private:
     int OldRow, OldColumn;
     bool WhiteKingRookDidNotMoveLeft=true, WhiteKingRookDidNotMoveRight=true;
     bool BlackKingRookDidNotMoveLeft=true, BlackKingRookDidNotMoveRight=true;
+    int *datas=new int[64];
 
     QMenuBar* menuBar;
     QMenu* menu;

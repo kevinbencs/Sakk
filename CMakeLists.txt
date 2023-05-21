@@ -46,6 +46,8 @@ set(PROJECT_SOURCES
         white_king.h
         white_knight.cpp
         white_knight.h
+        white_machine.cpp
+        white_machine.h
         white_or_black.cpp
         white_or_black.h
         white_or_black.ui

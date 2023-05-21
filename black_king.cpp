@@ -7,17 +7,19 @@ Black_king::Black_king()
 
 
 
-bool Black_king::there_is_no_white_queen_and_rook_right(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_rook_right(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     for(int i=column+1;i<8;i++){
-        if(ui->tableWidget->item(row,i)->text()!=""){
-            if(ui->tableWidget->item(row,i)->text()=="5" || ui->tableWidget->item(row,i)->text()=="8"){
+        if(*(datas+row*8+i)!=0){
+            if(*(datas+row*8+i)==5 || *(datas+row*8+i)==8){
                 AttackerColumn=i;
                 AttackerRow=row;
                 return false;
             }
             else{
-                return true;
+                if(*(datas+row*8+i)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -26,15 +28,17 @@ bool Black_king::there_is_no_white_queen_and_rook_right(Ui::Game* ui, const int 
 }
 
 
-bool Black_king::there_is_no_white_queen_and_rook_right(Ui::Game* ui, const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_rook_right(int *datas, const int &row, const int &column)
 {
     for(int i=column+1;i<8;i++){
-        if(ui->tableWidget->item(row,i)->text()!=""){
-            if(ui->tableWidget->item(row,i)->text()=="5" || ui->tableWidget->item(row,i)->text()=="8"){
+        if(*(datas+row*8+i)!=0){
+            if(*(datas+row*8+i)==5 || *(datas+row*8+i)==8){
                 return false;
             }
             else{
-                return true;
+                if(*(datas+row*8+i)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -45,17 +49,19 @@ bool Black_king::there_is_no_white_queen_and_rook_right(Ui::Game* ui, const int 
 
 
 
-bool Black_king::there_is_no_white_queen_and_rook_left(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_rook_left(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     for(int i=column-1;i>=0;i--){
-        if(ui->tableWidget->item(row,i)->text()!=""){
-            if(ui->tableWidget->item(row,i)->text()=="5" || ui->tableWidget->item(row,i)->text()=="8"){
+        if(*(datas+row*8+i)!=0){
+            if(*(datas+row*8+i)==5 || *(datas+row*8+i)==8){
                 AttackerRow=row;
                 AttackerColumn=i;
                 return false;
             }
             else{
-                return true;
+                if(*(datas+row*8+i)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -67,15 +73,17 @@ bool Black_king::there_is_no_white_queen_and_rook_left(Ui::Game* ui, const int &
 
 
 
-bool Black_king::there_is_no_white_queen_and_rook_left(Ui::Game* ui, const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_rook_left(int *datas, const int &row, const int &column)
 {
     for(int i=column-1;i>=0;i--){
-        if(ui->tableWidget->item(row,i)->text()!=""){
-            if(ui->tableWidget->item(row,i)->text()=="5" || ui->tableWidget->item(row,i)->text()=="8"){
+        if(*(datas+row*8+i)!=0){
+            if(*(datas+row*8+i)==5 || *(datas+row*8+i)==8){
                 return false;
             }
             else{
-                return true;
+                if(*(datas+row*8+i)!=-10){
+                    return true;
+                }
             }
         }
 
@@ -86,17 +94,19 @@ bool Black_king::there_is_no_white_queen_and_rook_left(Ui::Game* ui, const int &
 
 
 
-bool Black_king::there_is_no_white_queen_and_rook_up(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_rook_up(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     for(int i=row-1;i>=0;i--){
-        if(ui->tableWidget->item(i,column)->text()!=""){
-            if(ui->tableWidget->item(i,column)->text()=="5" || ui->tableWidget->item(i,column)->text()=="8"){
+        if(*(datas+i*8+column)!=0){
+            if(*(datas+i*8+column)==5 || *(datas+i*8+column)==8){
                 AttackerColumn=column;
                 AttackerRow=i;
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+column)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -105,15 +115,17 @@ bool Black_king::there_is_no_white_queen_and_rook_up(Ui::Game* ui, const int &ro
 }
 
 
-bool Black_king::there_is_no_white_queen_and_rook_up(Ui::Game* ui, const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_rook_up(int *datas, const int &row, const int &column)
 {
     for(int i=row-1;i>=0;i--){
-        if(ui->tableWidget->item(i,column)->text()!=""){
-            if(ui->tableWidget->item(i,column)->text()=="5" || ui->tableWidget->item(i,column)->text()=="8"){
+        if(*(datas+i*8+column)!=0){
+            if(*(datas+i*8+column)==5 || *(datas+i*8+column)==8){
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+column)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -122,17 +134,19 @@ bool Black_king::there_is_no_white_queen_and_rook_up(Ui::Game* ui, const int &ro
 }
 
 
-bool Black_king::there_is_no_white_queen_and_rook_down(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_rook_down(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     for(int i=row+1;i<8;i++){
-        if(ui->tableWidget->item(i,column)->text()!=""){
-            if(ui->tableWidget->item(i,column)->text()=="5" || ui->tableWidget->item(i,column)->text()=="8"){
+        if(*(datas+i*8+column)!=0){
+            if(*(datas+i*8+column)==5 || *(datas+i*8+column)==8){
                 AttackerColumn=column;
                 AttackerRow=i;
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+column)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -142,15 +156,17 @@ bool Black_king::there_is_no_white_queen_and_rook_down(Ui::Game* ui, const int &
 
 
 
-bool Black_king::there_is_no_white_queen_and_rook_down(Ui::Game* ui, const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_rook_down(int *datas, const int &row, const int &column)
 {
     for(int i=row+1;i<8;i++){
-        if(ui->tableWidget->item(i,column)->text()!=""){
-            if(ui->tableWidget->item(i,column)->text()=="5" || ui->tableWidget->item(i,column)->text()=="8"){
+        if(*(datas+i*8+column)!=0){
+            if(*(datas+i*8+column)==5 || *(datas+i*8+column)==8){
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+column)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -161,34 +177,36 @@ bool Black_king::there_is_no_white_queen_and_rook_down(Ui::Game* ui, const int &
 
 
 
-bool Black_king::there_is_no_white_queen_and_rook(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_rook(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
-    return there_is_no_white_queen_and_rook_left(ui, row, column,AttackerRow, AttackerColumn) && there_is_no_white_queen_and_rook_right(ui, row, column,AttackerRow, AttackerColumn) && there_is_no_white_queen_and_rook_up(ui, row, column, AttackerRow, AttackerColumn) && there_is_no_white_queen_and_rook_down(ui, row, column, AttackerRow, AttackerColumn);
+    return there_is_no_white_queen_and_rook_left(datas, row, column,AttackerRow, AttackerColumn) && there_is_no_white_queen_and_rook_right(datas, row, column,AttackerRow, AttackerColumn) && there_is_no_white_queen_and_rook_up(datas, row, column, AttackerRow, AttackerColumn) && there_is_no_white_queen_and_rook_down(datas, row, column, AttackerRow, AttackerColumn);
 }
 
 
 
 
-bool Black_king::there_is_no_white_queen_and_rook(Ui::Game* ui, const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_rook(int *datas, const int &row, const int &column)
 {
-    return there_is_no_white_queen_and_rook_left(ui, row, column) && there_is_no_white_queen_and_rook_right(ui, row, column) && there_is_no_white_queen_and_rook_up(ui, row, column) && there_is_no_white_queen_and_rook_down(ui, row, column);
+    return there_is_no_white_queen_and_rook_left(datas, row, column) && there_is_no_white_queen_and_rook_right(datas, row, column) && there_is_no_white_queen_and_rook_up(datas, row, column) && there_is_no_white_queen_and_rook_down(datas, row, column);
 }
 
 
 
 
 
-bool Black_king::there_is_no_white_queen_and_pawn_up_right(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_pawn_up_right(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     for(int i=row-1,j=column+1;i>=0 && j<8; i--, j++){
-        if(ui->tableWidget->item(i,j)->text()!=""){
-            if(ui->tableWidget->item(i,j)->text()=="3" || ui->tableWidget->item(i,j)->text()=="8"){
+        if(*(datas+i*8+j)!=0){
+            if(*(datas+i*8+j)==3 || *(datas+i*8+j)==8){
                 AttackerColumn=j;
                 AttackerRow=i;
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+j)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -197,15 +215,17 @@ bool Black_king::there_is_no_white_queen_and_pawn_up_right(Ui::Game* ui,const in
 }
 
 
-bool Black_king::there_is_no_white_queen_and_pawn_up_right(Ui::Game* ui,const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_pawn_up_right(int *datas,const int &row, const int &column)
 {
     for(int i=row-1,j=column+1;i>=0 && j<8; i--, j++){
-        if(ui->tableWidget->item(i,j)->text()!=""){
-            if(ui->tableWidget->item(i,j)->text()=="3" || ui->tableWidget->item(i,j)->text()=="8"){
+        if(*(datas+i*8+j)!=0){
+            if(*(datas+i*8+j)==3 || *(datas+i*8+j)==8){
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+j)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -215,17 +235,19 @@ bool Black_king::there_is_no_white_queen_and_pawn_up_right(Ui::Game* ui,const in
 
 
 
-bool Black_king::there_is_no_white_queen_and_pawn_up_left(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_pawn_up_left(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     for(int i=row-1,j=column-1;i>=0 && j>=0; i--, j--){
-        if(ui->tableWidget->item(i,j)->text()!=""){
-            if(ui->tableWidget->item(i,j)->text()=="3" || ui->tableWidget->item(i,j)->text()=="8"){
+        if(*(datas+i*8+j)!=0){
+            if(*(datas+i*8+j)==3 || *(datas+i*8+j)==8){
                 AttackerColumn=j;
                 AttackerRow=i;
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+j)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -236,15 +258,17 @@ bool Black_king::there_is_no_white_queen_and_pawn_up_left(Ui::Game* ui,const int
 
 
 
-bool Black_king::there_is_no_white_queen_and_pawn_up_left(Ui::Game* ui,const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_pawn_up_left(int *datas,const int &row, const int &column)
 {
     for(int i=row-1,j=column-1;i>=0 && j>=0; i--, j--){
-        if(ui->tableWidget->item(i,j)->text()!=""){
-            if(ui->tableWidget->item(i,j)->text()=="3" || ui->tableWidget->item(i,j)->text()=="8"){
+        if(*(datas+i*8+j)!=0){
+            if(*(datas+i*8+j)==3 || *(datas+i*8+j)==8){
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+j)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -254,17 +278,19 @@ bool Black_king::there_is_no_white_queen_and_pawn_up_left(Ui::Game* ui,const int
 
 
 
-bool Black_king::there_is_no_white_queen_and_pawn_down_right(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_pawn_down_right(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     for(int i=row+1,j=column+1;i<8 && j<8; i++, j++){
-        if(ui->tableWidget->item(i,j)->text()!=""){
-            if(ui->tableWidget->item(i,j)->text()=="3" || ui->tableWidget->item(i,j)->text()=="8"){
+        if(*(datas+i*8+j)!=0){
+            if(*(datas+i*8+j)==3 || *(datas+i*8+j)==8){
                 AttackerColumn=j;
                 AttackerRow=i;
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+j)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -274,15 +300,17 @@ bool Black_king::there_is_no_white_queen_and_pawn_down_right(Ui::Game* ui,const 
 
 
 
-bool Black_king::there_is_no_white_queen_and_pawn_down_right(Ui::Game* ui,const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_pawn_down_right(int *datas,const int &row, const int &column)
 {
     for(int i=row+1,j=column+1;i<8 && j<8; i++, j++){
-        if(ui->tableWidget->item(i,j)->text()!=""){
-            if(ui->tableWidget->item(i,j)->text()=="3" || ui->tableWidget->item(i,j)->text()=="8"){
+        if(*(datas+i*8+j)!=0){
+            if(*(datas+i*8+j)==3 || *(datas+i*8+j)==8){
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+j)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -292,17 +320,19 @@ bool Black_king::there_is_no_white_queen_and_pawn_down_right(Ui::Game* ui,const 
 
 
 
-bool Black_king::there_is_no_white_queen_and_pawn_down_left(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_pawn_down_left(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     for(int i=row+1,j=column-1;i<8 && j>=0; i++, j--){
-        if(ui->tableWidget->item(i,j)->text()!=""){
-            if(ui->tableWidget->item(i,j)->text()=="3" || ui->tableWidget->item(i,j)->text()=="8"){
+        if(*(datas+i*8+j)!=0){
+            if(*(datas+i*8+j)==3 || *(datas+i*8+j)==8){
                 AttackerColumn=j;
                 AttackerRow=i;
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+j)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -311,15 +341,17 @@ bool Black_king::there_is_no_white_queen_and_pawn_down_left(Ui::Game* ui,const i
 }
 
 
-bool Black_king::there_is_no_white_queen_and_pawn_down_left(Ui::Game* ui,const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_pawn_down_left(int *datas,const int &row, const int &column)
 {
     for(int i=row+1,j=column-1;i<8 && j>=0; i++, j--){
-        if(ui->tableWidget->item(i,j)->text()!=""){
-            if(ui->tableWidget->item(i,j)->text()=="3" || ui->tableWidget->item(i,j)->text()=="8"){
+        if(*(datas+i*8+j)!=0){
+            if(*(datas+i*8+j)==3 || *(datas+i*8+j)==8){
                 return false;
             }
             else{
-                return true;
+                if(*(datas+i*8+j)!=-10){
+                    return true;
+                }
             }
         }
     }
@@ -330,65 +362,65 @@ bool Black_king::there_is_no_white_queen_and_pawn_down_left(Ui::Game* ui,const i
 
 
 
-bool Black_king::there_is_no_white_queen_and_pawn(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_queen_and_pawn(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
-    return there_is_no_white_queen_and_pawn_down_left(ui,row,column, AttackerRow, AttackerColumn) && there_is_no_white_queen_and_pawn_down_right(ui,row,column, AttackerRow, AttackerColumn) && there_is_no_white_queen_and_pawn_up_left(ui,row,column, AttackerRow, AttackerColumn) && there_is_no_white_queen_and_pawn_up_right(ui,row,column, AttackerRow, AttackerColumn);
+    return there_is_no_white_queen_and_pawn_down_left(datas,row,column, AttackerRow, AttackerColumn) && there_is_no_white_queen_and_pawn_down_right(datas,row,column, AttackerRow, AttackerColumn) && there_is_no_white_queen_and_pawn_up_left(datas,row,column, AttackerRow, AttackerColumn) && there_is_no_white_queen_and_pawn_up_right(datas,row,column, AttackerRow, AttackerColumn);
 }
 
 
-bool Black_king::there_is_no_white_queen_and_pawn(Ui::Game* ui,const int &row, const int &column)
+bool Black_king::there_is_no_white_queen_and_pawn(int *datas,const int &row, const int &column)
 {
-    return there_is_no_white_queen_and_pawn_down_left(ui,row,column) && there_is_no_white_queen_and_pawn_down_right(ui,row,column) && there_is_no_white_queen_and_pawn_up_left(ui,row,column) && there_is_no_white_queen_and_pawn_up_right(ui,row,column);
+    return there_is_no_white_queen_and_pawn_down_left(datas,row,column) && there_is_no_white_queen_and_pawn_down_right(datas,row,column) && there_is_no_white_queen_and_pawn_up_left(datas,row,column) && there_is_no_white_queen_and_pawn_up_right(datas,row,column);
 }
 
 
 
-bool Black_king::there_is_no_white_king(Ui::Game *ui, const int &row, const int &column)
+bool Black_king::there_is_no_white_king(int *datas, const int &row, const int &column)
 {
     if((row+1)<8 && (column+1)<8){
-        if(ui->tableWidget->item(row+1,column+1)->text()=="10"){
+        if(*(datas+(row+1)*8+column+1)==10){
             return false;
         }
     }
 
     if((row+1)<8){
-        if(ui->tableWidget->item(row+1,column)->text()=="10"){
+        if(*(datas+(row+1)*8+column)==10){
             return false;
         }
     }
 
     if((row+1)<8 && (column-1)>=0){
-        if(ui->tableWidget->item(row+1,column-1)->text()=="10"){
+        if(*(datas+(row+1)*8+column-1)==10){
             return false;
         }
     }
 
     if((row-1)>=0 && (column+1)<8){
-        if(ui->tableWidget->item(row-1,column+1)->text()=="10"){
+        if(*(datas+(row-1)*8+column+1)==10){
             return false;
         }
     }
 
     if((row-1)>=0){
-        if(ui->tableWidget->item(row-1,column)->text()=="10"){
+        if(*(datas+(row-1)*8+column)==10){
             return false;
         }
     }
 
     if((row-1)>=0 && (column-1)>=0){
-        if(ui->tableWidget->item(row-1,column-1)->text()=="10"){
+        if(*(datas+(row-1)*8+column-1)==10){
             return false;
         }
     }
 
     if((column+1)<8){
-        if(ui->tableWidget->item(row,column+1)->text()=="10"){
+        if(*(datas+row*8+column+1)==10){
             return false;
         }
     }
 
     if((column-1)>=0){
-        if(ui->tableWidget->item(row,column-1)->text()=="10"){
+        if(*(datas+row*8+column-1)==10){
             return false;
         }
     }
@@ -398,10 +430,10 @@ bool Black_king::there_is_no_white_king(Ui::Game *ui, const int &row, const int 
 
 
 
-bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_knight(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     if((row-1)>=0 && (column+2)<8){
-        if(ui->tableWidget->item(row-1,column+2)->text()=="4"){
+        if(*(datas+(row-1)*8+column+2)==4){
             AttackerColumn=column+2;
             AttackerRow=row-1;
             return false;
@@ -409,7 +441,7 @@ bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const in
     }
 
     if((row+1)<8 && (column+2)<8){
-        if(ui->tableWidget->item(row+1,column+2)->text()=="4"){
+        if(*(datas+(row+1)*8+column+2)==4){
             AttackerColumn=column+2;
             AttackerRow=row+1;
             return false;
@@ -417,7 +449,7 @@ bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const in
     }
 
     if((row-1)>=0 && (column-2)>=0){
-        if(ui->tableWidget->item(row-1,column-2)->text()=="4"){
+        if(*(datas+(row-1)*8+column-2)==4){
             AttackerColumn=column-2;
             AttackerRow=row-1;
             return false;
@@ -425,7 +457,7 @@ bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const in
     }
 
     if((row+1)<8 && (column-2)>=0){
-        if(ui->tableWidget->item(row+1,column-2)->text()=="-4"){
+        if(*(datas+(row+1)*8+column-2)==4){
             AttackerColumn=column-2;
             AttackerRow=row+1;
             return false;
@@ -433,7 +465,7 @@ bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const in
     }
 
     if((row-2)>=0 && (column+1)<8){
-        if(ui->tableWidget->item(row-2,column+1)->text()=="4"){
+        if(*(datas+(row-2)*8+column+1)==4){
             AttackerColumn=column+1;
             AttackerRow=row-2;
             return false;
@@ -441,7 +473,7 @@ bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const in
     }
 
     if((row+2)<8 && (column+1)<8){
-        if(ui->tableWidget->item(row+2,column+1)->text()=="4"){
+        if(*(datas+(row+2)*8+column+1)==4){
             AttackerColumn=column+1;
             AttackerRow=row+2;
             return false;
@@ -449,7 +481,7 @@ bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const in
     }
 
     if((row-2)>=0 && (column-1)>=0){
-        if(ui->tableWidget->item(row-2,column-1)->text()=="4"){
+        if(*(datas+(row-2)*8+column-1)==4){
             AttackerColumn=column-1;
             AttackerRow=row-2;
             return false;
@@ -457,7 +489,7 @@ bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const in
     }
 
     if((row+2)<8 && (column-1)>=0){
-        if(ui->tableWidget->item(row+2,column-1)->text()=="4"){
+        if(*(datas+(row+2)*8+column-1)==4){
             AttackerColumn=column-1;
             AttackerRow=row+2;
             return false;
@@ -471,52 +503,52 @@ bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const in
 
 
 
-bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const int &column)
+bool Black_king::there_is_no_white_knight(int *datas, const int &row, const int &column)
 {
     if((row-1)>=0 && (column+2)<8){
-        if(ui->tableWidget->item(row-1,column+2)->text()=="4"){
+        if(*(datas+(row-1)*8+column+2)==4){
             return false;
         }
     }
 
     if((row+1)<8 && (column+2)<8){
-        if(ui->tableWidget->item(row+1,column+2)->text()=="4"){
+        if(*(datas+(row+1)*8+column+2)==4){
             return false;
         }
     }
 
     if((row-1)>=0 && (column-2)>=0){
-        if(ui->tableWidget->item(row-1,column-2)->text()=="4"){
+        if(*(datas+(row-1)*8+column-2)==4){
             return false;
         }
     }
 
     if((row+1)<8 && (column-2)>=0){
-        if(ui->tableWidget->item(row+1,column-2)->text()=="-4"){
+        if(*(datas+(row+1)*8+column-2)==4){
             return false;
         }
     }
 
     if((row-2)>=0 && (column+1)<8){
-        if(ui->tableWidget->item(row-2,column+1)->text()=="4"){
+        if(*(datas+(row-2)*8+column+1)==4){
             return false;
         }
     }
 
     if((row+2)<8 && (column+1)<8){
-        if(ui->tableWidget->item(row+2,column+1)->text()=="4"){
+        if(*(datas+(row+2)*8+column+1)==4){
             return false;
         }
     }
 
     if((row-2)>=0 && (column-1)>=0){
-        if(ui->tableWidget->item(row-2,column-1)->text()=="4"){
+        if(*(datas+(row-2)*8+column-1)==4){
             return false;
         }
     }
 
     if((row+2)<8 && (column-1)>=0){
-        if(ui->tableWidget->item(row+2,column-1)->text()=="4"){
+        if(*(datas+(row+2)*8+column-1)==4){
             return false;
         }
     }
@@ -526,20 +558,20 @@ bool Black_king::there_is_no_white_knight(Ui::Game* ui, const int &row, const in
 
 
 
-bool Black_king::there_is_no_white_bishop(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
+bool Black_king::there_is_no_white_bishop(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
-    if((row+1)<8 && (column+1)<8){
-        if(ui->tableWidget->item(row+1,column+1)->text()=="1"){
+    if((row+1)>=0 && (column+1)<8){
+        if(*(datas+(row+1)*8+column+1)==1){
             AttackerColumn=column+1;
-            AttackerRow=row+1;
+            AttackerRow=row-1;
             return false;
         }
     }
 
-    if((row+1)<8 && (column-1)>=0){
-        if(ui->tableWidget->item(row+1,column-1)->text()=="1"){
+    if((row+1)>=0 && (column-1)>=0){
+        if(*(datas+(row+1)*8+column-1)==1){
             AttackerColumn=column-1;
-            AttackerRow=row+1;
+            AttackerRow=row-1;
             return false;
         }
     }
@@ -549,16 +581,16 @@ bool Black_king::there_is_no_white_bishop(Ui::Game* ui, const int &row, const in
 
 
 
-bool Black_king::there_is_no_white_bishop(Ui::Game* ui, const int &row, const int &column)
+bool Black_king::there_is_no_white_bishop(int *datas, const int &row, const int &column)
 {
-    if((row+1)<8 && (column+1)<8){
-        if(ui->tableWidget->item(row+1,column+1)->text()=="1"){
+    if((row+1)>=0 && (column+1)<8){
+        if(*(datas+(row+1)*8+column+1)==1){
             return false;
         }
     }
 
-    if((row+1)<8 && (column-1)>=0){
-        if(ui->tableWidget->item(row+1,column-1)->text()=="1"){
+    if((row+1)>=0 && (column-1)>=0){
+        if(*(datas+(row+1)*8+column-1)==1){
             return false;
         }
     }
@@ -567,15 +599,14 @@ bool Black_king::there_is_no_white_bishop(Ui::Game* ui, const int &row, const in
 }
 
 
-void Black_king::step_1(Ui::Game *ui, const int &row, const int &column,  int &piece)
+void Black_king::step_1(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
-    if((row+1)<8 && there_is_no_white_bishop(ui,row+1,column) && there_is_no_white_knight(ui,row+1,column) && there_is_no_white_queen_and_rook(ui,row+1,column) && there_is_no_white_queen_and_pawn(ui,row+1,column) && there_is_no_white_king(ui,row+1,column)){
-        piece=-10;
-        if(ui->tableWidget->item(row+1,column)->text()==""){
+    if((row+1)<8 && there_is_no_white_bishop(datas,row+1,column) && there_is_no_white_knight(datas,row+1,column) && there_is_no_white_queen_and_rook(datas,row+1,column) && there_is_no_white_queen_and_pawn(datas,row+1,column) && there_is_no_white_king(datas,row+1,column)){
+        if(*(datas+(row+1)*8+column)==0){
             ui->tableWidget->item(row+1,column)->setBackground(Qt::green);
         }
         else{
-            if(ui->tableWidget->item(row+1,column)->text().toInt()>0){
+            if(*(datas+(row+1)*8+column)>0){
                 ui->tableWidget->item(row+1,column)->setBackground(Qt::green);
             }
         }
@@ -583,15 +614,14 @@ void Black_king::step_1(Ui::Game *ui, const int &row, const int &column,  int &p
 }
 
 
-void Black_king::step_2(Ui::Game *ui, const int &row, const int &column,  int &piece)
+void Black_king::step_2(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
-    if((column+1)<8 && there_is_no_white_bishop(ui,row,column+1) && there_is_no_white_knight(ui,row,column+1) && there_is_no_white_queen_and_rook(ui,row,column+1) && there_is_no_white_queen_and_pawn(ui,row,column+1) && there_is_no_white_king(ui,row,column+1)){
-        piece=-10;
-        if(ui->tableWidget->item(row,column+1)->text()==""){
+    if((column+1)<8 && there_is_no_white_bishop(datas,row,column+1) && there_is_no_white_knight(datas,row,column+1) && there_is_no_white_queen_and_rook(datas,row,column+1) && there_is_no_white_queen_and_pawn(datas,row,column+1) && there_is_no_white_king(datas,row,column+1)){
+        if(*(datas+row*8+column+1)==0){
             ui->tableWidget->item(row,column+1)->setBackground(Qt::green);
         }
         else{
-            if(ui->tableWidget->item(row,column+1)->text().toInt()>0){
+            if(*(datas+row*8+column+1)>0){
                 ui->tableWidget->item(row,column+1)->setBackground(Qt::green);
             }
         }
@@ -599,15 +629,14 @@ void Black_king::step_2(Ui::Game *ui, const int &row, const int &column,  int &p
 }
 
 
-void Black_king::step_3(Ui::Game *ui, const int &row, const int &column,  int &piece)
+void Black_king::step_3(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
-    if((row-1)>=0 && there_is_no_white_bishop(ui,row-1,column) && there_is_no_white_knight(ui,row-1,column) && there_is_no_white_queen_and_rook(ui,row-1,column) && there_is_no_white_queen_and_pawn(ui,row-1,column) && there_is_no_white_king(ui,row-1,column)){
-        piece=-10;
-        if(ui->tableWidget->item(row-1,column)->text()==""){
+    if((row-1)>=0 && there_is_no_white_bishop(datas,row-1,column) && there_is_no_white_knight(datas,row-1,column) && there_is_no_white_queen_and_rook(datas,row-1,column) && there_is_no_white_queen_and_pawn(datas,row-1,column) && there_is_no_white_king(datas,row-1,column)){
+        if(*(datas+(row-1)*8+column)==0){
             ui->tableWidget->item(row-1,column)->setBackground(Qt::green);
         }
         else{
-            if(ui->tableWidget->item(row-1,column)->text().toInt()>0){
+            if(*(datas+(row-1)*8+column)>0){
                 ui->tableWidget->item(row-1,column)->setBackground(Qt::green);
             }
         }
@@ -616,15 +645,14 @@ void Black_king::step_3(Ui::Game *ui, const int &row, const int &column,  int &p
 
 
 
-void Black_king::step_4(Ui::Game *ui, const int &row, const int &column,  int &piece)
+void Black_king::step_4(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
-    if((column-1)>=0 && there_is_no_white_bishop(ui,row,column-1) && there_is_no_white_knight(ui,row,column-1) && there_is_no_white_queen_and_rook(ui,row,column-1) && there_is_no_white_queen_and_pawn(ui,row,column-1) && there_is_no_white_king(ui,row,column-1)){
-        piece=-10;
-        if(ui->tableWidget->item(row,column-1)->text()==""){
+    if((column-1)>=0 && there_is_no_white_bishop(datas,row,column-1) && there_is_no_white_knight(datas,row,column-1) && there_is_no_white_queen_and_rook(datas,row,column-1) && there_is_no_white_queen_and_pawn(datas,row,column-1) && there_is_no_white_king(datas,row,column-1)){
+        if(*(datas+row*8+column-1)==0){
             ui->tableWidget->item(row,column-1)->setBackground(Qt::green);
         }
         else{
-            if(ui->tableWidget->item(row,column-1)->text().toInt()>0){
+            if(*(datas+row*8+column-1)>0){
                 ui->tableWidget->item(row,column-1)->setBackground(Qt::green);
             }
         }
@@ -634,15 +662,14 @@ void Black_king::step_4(Ui::Game *ui, const int &row, const int &column,  int &p
 
 
 
-void Black_king::step_5(Ui::Game *ui, const int &row, const int &column,  int &piece)
+void Black_king::step_5(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
-    if((row+1)<8 && (column+1)<8 && there_is_no_white_bishop(ui,row+1,column+1) && there_is_no_white_knight(ui,row+1,column+1) && there_is_no_white_queen_and_rook(ui,row+1,column+1) && there_is_no_white_queen_and_pawn(ui,row+1,column+1) && there_is_no_white_king(ui,row+1,column+1)){
-        piece=-10;
-        if(ui->tableWidget->item(row+1,column+1)->text()==""){
+    if((row+1)<8 && (column+1)<8 && there_is_no_white_bishop(datas,row+1,column+1) && there_is_no_white_knight(datas,row+1,column+1) && there_is_no_white_queen_and_rook(datas,row+1,column+1) && there_is_no_white_queen_and_pawn(datas,row+1,column+1) && there_is_no_white_king(datas,row+1,column+1)){
+        if(*(datas+(row+1)*8+column+1)==0){
             ui->tableWidget->item(row+1,column+1)->setBackground(Qt::green);
         }
         else{
-            if(ui->tableWidget->item(row+1,column+1)->text().toInt()>0){
+            if(*(datas+(row+1)*8+column+1)>0){
                 ui->tableWidget->item(row+1,column+1)->setBackground(Qt::green);
             }
         }
@@ -653,15 +680,14 @@ void Black_king::step_5(Ui::Game *ui, const int &row, const int &column,  int &p
 
 
 
-void Black_king::step_6(Ui::Game *ui, const int &row, const int &column,  int &piece)
+void Black_king::step_6(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
-    if((row-1)>=0 && (column+1)<8 && there_is_no_white_bishop(ui,row-1,column+1) && there_is_no_white_knight(ui,row-1,column+1) && there_is_no_white_queen_and_rook(ui,row-1,column+1) && there_is_no_white_queen_and_pawn(ui,row-1,column+1) && there_is_no_white_king(ui,row-1,column+1)){
-        piece=-10;
-        if(ui->tableWidget->item(row-1,column+1)->text()==""){
+    if((row-1)>=0 && (column+1)<8 && there_is_no_white_bishop(datas,row-1,column+1) && there_is_no_white_knight(datas,row-1,column+1) && there_is_no_white_queen_and_rook(datas,row-1,column+1) && there_is_no_white_queen_and_pawn(datas,row-1,column+1) && there_is_no_white_king(datas,row-1,column+1)){
+        if(*(datas+(row-1)*8+column+1)==0){
             ui->tableWidget->item(row-1,column+1)->setBackground(Qt::green);
         }
         else{
-            if(ui->tableWidget->item(row-1,column+1)->text().toInt()>0){
+            if(*(datas+(row-1)*8+column+1)>0){
                 ui->tableWidget->item(row-1,column+1)->setBackground(Qt::green);
             }
         }
@@ -672,15 +698,14 @@ void Black_king::step_6(Ui::Game *ui, const int &row, const int &column,  int &p
 
 
 
-void Black_king::step_7(Ui::Game *ui, const int &row, const int &column,  int &piece)
+void Black_king::step_7(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
-    if((row+1)<8 && (column-1)>=0 && there_is_no_white_bishop(ui,row+1,column-1) && there_is_no_white_knight(ui,row+1,column-1) && there_is_no_white_queen_and_rook(ui,row+1,column-1) && there_is_no_white_queen_and_pawn(ui,row+1,column-1) && there_is_no_white_king(ui,row+1,column-1)){
-        piece=-10;
-        if(ui->tableWidget->item(row+1,column-1)->text()==""){
+    if((row+1)<8 && (column-1)>=0 && there_is_no_white_bishop(datas,row+1,column-1) && there_is_no_white_knight(datas,row+1,column-1) && there_is_no_white_queen_and_rook(datas,row+1,column-1) && there_is_no_white_queen_and_pawn(datas,row+1,column-1) && there_is_no_white_king(datas,row+1,column-1)){
+        if(*(datas+(row+1)*8+column-1)==0){
             ui->tableWidget->item(row+1,column-1)->setBackground(Qt::green);
         }
         else{
-            if(ui->tableWidget->item(row+1,column-1)->text().toInt()>0){
+            if(*(datas+(row+1)*8+column-1)>0){
                 ui->tableWidget->item(row+1,column-1)->setBackground(Qt::green);
             }
         }
@@ -689,15 +714,14 @@ void Black_king::step_7(Ui::Game *ui, const int &row, const int &column,  int &p
 
 
 
-void Black_king::step_8(Ui::Game *ui, const int &row, const int &column,  int &piece)
+void Black_king::step_8(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
-    if((row-1)>=0 && (column-1)>=0 && there_is_no_white_bishop(ui,row-1,column-1) && there_is_no_white_knight(ui,row-1,column-1) && there_is_no_white_queen_and_rook(ui,row-1,column-1) && there_is_no_white_queen_and_pawn(ui,row-1,column-1) && there_is_no_white_king(ui,row-1,column-1)){
-        piece=-10;
-        if(ui->tableWidget->item(row-1,column-1)->text()==""){
+    if((row-1)>=0 && (column-1)>=0 && there_is_no_white_bishop(datas,row-1,column-1) && there_is_no_white_knight(datas,row-1,column-1) && there_is_no_white_queen_and_rook(datas,row-1,column-1) && there_is_no_white_queen_and_pawn(datas,row-1,column-1) && there_is_no_white_king(datas,row-1,column-1)){
+        if(*(datas+(row-1)*8+column-1)==0){
             ui->tableWidget->item(row-1,column-1)->setBackground(Qt::green);
         }
         else{
-            if(ui->tableWidget->item(row-1,column-1)->text().toInt()>0){
+            if(*(datas+(row-1)*8+column-1)>0){
                 ui->tableWidget->item(row-1,column-1)->setBackground(Qt::green);
             }
         }
@@ -707,10 +731,10 @@ void Black_king::step_8(Ui::Game *ui, const int &row, const int &column,  int &p
 
 
 
-void Black_king::step_castling_right(Ui::Game* ui,const int &row, const int &column)
+void Black_king::step_castling_right(Ui::Game* ui,const int &row, const int &column,int *datas)
 {
-    if(row==0 && there_is_no_white_bishop(ui,row,column+2) && there_is_no_white_knight(ui,row,column+2) && there_is_no_white_queen_and_rook(ui,row,column+2) && there_is_no_white_queen_and_pawn(ui,row,column+2) && there_is_no_white_king(ui,row,column+2)){
-        if(ui->tableWidget->item(row,column+1)->text()=="" && ui->tableWidget->item(row,column+2)->text()=="" && ui->tableWidget->item(row,column+3)->text()=="-5"){
+    if(row==0 && there_is_no_white_bishop(datas,row,column+2) && there_is_no_white_knight(datas,row,column+2) && there_is_no_white_queen_and_rook(datas,row,column+2) && there_is_no_white_queen_and_pawn(datas,row,column+2) && there_is_no_white_king(datas,row,column+2)){
+        if(*(datas+row*8+column+1)==0 && *(datas+row*8+column+2)==0 && *(datas+row*8+column+3)==-5){
             ui->tableWidget->item(row,column+2)->setBackground(Qt::green);
         }
     }
@@ -718,34 +742,50 @@ void Black_king::step_castling_right(Ui::Game* ui,const int &row, const int &col
 
 
 
-void Black_king::step_castling_left(Ui::Game* ui,const int &row, const int &column)
+void Black_king::step_castling_left(Ui::Game* ui,const int &row, const int &column,int *datas)
 {
-    if(row==0 && there_is_no_white_bishop(ui,row,column-2) && there_is_no_white_knight(ui,row,column-2) && there_is_no_white_queen_and_rook(ui,row,column-2) && there_is_no_white_queen_and_pawn(ui,row,column-2) && there_is_no_white_king(ui,row,column-2)){
-        if(ui->tableWidget->item(row,column-1)->text()=="" && ui->tableWidget->item(row,column-2)->text()=="" && ui->tableWidget->item(row,column-4)->text()=="-5"){
+    if(row==0 && there_is_no_white_bishop(datas,row,column-2) && there_is_no_white_knight(datas,row,column-2) && there_is_no_white_queen_and_rook(datas,row,column-2) && there_is_no_white_queen_and_pawn(datas,row,column-2) && there_is_no_white_king(datas,row,column-2)){
+        if(*(datas+row*8+column-1)==0 && *(datas+row*8+column-2)==0 && *(datas+row*8+column-3)==0 && *(datas+row*8+column-4)==-5){
             ui->tableWidget->item(row,column-2)->setBackground(Qt::green);
         }
     }
 }
 
 
-void Black_king::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, bool &BlackKingRookDidNotMoveRight, bool &BlackKingRookDidNotMoveLeft)
+void Black_king::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, bool &BlackKingRookDidNotMoveRight, bool &BlackKingRookDidNotMoveLeft,int *datas)
 {
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(row,column,new QTableWidgetItem(QString::number(-10)));
         ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
 
+        QImage *img=new QImage("Gui/black_king.png");
+
+        QTableWidgetItem* picture=new QTableWidgetItem;
+        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
+        ui->tableWidget->setItem(row,column,picture);
+        datas[row*8+column]=-10;
+
+        datas[RowOld*8+ColumnOld]=0;
+
         if(row==0 && column==6 && BlackKingRookDidNotMoveRight){
-            ui->tableWidget->setItem(row,column-1,new QTableWidgetItem(QString::number(-5)));
             ui->tableWidget->setItem(row,column+1,new QTableWidgetItem(""));
-            BlackKingRookDidNotMoveLeft=false;
-            BlackKingRookDidNotMoveRight=false;
+            QImage *img2=new QImage("Gui/white_rook.png");
+            picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
+            ui->tableWidget->setItem(row,column-1,picture);
+            datas[row*8+column-1]=-5;
+            datas[row*8+column+1]=0;
         }
         if(row==0 && column==2 && BlackKingRookDidNotMoveLeft){
-            ui->tableWidget->setItem(row,column+1,new QTableWidgetItem(QString::number(-5)));
-            ui->tableWidget->setItem(row,column-2,new QTableWidgetItem(""));
-            BlackKingRookDidNotMoveLeft=false;
-            BlackKingRookDidNotMoveRight=false;
+            ui->tableWidget->setItem(row,column-1,new QTableWidgetItem(""));
+            QImage *img2=new QImage("Gui/white_rook.png");
+            picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
+            ui->tableWidget->setItem(row,column+1,picture);
+            datas[row*8+column+1]=-5;
+            datas[row*8+column-1]=0;
         }
+
+
+        BlackKingRookDidNotMoveLeft=false;
+        BlackKingRookDidNotMoveRight=false;
 
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
@@ -763,44 +803,223 @@ void Black_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
-        if(ui->tableWidget->item(row,column)->text()=="-10"){
-
-            for(int i=0;i<8;i++){
-                for(int j=0;j<8;j++){
-                    if((i+j)%2==0){
-                        ui->tableWidget->item(i,j)->setBackground(Qt::gray);
-                    }
-                    else{
-                        ui->tableWidget->item(i,j)->setBackground(Qt::white);
-                    }
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if((i+j)%2==0){
+                    ui->tableWidget->item(i,j)->setBackground(Qt::gray);
+                }
+                else{
+                    ui->tableWidget->item(i,j)->setBackground(Qt::white);
                 }
             }
+        }
 
-            if(piece==0){
+        if(piece==0){
 
-                step_1(ui, row, column, piece);
-                step_2(ui, row, column, piece);
-                step_3(ui, row, column, piece);
-                step_4(ui, row, column, piece);
-                step_5(ui, row, column, piece);
-                step_6(ui, row, column, piece);
-                step_7(ui, row, column, piece);
-                step_8(ui, row, column, piece);
-                if(BlackKingRookDidNotMoveRight){
-                    step_castling_right(ui,row,column);
-                }
-                if(BlackKingRookDidNotMoveLeft){
-                    step_castling_left(ui,row,column);
-                }
-                piece=-10;
+            step_1(ui, row, column,datas);
+            step_2(ui, row, column,datas);
+            step_3(ui, row, column,datas);
+            step_4(ui, row, column,datas);
+            step_5(ui, row, column,datas);
+            step_6(ui, row, column,datas);
+            step_7(ui, row, column,datas);
+            step_8(ui, row, column,datas);
+            if(BlackKingRookDidNotMoveRight){
+                step_castling_right(ui,row,column,datas);
             }
-            else{
-                piece=0;
+            if(BlackKingRookDidNotMoveLeft){
+                step_castling_left(ui,row,column,datas);
             }
+            piece=-10;
+        }
+        else{
+            piece=0;
+        }
 
-            ColumnOld=column;
-            RowOld=row;
+        ColumnOld=column;
+        RowOld=row;
+    }
+}
 
+
+
+
+
+
+
+
+
+
+
+void Black_king::step_1(int *datas, const int &row, const int &column,  bool &CanMove)
+{
+    if((row+1)<8 && there_is_no_white_bishop(datas,row+1,column) && there_is_no_white_knight(datas,row+1,column) && there_is_no_white_queen_and_rook(datas,row+1,column) && there_is_no_white_queen_and_pawn(datas,row+1,column) && there_is_no_white_king(datas,row+1,column)){
+        if(*(datas+(row+1)*8+column)==0){
+            CanMove=true;
+        }
+        else{
+            if(*(datas+(row+1)*8+column)>0){
+                CanMove=true;
+            }
         }
     }
 }
+
+
+void Black_king::step_2(int *datas, const int &row, const int &column,  bool &CanMove)
+{
+    if((column+1)<8 && there_is_no_white_bishop(datas,row,column+1) && there_is_no_white_knight(datas,row,column+1) && there_is_no_white_queen_and_rook(datas,row,column+1) && there_is_no_white_queen_and_pawn(datas,row,column+1) && there_is_no_white_king(datas,row,column+1)){
+        if(*(datas+row*8+column+1)==0){
+            CanMove=true;
+        }
+        else{
+            if(*(datas+row*8+column+1)>0){
+                CanMove=true;
+            }
+        }
+    }
+}
+
+
+void Black_king::step_3(int *datas, const int &row, const int &column,  bool &CanMove)
+{
+    if((row-1)>=0 && there_is_no_white_bishop(datas,row-1,column) && there_is_no_white_knight(datas,row-1,column) && there_is_no_white_queen_and_rook(datas,row-1,column) && there_is_no_white_queen_and_pawn(datas,row-1,column) && there_is_no_white_king(datas,row-1,column)){
+        if(*(datas+(row-1)*8+column)==0){
+            CanMove=true;
+        }
+        else{
+            if(*(datas+(row-1)*8+column)>0){
+                CanMove=true;
+            }
+        }
+    }
+}
+
+
+
+void Black_king::step_4(int *datas, const int &row, const int &column,  bool &CanMove)
+{
+    if((column-1)>=0 && there_is_no_white_bishop(datas,row,column-1) && there_is_no_white_knight(datas,row,column-1) && there_is_no_white_queen_and_rook(datas,row,column-1) && there_is_no_white_queen_and_pawn(datas,row,column-1) && there_is_no_white_king(datas,row,column-1)){
+        if(*(datas+row*8+column-1)==0){
+            CanMove=true;
+        }
+        else{
+            if(*(datas+row*8+column-1)>0){
+                CanMove=true;
+            }
+        }
+    }
+}
+
+
+
+
+void Black_king::step_5(int *datas, const int &row, const int &column,  bool &CanMove)
+{
+    if((row+1)<8 && (column+1)<8 && there_is_no_white_bishop(datas,row+1,column+1) && there_is_no_white_knight(datas,row+1,column+1) && there_is_no_white_queen_and_rook(datas,row+1,column+1) && there_is_no_white_queen_and_pawn(datas,row+1,column+1) && there_is_no_white_king(datas,row+1,column+1)){
+        if(*(datas+(row+1)*8+column+1)==0){
+            CanMove=true;
+        }
+        else{
+            if(*(datas+(row+1)*8+column+1)>0){
+                CanMove=true;
+            }
+        }
+    }
+}
+
+
+
+
+
+void Black_king::step_6(int *datas, const int &row, const int &column,  bool &CanMove)
+{
+    if((row-1)>=0 && (column+1)<8 && there_is_no_white_bishop(datas,row-1,column+1) && there_is_no_white_knight(datas,row-1,column+1) && there_is_no_white_queen_and_rook(datas,row-1,column+1) && there_is_no_white_queen_and_pawn(datas,row-1,column+1) && there_is_no_white_king(datas,row-1,column+1)){
+        if(*(datas+(row-1)*8+column+1)==0){
+            CanMove=true;
+        }
+        else{
+            if(*(datas+(row-1)*8+column+1)>0){
+                CanMove=true;
+            }
+        }
+    }
+}
+
+
+
+
+
+void Black_king::step_7(int *datas, const int &row, const int &column,  bool &CanMove)
+{
+    if((row+1)<8 && (column-1)>=0 && there_is_no_white_bishop(datas,row+1,column-1) && there_is_no_white_knight(datas,row+1,column-1) && there_is_no_white_queen_and_rook(datas,row+1,column-1) && there_is_no_white_queen_and_pawn(datas,row+1,column-1) && there_is_no_white_king(datas,row+1,column-1)){
+        if(*(datas+(row+1)*8+column-1)==0){
+            CanMove=true;
+        }
+        else{
+            if(*(datas+(row+1)*8+column-1)>0){
+                CanMove=true;
+            }
+        }
+    }
+}
+
+
+
+void Black_king::step_8(int *datas, const int &row, const int &column,  bool &CanMove)
+{
+    if((row-1)>=0 && (column-1)>=0 && there_is_no_white_bishop(datas,row-1,column-1) && there_is_no_white_knight(datas,row-1,column-1) && there_is_no_white_queen_and_rook(datas,row-1,column-1) && there_is_no_white_queen_and_pawn(datas,row-1,column-1) && there_is_no_white_king(datas,row-1,column-1)){
+        if(*(datas+(row-1)*8+column-1)==0){
+            CanMove=true;
+        }
+        else{
+            if(*(datas+(row-1)*8+column-1)>0){
+                CanMove=true;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+bool Black_king::get_CanMove(int *datas)
+{
+    int row, column;
+    bool CanMove=false;
+    for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
+            if(*(datas+i*i+j)==-10){
+                row=i;
+                column=j;
+
+                step_1(datas, row, column, CanMove);
+                step_2(datas, row, column, CanMove);
+                step_3(datas, row, column, CanMove);
+                step_4(datas, row, column, CanMove);
+                step_5(datas, row, column, CanMove);
+                step_6(datas, row, column, CanMove);
+                step_7(datas, row, column, CanMove);
+                step_8(datas, row, column, CanMove);
+            }
+        }
+    }
+
+    return CanMove;
+}
+
+
+
+
+
+
+
+
+
+
+

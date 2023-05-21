@@ -8,45 +8,58 @@ class White_king
 {
 public:
     White_king();
-    void step(Ui::Game* ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight);
-    bool there_is_no_black_bishop(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_knight(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_rook_left(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_rook_right(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_rook_up(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_rook_down(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_rook(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_pawn_up_right(Ui::Game* ui, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_pawn_up_left(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_pawn_down_right(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_pawn_down_left(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
-    bool there_is_no_black_queen_and_pawn(Ui::Game* ui,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    void step(Ui::Game* ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight,int *datas);
+
+    bool there_is_no_black_bishop(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_knight(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_rook_left(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_rook_right(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_rook_up(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_rook_down(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_rook(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_pawn_up_right(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_pawn_up_left(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_pawn_down_right(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_pawn_down_left(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+    bool there_is_no_black_queen_and_pawn(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
+
+    bool get_CanMove(int *datas);
 
 private:
-    void step_1(Ui::Game *ui, const int &row, const int &column,  int &piece);
-    void step_2(Ui::Game *ui, const int &row, const int &column,  int &piece);
-    void step_3(Ui::Game *ui, const int &row, const int &column,  int &piece);
-    void step_4(Ui::Game *ui, const int &row, const int &column,  int &piece);
-    void step_5(Ui::Game *ui, const int &row, const int &column,  int &piece);
-    void step_6(Ui::Game *ui, const int &row, const int &column,  int &piece);
-    void step_7(Ui::Game *ui, const int &row, const int &column,  int &piece);
-    void step_8(Ui::Game *ui, const int &row, const int &column,  int &piece);
-    void step_castling_left(Ui::Game* ui, const int &row, const int &column);
-    void step_castling_right(Ui::Game* ui, const int &row, const int &column);
+    void step_1(Ui::Game *ui, const int &row, const int &column,int *datas);
+    void step_2(Ui::Game *ui, const int &row, const int &column,int *datas);
+    void step_3(Ui::Game *ui, const int &row, const int &column,int *datas);
+    void step_4(Ui::Game *ui, const int &row, const int &column,int *datas);
+    void step_5(Ui::Game *ui, const int &row, const int &column,int *datas);
+    void step_6(Ui::Game *ui, const int &row, const int &column,int *datas);
+    void step_7(Ui::Game *ui, const int &row, const int &column,int *datas);
+    void step_8(Ui::Game *ui, const int &row, const int &column,int *datas);
+    void step_castling_left(Ui::Game* ui, const int &row, const int &column,int *datas);
+    void step_castling_right(Ui::Game* ui, const int &row, const int &column,int *datas);
 
-    bool there_is_no_black_bishop(Ui::Game* ui, const int &row, const int &column);
-    bool there_is_no_black_knight(Ui::Game* ui, const int &row, const int &column);
-    bool there_is_no_black_queen_and_rook_left(Ui::Game* ui, const int &row, const int &column);
-    bool there_is_no_black_queen_and_rook_right(Ui::Game* ui, const int &row, const int &column);
-    bool there_is_no_black_queen_and_rook_up(Ui::Game* ui, const int &row, const int &column);
-    bool there_is_no_black_queen_and_rook_down(Ui::Game* ui, const int &row, const int &column);
-    bool there_is_no_black_queen_and_rook(Ui::Game* ui, const int &row, const int &column);
-    bool there_is_no_black_queen_and_pawn_up_right(Ui::Game* ui, const int &row, const int &column);
-    bool there_is_no_black_queen_and_pawn_up_left(Ui::Game* ui,const int &row, const int &column);
-    bool there_is_no_black_queen_and_pawn_down_right(Ui::Game* ui,const int &row, const int &column);
-    bool there_is_no_black_queen_and_pawn_down_left(Ui::Game* ui,const int &row, const int &column);
-    bool there_is_no_black_queen_and_pawn(Ui::Game* ui,const int &row, const int &column);
-    bool there_is_no_black_king(Ui::Game* ui,const int &row, const int &column);
+    void step_1(int *datas, const int &row, const int &column,  bool &CanMove);
+    void step_2(int *datas, const int &row, const int &column,  bool &CanMove);
+    void step_3(int *datas, const int &row, const int &column,  bool &CanMove);
+    void step_4(int *datas, const int &row, const int &column,  bool &CanMove);
+    void step_5(int *datas, const int &row, const int &column,  bool &CanMove);
+    void step_6(int *datas, const int &row, const int &column,  bool &CanMove);
+    void step_7(int *datas, const int &row, const int &column,  bool &CanMove);
+    void step_8(int *datas, const int &row, const int &column,  bool &CanMove);
+
+    bool there_is_no_black_bishop(int *datas, const int &row, const int &column);
+    bool there_is_no_black_knight(int *datas, const int &row, const int &column);
+    bool there_is_no_black_queen_and_rook_left(int *datas, const int &row, const int &column);
+    bool there_is_no_black_queen_and_rook_right(int *datas, const int &row, const int &column);
+    bool there_is_no_black_queen_and_rook_up(int *datas, const int &row, const int &column);
+    bool there_is_no_black_queen_and_rook_down(int *datas, const int &row, const int &column);
+    bool there_is_no_black_queen_and_rook(int *datas, const int &row, const int &column);
+    bool there_is_no_black_queen_and_pawn_up_right(int *datas, const int &row, const int &column);
+    bool there_is_no_black_queen_and_pawn_up_left(int *datas,const int &row, const int &column);
+    bool there_is_no_black_queen_and_pawn_down_right(int *datas,const int &row, const int &column);
+    bool there_is_no_black_queen_and_pawn_down_left(int *datas,const int &row, const int &column);
+    bool there_is_no_black_queen_and_pawn(int *datas,const int &row, const int &column);
+    bool there_is_no_black_king(int *datas,const int &row, const int &column);
+
 };
 
 #endif // WHITE_KING_H
