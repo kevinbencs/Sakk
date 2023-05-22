@@ -75,3 +75,10 @@ White_or_black::~White_or_black()
 {
     delete ui;
 }
+
+//white
+void White_or_black::on_pushButton_clicked()
+{
+
+}
+

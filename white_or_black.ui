@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>659</width>
-    <height>588</height>
+    <width>808</width>
+    <height>729</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,6 +72,11 @@
        </item>
        <item>
         <widget class="QLabel" name="label">
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Melyik szeretnél lenni?</string>
          </property>
@@ -92,6 +97,11 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushButton">
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Fehér</string>
          </property>
@@ -99,6 +109,11 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_2">
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Fekete</string>
          </property>
@@ -106,6 +121,11 @@
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_3">
+         <property name="font">
+          <font>
+           <pointsize>24</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Random</string>
          </property>

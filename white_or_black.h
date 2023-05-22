@@ -21,6 +21,8 @@ public:
 private slots:
     void on_Action_triggered();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::White_or_black *ui;
     QMenuBar* menuBar;
