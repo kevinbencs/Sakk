@@ -61,6 +61,7 @@ private:
     bool WhiteKingRookDidNotMoveLeft=true, WhiteKingRookDidNotMoveRight=true;
     bool BlackKingRookDidNotMoveLeft=true, BlackKingRookDidNotMoveRight=true;
     int *datas=new int[64];
+    int WhiteOrBlack=1;
 
     QMenuBar* menuBar;
     QMenu* menu;

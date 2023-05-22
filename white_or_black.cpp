@@ -1,6 +1,7 @@
 #include "white_or_black.h"
 #include "ui_white_or_black.h"
 #include <fstream>
+#include <ctime>
 
 White_or_black::White_or_black(QWidget *parent) :
     QDialog(parent),
@@ -79,6 +80,31 @@ White_or_black::~White_or_black()
 //white
 void White_or_black::on_pushButton_clicked()
 {
+    Game game;
+    hide();
+    int WhiteOrBlack=1;
+    game.show();
+    game.exec()
+}
 
+//black
+void White_or_black::on_pushButton_2_clicked()
+{
+    Game game;
+    hide();
+    int WhiteOrBlack=1;
+    game.show();
+    game.exec()
+}
+
+
+void White_or_black::on_pushButton_3_clicked()
+{
+    Game game;
+    hide();
+    srand(time(0));
+    int WhiteOrBlack=rand()%2;
+    game.show();
+    game.exec()
 }
 
