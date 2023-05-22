@@ -19,6 +19,8 @@ set(PROJECT_SOURCES
         black_king.h
         black_knight.cpp
         black_knight.h
+        black_machine.cpp
+        black_machine.h
         black_pawn.cpp
         black_pawn.h
         black_queen.cpp

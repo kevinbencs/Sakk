@@ -4,7 +4,6 @@
 
 class White_machine
 {
-    Q_OBJECT
 public:
     White_machine();
 };

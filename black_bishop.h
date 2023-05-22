@@ -15,6 +15,10 @@ public:
     bool get_checkmate_CanMove(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
     bool get_draw_CanMove(int *datas);
 
+    void step_down_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_down_right_machine(int* datas, const int &row, const int &column, std::vector<std::vector<int> > &MoveAndPoint);
+    void step_down_left_machine(int* datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+
 private:
     void step_down(Ui::Game* ui, const int &row, const int &column,int *datas);
     void step_down_right(Ui::Game* ui, const int &row, const int &column, int *datas);
@@ -29,9 +33,9 @@ private:
     void dialog_right_up(Ui::Game* ui, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,const int &AttackerRow, int *datas);
     void dialog_left_down(Ui::Game* ui, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,const int &AttackerRow,int *data);
 
-    void step_up(int *datas, const int &row, const int &column, bool &CanMove);
-    void step_up_right(int *datas, const int &row, const int &column, bool &CanMove);
-    void step_up_left(int *datas, const int &row, const int &column, bool &CanMove);
+    void step_down(int *datas, const int &row, const int &column, bool &CanMove);
+    void step_down_right(int *datas, const int &row, const int &column, bool &CanMove);
+    void step_down_left(int *datas, const int &row, const int &column, bool &CanMove);
 
     void check_step_move(int *datas, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow, bool &CanMove);
     void check_step_move(int *datas,const int &row, const int &column,std::vector<std::pair<int,int>> v,const int &AttackerColumn,const int &AttackerRow,bool &CanMove);

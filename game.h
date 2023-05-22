@@ -19,6 +19,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
+#include "black_machine.h"
 
 namespace Ui {
 class Game;

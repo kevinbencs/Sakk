@@ -545,6 +545,7 @@ bool Game::there_is_no_draw_and_checkmatt()
 void Game::on_tableWidget_cellClicked(int row, int column)
 {
     Check check;
+    Black_machine black_machine;
 
 
     if(there_is_no_draw_and_checkmatt()){
@@ -788,6 +789,10 @@ void Game::on_tableWidget_cellClicked(int row, int column)
                 }
             }
 
+        }
+
+        if(BlackOrWhite==-1){
+            black_machine.step(ui,datas,BlackOrWhite);
         }
     }
 
