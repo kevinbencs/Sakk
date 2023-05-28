@@ -9,7 +9,7 @@ Black_machine::Black_machine()
 
 
 
-void Black_machine::make_v(int *datas, int i ,int j)
+void Black_machine::make_v(int *datas, int row ,int column)
 {
     Black_bishop black_bishop;
     Black_king black_king;
@@ -18,21 +18,31 @@ void Black_machine::make_v(int *datas, int i ,int j)
     Black_queen black_queen;
     Black_rook black_rook;
 
-    switch (*(datas+i*8+j)) {
+    switch (*(datas+row*8+column)) {
     case -1:
         std::vector<std::vector<int>> MoveAndPoint;
         std::vector<int> coordinate;
-        coordinate.push_back(i);
-        coordinate.push_back(j);
+        coordinate.push_back(row);
+        coordinate.push_back(column);
         MoveAndPoint.push_back(coordinate);
-        black_bishop.step_down_left_machine(datas,i,j,MoveAndPoint);
-        black_bishop.step_down_machine(datas,i,j,MoveAndPoint);
-        black_bishop.step_down_right_machine(datas,i,j,MoveAndPoint);
-        v.push_back(MoveAndPoint);
-        break;
+        black_bishop.step_down_left_machine(datas,row,column,MoveAndPoint);
+        black_bishop.step_down_machine(datas,row,column,MoveAndPoint);
+        black_bishop.step_down_right_machine(datas,row,column,MoveAndPoint);
 
+        if(MoveAndPoint.size()>1){
+            v.push_back(MoveAndPoint);
+        }
+
+        break;
     }
 }
+
+
+
+
+
+
+
 
 void Black_machine::step(Ui::Game* ui, int* datas, int &BlackOrWhite)
 {
@@ -64,10 +74,26 @@ void Black_machine::step(Ui::Game* ui, int* datas, int &BlackOrWhite)
 
     check.green_cell_disappear(ui);
     BlackOrWhite=1;
-
-
 }
 
+
+
+
+
+
+
+void Black_machine::make_v_check(int *datas, const int &AttackerRow,const int &AttackerColumn,const int &KnightBishop)
+{
+    Black_bishop black_bishop;
+    Black_king black_king;
+    Black_knight black_knight;
+    Black_pawn black_pawn;
+    Black_queen black_queen;
+    Black_rook black_rook;
+
+
+    black_bishop.get_checkmate_CanMove_machine(datas,AttackerRow,AttackerColumn,KnightBishop,v);
+}
 
 
 
@@ -78,11 +104,10 @@ void Black_machine::step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, cons
     int moving,coordinate,row,column,t;
     srand(time(0));
 
-    for(int i=0; i<8;i++){
-        for(int j=0;j<8;j++){
-            make_v(datas,i,j);
-        }
-    }
+
+
+    make_v_check(datas, AttackerRow,AttackerColumn, KnightBishop);
+
     moving=rand()%v.size();
     t=v[moving].size();
     coordinate=rand()%(v[moving].size()-1)+1;

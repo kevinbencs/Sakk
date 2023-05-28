@@ -14,11 +14,12 @@ public:
     Black_machine();
     void step(Ui::Game *ui, int *datas, int &BlackOrWhite);
     void step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
-
+    std::vector<std::vector<std::vector<int>>> v;
 
 private:
-    std::vector<std::vector<std::vector<int>>> v;
-    void make_v(int *datas, int i ,int j);
+
+    void make_v(int *datas, int row ,int column);
+    void make_v_check(int *datas, const int &AttackerRow,const int &AttackerColumn,const int &KnightBishop);
 };
 
 #endif // BLACK_MACHINE_H
