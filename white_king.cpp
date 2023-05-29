@@ -988,7 +988,7 @@ bool White_king::get_CanMove(int *datas)
     bool CanMove=false;
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
-            if(*(datas+i*i+j)==10){
+            if(*(datas+i*8+j)==10){
                 row=i;
                 column=j;
 

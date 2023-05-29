@@ -314,3 +314,105 @@ bool Black_queen::get_draw_CanMove(int *datas)
 
 
 
+
+
+void Black_queen::step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
+{
+    int king_row,king_column;
+    Check check;
+
+    if(KnightBishop==0){
+        for(int f=0;f<8;f++){
+            for(int l=0;l<8;l++){
+                if(*(datas+f*8+l)==-10){
+                    king_column=l;
+                    king_row=f;
+                }
+            }
+        }
+
+        //column
+       /* if(king_column==AttackerColumn){
+            column_equal_check_step(datas,row, column, king_column, king_row,AttackerRow,CanMove);
+            king_column_black_queen_rook_column_equal_step(datas,row,column,AttackerColumn,AttackerRow,CanMove,king_row,king_column);
+        }
+        //row
+        if(king_row==AttackerRow){
+            row_equal_check_step(datas,row, column, king_column, king_row,AttackerColumn,CanMove);
+            king_row_black_queen_rook_row_equal_step(datas,row,column,AttackerColumn,AttackerRow,CanMove,king_row,king_column);
+        }
+        //dialog
+        if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
+            dialog_left_up(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
+            king_dialog_black_queen_pawn_equal_left_down_step(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,CanMove);
+        }
+        if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
+            dialog_right_down(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
+            king_dialog_black_queen_pawn_equal_right_up_step(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,CanMove);
+        }
+        if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
+            dialog_right_up(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
+            king_dialog_black_queen_pawn_equal_right_down_step(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,CanMove);
+        }
+        if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
+            dialog_left_down(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
+            king_dialog_black_queen_pawn_equal_left_up_step(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,CanMove);
+        }
+
+    }
+    else{
+        if(row==AttackerRow){
+            right_check_step(datas,row,column,AttackerColumn,CanMove);
+            left_check_step(datas,row,column,AttackerColumn,CanMove);
+        }
+        if(column==AttackerColumn){
+            up_check_step(datas,row,column,AttackerRow,CanMove);
+            down_check_step(datas,row,column,AttackerRow,CanMove);
+        }
+
+        std::vector<std::pair<int,int>> v;
+        v.push_back(std::make_pair(AttackerRow,AttackerColumn));
+
+        if(check.step_white_left_up_and_right_down_check(datas,row,column)){
+            up_left_check_step(datas,row,column,v,CanMove);
+            down_right_check_step(datas,row,column,v,CanMove);
+        }
+
+        if(check.step_white_right_up_and_left_down_check(datas,row,column)){
+            up_right_check_step(datas,row,column,v,CanMove);
+            down_left_check_step(datas,row,column,v,CanMove);
+        }*/
+    }
+}
+
+
+
+void Black_queen::step_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int> > &MoveAndPoint)
+{
+    Check check;
+
+    /*if(check.step_white_up_and_down_check(datas,row,column)){
+        step_up(datas,row, column,CanMove);
+        step_down(datas,row, column,CanMove);
+    }
+
+    if(check.step_white_right_and_left_check(datas,row,column)){
+        step_left(datas,row, column,CanMove);
+        step_right(datas,row, column,CanMove);
+    }
+
+    if(check.step_white_left_up_and_right_down_check(datas,row,column)){
+        step_left_up(datas,row,column,CanMove);
+        step_right_down(datas,row,column,CanMove);
+    }
+
+    if(check.step_white_right_up_and_left_down_check(datas,row,column)){
+        step_right_up(datas,row,column,CanMove);
+        step_left_down(datas,row,column,CanMove);
+    }*/
+}
+
+
+
+
+

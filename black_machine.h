@@ -14,12 +14,16 @@ public:
     Black_machine();
     void step(Ui::Game *ui, int *datas, int &BlackOrWhite);
     void step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
-    std::vector<std::vector<std::vector<int>>> v;
 
 private:
-
+    std::vector<std::vector<std::vector<int>>> v;
     void make_v(int *datas, int row ,int column);
-    void make_v_check(int *datas, const int &AttackerRow,const int &AttackerColumn,const int &KnightBishop);
+    void make_v_check(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, const int &row, const int &column);
+    void step_bishop(Ui::Game *ui, int *datas, const int &moving, const int &coordinate);
+    void step_king(Ui::Game *ui, int *datas, const int &moving, const int &coordinate);
+    void step_queen(Ui::Game *ui, int *datas, const int &moving, const int &coordinate);
+    void step_rook(Ui::Game *ui, int *datas, const int &moving, const int &coordinate);
+    void step_pawn(Ui::Game *ui, int *datas, const int &moving, const int &coordinate);
 };
 
 #endif // BLACK_MACHINE_H

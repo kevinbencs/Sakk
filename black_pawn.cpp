@@ -1276,11 +1276,11 @@ bool Black_pawn::get_draw_CanMove(int *datas)
                 row=i;
                 column=j;
 
-                if(check.step_white_left_up_and_right_down_check(datas,row,column)){
+                if(check.step_black_left_up_and_right_down_check(datas,row,column)){
                     step_left_up(datas,row,column,CanMove);
                     step_right_down(datas,row,column,CanMove);
                 }
-                if(check.step_white_right_up_and_left_down_check(datas,row,column)){
+                if(check.step_black_right_up_and_left_down_check(datas,row,column)){
                     step_left_down(datas,row,column,CanMove);
                     step_right_up(datas,row,column,CanMove);
                 }
@@ -1292,3 +1292,809 @@ bool Black_pawn::get_draw_CanMove(int *datas)
 
     return CanMove;
 }
+
+
+
+
+
+
+
+void Black_pawn::step_left_up_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1,j=column-1;i>=0 && j>=0;i--,j--){
+        if(*(datas+i*8+i)<0){
+            break;
+        }
+        else{
+            std::vector<int> v;
+            v.push_back(i);
+            v.push_back(j);
+
+            if(*(datas+i*8+j)==0){
+                v.push_back(0);
+                MoveAndPoint.push_back(v);
+            }
+            else{
+                if(*(datas+i*8+j)>0){
+                    v.push_back(10);
+                    MoveAndPoint.push_back(v);
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::step_left_down_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1,j=column-1;i<8 && j>=0;i++,j--){
+        if(*(datas+i*8+i)<0){
+            break;
+        }
+        else{
+            std::vector<int> v;
+            v.push_back(i);
+            v.push_back(j);
+
+            if(*(datas+i*8+j)==0){
+                v.push_back(0);
+                MoveAndPoint.push_back(v);
+            }
+            else{
+                if(*(datas+i*8+j)>0){
+                    v.push_back(10);
+                    MoveAndPoint.push_back(v);
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::step_right_up_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1,j=column+1;i>=0 && j<8;i--,j++){
+        if(*(datas+i*8+i)<0){
+            break;
+        }
+        else{
+            std::vector<int> v;
+            v.push_back(i);
+            v.push_back(j);
+
+            if(*(datas+i*8+j)==0){
+                v.push_back(0);
+                MoveAndPoint.push_back(v);
+            }
+            else{
+                if(*(datas+i*8+j)>0){
+                    v.push_back(10);
+                    MoveAndPoint.push_back(v);
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::step_right_down_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1,j=column+1;i<8 && j<8;i++,j++){
+        if(*(datas+i*8+i)<0){
+            break;
+        }
+        else{
+            std::vector<int> v;
+            v.push_back(i);
+            v.push_back(j);
+
+            if(*(datas+i*8+j)==0){
+                v.push_back(0);
+                MoveAndPoint.push_back(v);
+            }
+            else{
+                if(*(datas+i*8+j)>0){
+                    v.push_back(10);
+                    MoveAndPoint.push_back(v);
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
+
+
+void Black_pawn::step_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(check.step_black_left_up_and_right_down_check(datas,row,column)){
+        step_left_up_machine(datas,row,column,MoveAndPoint);
+        step_right_down_machine(datas,row,column,MoveAndPoint);
+    }
+    if(check.step_black_right_up_and_left_down_check(datas,row,column)){
+        step_left_down_machine(datas,row,column,MoveAndPoint);
+        step_right_up_machine(datas,row,column,MoveAndPoint);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void Black_pawn::column_up_right_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1,j=column+1; j<=king_column && i>=0 ;i--,j++){
+        if(j!=king_column){
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+        else{
+            if((i>king_row && i<=AttackerRow) || (i<king_row && i>=AttackerRow)){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(j);
+
+                if(*(datas+i*8+j)==0){
+                    v.push_back(0);
+                }
+                else{
+                    if(*(datas+i*8+j)>0){
+                        v.push_back(10);
+                    }
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::column_down_right_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1,j=column+1;j<=king_column && i<8;i++,j++){
+        if(j!=king_column){
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+        else{
+            if((i>king_row && i<=AttackerRow) || (i<king_row && i>=AttackerRow)){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(j);
+
+                if(*(datas+i*8+j)==0){
+                    v.push_back(0);
+                }
+                else{
+                    if(*(datas+i*8+j)>0){
+                        v.push_back(10);
+                    }
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+
+
+void Black_pawn::column_up_left_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1,j=column-1; j>=king_column && i>=0 ;i--,j--){
+        if(j!=king_column){
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+        else{
+            if((i>king_row && i<=AttackerRow) || (i<king_row && i>=AttackerRow)){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(j);
+
+                if(*(datas+i*8+j)==0){
+                    v.push_back(0);
+                }
+                else{
+                    if(*(datas+i*8+j)>0){
+                        v.push_back(10);
+                    }
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::column_down_left_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1,j=column-1;j>=king_column && i<8;i++,j--){
+        if(j!=king_column){
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+        else{
+            if((i>king_row && i<=AttackerRow) || (i<king_row && i>=AttackerRow)){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(j);
+
+                if(*(datas+i*8+j)==0){
+                    v.push_back(0);
+                }
+                else{
+                    if(*(datas+i*8+j)>0){
+                        v.push_back(10);
+                    }
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::column_equal_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(column<king_column){
+        if(check.step_black_left_up_and_right_down_check(datas,row,column)){
+            column_down_right_check_step_machine(datas,row, column, king_column, king_row,AttackerRow,MoveAndPoint);
+        }
+        if(check.step_black_right_up_and_left_down_check(datas,row,column)){
+            column_up_right_check_step_machine(datas,row, column, king_column, king_row,AttackerRow,MoveAndPoint);
+        }
+    }
+    if(column>king_column){
+        if(check.step_black_right_up_and_left_down_check(datas,row,column)){
+            column_down_left_check_step_machine(datas,row, column, king_column, king_row,AttackerRow,MoveAndPoint);
+        }
+        if(check.step_black_left_up_and_right_down_check(datas,row,column)){
+            column_up_left_check_step_machine(datas,row, column, king_column, king_row,AttackerRow,MoveAndPoint);
+        }
+
+    }
+}
+
+
+
+
+void Black_pawn::row_up_right_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1,j=column+1; j<8 && i>=king_row ;i--,j++){
+        if(i!=king_row){
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+        else{
+            if((j>king_column && j<=AttackerColumn) || (j<king_column && j>=AttackerColumn)){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(j);
+
+                if(*(datas+i*8+j)==0){
+                    v.push_back(0);
+                }
+                else{
+                    if(*(datas+i*8+j)>0){
+                        v.push_back(10);
+                    }
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::row_down_right_check_step_machine(int *datas, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1,j=column+1;j<8 && i<=king_row;i++,j++){
+        if(i!=king_row){
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+        else{
+            if((j>king_column && j<=AttackerColumn) || (j<king_column && j>=AttackerColumn)){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(j);
+
+                if(*(datas+i*8+j)==0){
+                    v.push_back(0);
+                }
+                else{
+                    if(*(datas+i*8+j)>0){
+                        v.push_back(10);
+                    }
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+
+
+void Black_pawn::row_up_left_check_step_machine(int *datas, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1,j=column-1; j>=0 && i>=king_row ;i--,j--){
+        if(i!=king_row){
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+        else{
+            if((j>king_column && j<=AttackerColumn) || (j<king_column && j>=AttackerColumn)){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(j);
+
+                if(*(datas+i*8+j)==0){
+                    v.push_back(0);
+                }
+                else{
+                    if(*(datas+i*8+j)>0){
+                        v.push_back(10);
+                    }
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::row_down_left_check_step_machine(int *datas, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1,j=column-1;j>=0 && i<=king_row;i++,j--){
+        if(i!=king_row){
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+        else{
+            if((j>king_column && j<=AttackerColumn) || (j<king_column && j>=AttackerColumn)){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(j);
+
+                if(*(datas+i*8+j)==0){
+                    v.push_back(0);
+                }
+                else{
+                    if(*(datas+i*8+j)>0){
+                        v.push_back(10);
+                    }
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::row_equal_check_step_machine(int *datas, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(row>king_row){
+        if(check.step_black_left_up_and_right_down_check(datas,row,column)){
+            row_up_left_check_step_machine(datas,row, column, king_column, king_row,AttackerColumn,MoveAndPoint);
+        }
+        if(check.step_black_right_up_and_left_down_check(datas,row,column)){
+            row_up_right_check_step_machine(datas,row, column, king_column, king_row,AttackerColumn,MoveAndPoint);
+        }
+    }
+    if(row<king_row){
+        if(check.step_black_right_up_and_left_down_check(datas,row,column)){
+            row_down_left_check_step_machine(datas,row, column, king_column, king_row,AttackerColumn,MoveAndPoint);
+        }
+        if(check.step_black_left_up_and_right_down_check(datas,row,column)){
+            row_down_right_check_step_machine(datas,row, column, king_column, king_row,AttackerColumn,MoveAndPoint);
+        }
+    }
+}
+
+
+
+
+void Black_pawn::helper_down_left_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1,j=column-1;i<=x && j>=y;i++,j--){
+        if(i==x && j==y){
+            std::vector<int> v;
+            v.push_back(i);
+            v.push_back(j);
+
+            if(*(datas+i*8+j)==0){
+                v.push_back(0);
+            }
+            else{
+                if(*(datas+i*8+j)>0){
+                    v.push_back(10);
+                }
+            }
+
+            MoveAndPoint.push_back(v);
+        }
+        else{
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::down_left_check_step_machine(int *datas,const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>>::iterator ptr;
+    bool ThereIsOnCell=false;
+    int x, y;
+
+    for(int i=row+1,j=column-1;i<8 && j>=0 && ThereIsOnCell==false;i++,j--){
+        for(ptr=v.begin(); ptr<v.end() && ThereIsOnCell==false;ptr++){
+            if(ptr->first==i && ptr->second==j){
+                ThereIsOnCell=true;
+                x=i;
+                y=j;
+            }
+        }
+    }
+
+    if(ThereIsOnCell){
+        helper_down_left_check_step_machine(datas,row, column,x, y,MoveAndPoint);
+    }
+}
+
+
+
+
+
+void Black_pawn::helper_down_right_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1,j=column+1;i<=x && j<=y;i++,j++){
+        if(i==x && j==y){
+            std::vector<int> v;
+            v.push_back(i);
+            v.push_back(j);
+
+            if(*(datas+i*8+j)==0){
+                v.push_back(0);
+            }
+            else{
+                if(*(datas+i*8+j)>0){
+                    v.push_back(10);
+                }
+            }
+
+            MoveAndPoint.push_back(v);
+        }
+        else{
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::down_right_check_step_machine(int *datas,const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>>::iterator ptr;
+    bool ThereIsOnCell=false;
+    int x, y;
+
+    for(int i=row+1,j=column+1;i<8 && j<8 && ThereIsOnCell==false;i++,j++){
+        for(ptr=v.begin(); ptr<v.end() && ThereIsOnCell==false;ptr++){
+            if(ptr->first==i && ptr->second==j){
+                ThereIsOnCell=true;
+                x=i;
+                y=j;
+            }
+        }
+    }
+
+    if(ThereIsOnCell){
+        helper_down_right_check_step_machine(datas,row, column,x, y,MoveAndPoint);
+    }
+}
+
+
+
+void Black_pawn::helper_up_right_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1,j=column+1;i>=x && j<=y;i--,j++){
+        if(i==x && j==y){
+            std::vector<int> v;
+            v.push_back(i);
+            v.push_back(j);
+
+            if(*(datas+i*8+j)==0){
+                v.push_back(0);
+            }
+            else{
+                if(*(datas+i*8+j)>0){
+                    v.push_back(10);
+                }
+            }
+
+            MoveAndPoint.push_back(v);
+        }
+        else{
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::up_right_check_step_machine(int *datas,const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>>::iterator ptr;
+    bool ThereIsOnCell=false;
+    int x, y;
+
+    for(int i=row-1,j=column+1;i>=0 && j<8 && ThereIsOnCell==false;i--,j++){
+        for(ptr=v.begin(); ptr<v.end() && ThereIsOnCell==false;ptr++){
+            if(ptr->first==i && ptr->second==j){
+                ThereIsOnCell=true;
+                x=i;
+                y=j;
+            }
+        }
+    }
+
+    if(ThereIsOnCell){
+        helper_up_right_check_step_machine(datas,row, column,x, y,MoveAndPoint);
+    }
+}
+
+
+
+
+
+
+void Black_pawn::helper_up_left_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1,j=column-1;i>=x && j>=y;i--,j--){
+        if(i==x && j==y){
+            std::vector<int> v;
+            v.push_back(i);
+            v.push_back(j);
+
+            if(*(datas+i*8+j)==0){
+                v.push_back(0);
+            }
+            else{
+                if(*(datas+i*8+j)>0){
+                    v.push_back(10);
+                }
+            }
+
+            MoveAndPoint.push_back(v);
+        }
+        else{
+            if(*(datas+i*i+j)!=0){
+                break;
+            }
+        }
+    }
+}
+
+
+
+void Black_pawn::up_left_check_step_machine(int *datas,const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>>::iterator ptr;
+    bool ThereIsOnCell=false;
+    int x, y;
+
+    for(int i=row-1,j=column-1;i>=0 && j>=0 && ThereIsOnCell==false;i--,j--){
+        for(ptr=v.begin(); ptr<v.end() && ThereIsOnCell==false;ptr++){
+            if(ptr->first==i && ptr->second==j){
+                ThereIsOnCell=true;
+                x=i;
+                y=j;
+            }
+        }
+    }
+
+    if(ThereIsOnCell){
+        helper_up_left_check_step_machine(datas,row, column,x, y,MoveAndPoint);
+    }
+}
+
+
+
+
+void Black_pawn::dialog_left_up_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+    Check check;
+
+    for(int i=king_row-1,j=king_column-1;i>=AttackerRow && j>=AttackerColumn;i--,j--){
+        v.push_back(std::make_pair(i,j));
+    }
+
+    if(check.step_black_right_up_and_left_down_check(datas,row,column)){
+        down_left_check_step_machine(datas,row,column,v,MoveAndPoint);
+        up_right_check_step_machine(datas,row,column,v,MoveAndPoint);
+    }
+}
+
+
+
+void Black_pawn::dialog_right_down_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow, std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+    Check check;
+
+    for(int i=king_row+1,j=king_column+1;i<=AttackerRow && j<=AttackerColumn;i++,j++){
+        v.push_back(std::make_pair(i,j));
+    }
+
+    if(check.step_black_right_up_and_left_down_check(datas,row,column)){
+        down_left_check_step_machine(datas,row,column,v,MoveAndPoint);
+        up_right_check_step_machine(datas,row,column,v,MoveAndPoint);
+    }
+}
+
+
+
+void Black_pawn::dialog_left_down_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+    Check check;
+
+    for(int i=king_row+1,j=king_column-1;i<=AttackerRow && j>=AttackerColumn;i++,j--){
+        v.push_back(std::make_pair(i,j));
+    }
+
+    if(check.step_black_left_up_and_right_down_check(datas,row,column)){
+        up_left_check_step_machine(datas,row,column,v,MoveAndPoint);
+        down_right_check_step_machine(datas,row,column,v,MoveAndPoint);
+    }
+}
+
+
+
+void Black_pawn::dialog_right_up_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+    Check check;
+
+    for(int i=king_row-1,j=king_column+1;i>=AttackerRow && j<=AttackerColumn;i--,j++){
+        v.push_back(std::make_pair(i,j));
+    }
+
+    if(check.step_black_left_up_and_right_down_check(datas,row,column)){
+        up_left_check_step_machine(datas,row,column,v,MoveAndPoint);
+        down_right_check_step_machine(datas,row,column,v,MoveAndPoint);
+    }
+}
+
+
+
+
+
+
+
+
+void Black_pawn::step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<int>> &MoveAndPoint,const int &row, const int &column)
+{
+    Check check;
+    int king_row,king_column;
+
+    if(KnightBishop==0){
+        for(int f=0;f<8;f++){
+            for(int l=0;l<8;l++){
+                if(*(datas+f*8+l)==-10){
+                    king_column=l;
+                    king_row=f;
+                }
+            }
+        }
+
+        //column
+        if(king_column==AttackerColumn){
+            column_equal_check_step_machine(datas,row, column, king_column, king_row,AttackerRow,MoveAndPoint);
+        }
+
+        //row
+        if(king_row==AttackerRow){
+            row_equal_check_step_machine(datas,row, column, king_column, king_row,AttackerColumn,MoveAndPoint);
+        }
+
+        //dialog
+        if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
+            dialog_left_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+        }
+
+        if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
+            dialog_right_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+        }
+
+        if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
+            dialog_right_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+        }
+
+        if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
+            dialog_left_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+        }
+    }
+    else{
+        std::vector<std::pair<int,int>> v;
+        v.push_back(std::make_pair(AttackerRow,AttackerColumn));
+
+        if(check.step_white_left_up_and_right_down_check(datas,row,column)){
+            up_left_check_step_machine(datas,row,column,v,MoveAndPoint);
+            down_right_check_step_machine(datas,row,column,v,MoveAndPoint);
+        }
+
+        if(check.step_white_right_up_and_left_down_check(datas,row,column)){
+            up_right_check_step_machine(datas,row,column,v,MoveAndPoint);
+            down_left_check_step_machine(datas,row,column,v,MoveAndPoint);
+        }
+    }
+}
+
+
+
+
+

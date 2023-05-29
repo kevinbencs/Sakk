@@ -68,7 +68,7 @@ Game::Game(QWidget *parent) :
 
                 datas[i*8+j]=1;
 
-            }*/
+            }
             if(i==1){
                 QImage* img=new QImage("Gui/black_bishop.png");
 
@@ -77,7 +77,7 @@ Game::Game(QWidget *parent) :
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=-1;
 
-            }
+            }*/
 
             if(i==7 && (j==0 || j==7)){
                 QImage* img=new QImage("Gui/white_rook.png");
@@ -86,7 +86,7 @@ Game::Game(QWidget *parent) :
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=5;
-            }/*
+            }
             if(i==0 && (j==0 || j==7)){
                 QImage* img=new QImage("Gui/black_rook.png");
 
@@ -95,7 +95,7 @@ Game::Game(QWidget *parent) :
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=-5;
 
-            }*/
+            }
 
             /*if(i==0 && (j==1 || j==6)){
                 QImage* img=new QImage("Gui/black_knight.png");
@@ -116,14 +116,14 @@ Game::Game(QWidget *parent) :
                 datas[i*8+j]=4;
             }*/
 
-            /*if(i==0 && (j==2 || j==5)){
+            if(i==0 && (j==2 || j==5)){
                 QImage* img=new QImage("Gui/black_pawn.png");
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=-3;
-            }*/
+            }
 
             if(i==7 && (j==2 || j==5)){
                 QImage* img=new QImage("Gui/white_pawn.png");
@@ -143,14 +143,14 @@ Game::Game(QWidget *parent) :
                 datas[i*8+j]=-8;
             }*/
 
-            if(i==7 && j==3){
+            /*if(i==7 && j==3){
                 QImage* img=new QImage("Gui/white_queen.png");
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=8;
-            }
+            }*/
 
             if(i==7 && j==4){
                 QImage* img=new QImage("Gui/white_king.png");
@@ -716,8 +716,6 @@ void Game::on_tableWidget_cellClicked(int row, int column)
                 Black_king black_king;
                 black_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,BlackKingRookDidNotMoveRight,BlackKingRookDidNotMoveLeft,datas);
             }
-
-
         }
 
         if(BlackOrWhite==-1){
@@ -788,9 +786,10 @@ void Game::on_tableWidget_cellClicked(int row, int column)
                     ui->label->setText("<p align=center><span style= color:black;font-size:22pt><b>Döntetlen<b><span><p>");
                 }
             }
-
         }
+    }
 
+    if(there_is_no_draw_and_checkmatt()){
         if(ui->label->text()=="<p align=center><span style= color:white;font-size:22pt><b>Sakk<b><span><p>" || ui->label->text()=="<p align=center><span style= color:black;font-size:22pt><b>Sakk<b><span><p>"){
             if(BlackOrWhite==-1){
                 black_machine.step_check(ui,datas,BlackOrWhite,AttackerRow,AttackerColumn,KnightAndBishop);
@@ -801,9 +800,79 @@ void Game::on_tableWidget_cellClicked(int row, int column)
                 black_machine.step(ui,datas,BlackOrWhite);
             }
         }
-
-
     }
+
+
+    if(BlackOrWhite==-1){
+        for(int i=0;i<8 ;i++){
+            for(int j=0;j<8;j++){
+                if(*(datas+i*8+j)==-10){
+                    king_column=j;
+                    king_row=i;
+                }
+            }
+        }
+    }
+
+    if(BlackOrWhite==1){
+        for(int i=0;i<8 ;i++){
+            for(int j=0;j<8;j++){
+                if(*(datas+i*8+j)==10){
+                    king_column=j;
+                    king_row=i;
+                }
+            }
+        }
+    }
+
+
+
+    if(check.king_check(datas,BlackOrWhite,king_row,king_column,AttackerRow,AttackerColumn,KnightAndBishop)){
+        if(theme==0){
+            ui->label->setText("<p align=center><span style= color:white;font-size:22pt><b>Sakk<b><span><p>");
+        }
+        else{
+            ui->label->setText("<p align=center><span style= color:black;font-size:22pt><b>Sakk<b><span><p>");
+        }
+
+        //CHECKMATE
+        if(BlackOrWhite==1 && !get_White_CanMove()){
+            if(theme==0){
+                ui->label->setText("<p align=center><span style= color:white;font-size:22pt><b>Sakkmatt<b><span><p>");
+            }
+            else{
+                ui->label->setText("<p align=center><span style= color:black;font-size:22pt><b>Sakkmatt<b><span><p>");
+            }
+        }
+        if(BlackOrWhite==-1 && !get_Black_CanMove()){
+            if(theme==0){
+                ui->label->setText("<p align=center><span style= color:white;font-size:22pt><b>Sakkmatt<b><span><p>");
+            }
+            else{
+                ui->label->setText("<p align=center><span style= color:black;font-size:22pt><b>Sakkmatt<b><span><p>");
+            }
+        }
+    }
+    else{
+        //Draw
+        if(BlackOrWhite==1 && !be_draw_white()){
+            if(theme==0){
+                ui->label->setText("<p align=center><span style= color:white;font-size:22pt><b>Döntetlen<b><span><p>");
+            }
+            else{
+                ui->label->setText("<p align=center><span style= color:black;font-size:22pt><b>Döntetlen<b><span><p>");
+            }
+        }
+        if(BlackOrWhite==-1 && !be_draw_black()){
+            if(theme==0){
+                ui->label->setText("<p align=center><span style= color:white;font-size:22pt><b>Döntetlen<b><span><p>");
+            }
+            else{
+                ui->label->setText("<p align=center><span style= color:black;font-size:22pt><b>Döntetlen<b><span><p>");
+            }
+        }
+    }
+
 
     std::ofstream out("kell.txt");
 

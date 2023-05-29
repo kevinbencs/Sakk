@@ -15,6 +15,9 @@ public:
     bool get_checkmate_CanMove(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
     bool get_draw_CanMove(int *datas);
 
+    void step_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<int>> &MoveAndPoint,const int &row, const int &column);
+
 protected:
     void king_column_black_queen_rook_column_equal_step(Ui::Game* ui,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,int *datas);
     void king_row_black_queen_rook_row_equal_step(Ui::Game* ui,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,int *datas);
@@ -49,6 +52,22 @@ protected:
     void step_down(int *datas,const int &row, const int &column,bool &CanMove);
     void step_left(int *datas, const int &row, const int &column,bool &CanMove);
     void step_right(int *datas,const int &row, const int &column,bool &CanMove);
+
+    void step_right_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_left_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_up_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_down_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+
+    void left_check_step_machine(int *datas, const int &row, const int &column,const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint);
+    void right_check_step_machine(int *datas, const int &row, const int &column,const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint);
+    void up_check_step_machine(int *datas,const int &row, const int &column,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint);
+    void down_check_step_machine(int *datas,const int &row, const int &column,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint);
+    void king_column_black_queen_rook_column_equal_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint, const int &king_row, const int &king_column);
+    void king_row_black_queen_rook_row_equal_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint, const int &king_row, const int &king_column);
+    void king_dialog_black_queen_pawn_equal_left_down_step_machine(int *datas, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow, const int &king_row, const int &king_column,std::vector<std::vector<int>> &MoveAndPoint);
+    void king_dialog_black_queen_pawn_equal_left_up_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint);
+    void king_dialog_black_queen_pawn_equal_right_down_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint);
+    void king_dialog_black_queen_pawn_equal_right_up_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint);
 
 };
 

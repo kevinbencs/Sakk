@@ -984,6 +984,510 @@ bool Black_rook::get_draw_CanMove(int *datas)
 
 
 
+void Black_rook::step_up_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1;i>=0;i--){
+        if(*(datas+i*8+column)<0){
+            break;
+        }
+        else{
+            if(*(datas+i*8+column)==0){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(column);
+                v.push_back(0);
+                MoveAndPoint.push_back(v);
+            }
+            else{
+                if(*(datas+i*8+column)>0){
+                    std::vector<int> v;
+                    v.push_back(i);
+                    v.push_back(column);
+                    v.push_back(10);
+                    MoveAndPoint.push_back(v);
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
+
+void Black_rook::step_down_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1;i<8;i++){
+        if(*(datas+i*8+column)<0){
+            break;
+        }
+        else{
+            if(*(datas+i*8+column)==0){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(column);
+                v.push_back(0);
+                MoveAndPoint.push_back(v);
+            }
+            else{
+                if(*(datas+i*8+column)>0){
+                    std::vector<int> v;
+                    v.push_back(i);
+                    v.push_back(column);
+                    v.push_back(10);
+                    MoveAndPoint.push_back(v);
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
+void Black_rook::step_left_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=column-1;i>=0;i--){
+        if(*(datas+row*8+i)<0){
+            break;
+        }
+        else{
+            if(*(datas+row*8+i)==0){
+                std::vector<int> v;
+                v.push_back(row);
+                v.push_back(i);
+                v.push_back(0);
+                MoveAndPoint.push_back(v);
+            }
+            else{
+                if(*(datas+row*8+i)>0){
+                    std::vector<int> v;
+                    v.push_back(row);
+                    v.push_back(i);
+                    v.push_back(10);
+                    MoveAndPoint.push_back(v);
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
+void Black_rook::step_right_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=column+1;i<8;i++){
+        if(*(datas+row*8+i)<0){
+            break;
+        }
+        else{
+            if(*(datas+row*8+i)==0){
+                std::vector<int> v;
+                v.push_back(row);
+                v.push_back(i);
+                v.push_back(0);
+                MoveAndPoint.push_back(v);
+            }
+            else{
+                if(*(datas+row*8+i)>0){
+                    std::vector<int> v;
+                    v.push_back(row);
+                    v.push_back(i);
+                    v.push_back(10);
+                    MoveAndPoint.push_back(v);
+                }
+                break;
+            }
+        }
+    }
+}
+
+
+
+
+void Black_rook::step_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(check.step_black_up_and_down_check(datas,row,column)){
+        step_up_machine(datas,row, column,MoveAndPoint);
+        step_down_machine(datas,row, column,MoveAndPoint);
+    }
+
+    if(check.step_black_right_and_left_check(datas,row,column)){
+        step_left_machine(datas,row, column,MoveAndPoint);
+        step_right_machine(datas,row, column,MoveAndPoint);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+void Black_rook::left_check_step_machine(int *datas, const int &row, const int &column,const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=column+1;i<=AttackerColumn;i++){
+        if(i!=AttackerColumn){
+            if(*(datas+row*8+i)!=0){
+                break;
+            }
+        }
+        else{
+            if(*(datas+row*8+i)==0 || *(datas+row*8+i)>0){
+                std::vector<int> v;
+                v.push_back(row);
+                v.push_back(i);
+
+                if(*(datas+row*8+i)==0){
+                    v.push_back(0);
+                }
+                else{
+                    v.push_back(10);
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+void Black_rook::right_check_step_machine(int *datas, const int &row, const int &column,const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=column-1;i>=AttackerColumn;i--){
+        if(i!=AttackerColumn){
+            if(*(datas+row*8+i)!=0){
+                break;
+            }
+        }
+        else{
+            if(*(datas+row*8+i)==0 || *(datas+row*8+i)>0){
+                std::vector<int> v;
+                v.push_back(row);
+                v.push_back(i);
+
+                if(*(datas+row*8+i)==0){
+                    v.push_back(0);
+                }
+                else{
+                    v.push_back(10);
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+
+        }
+    }
+}
+
+
+
+
+
+void Black_rook::up_check_step_machine(int *datas,const int &row, const int &column,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row-1;i>=AttackerRow;i--){
+        if(i!=AttackerRow){
+            if(*(datas+i*8+column)!=0){
+                break;
+            }
+        }
+        else{
+            if(*(datas+i*8+column)==0 || *(datas+i*8+column)>0){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(column);
+
+                if(*(datas+i*8+column)==0){
+                    v.push_back(0);
+                }
+                else{
+                    v.push_back(10);
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+void Black_rook::down_check_step_machine(int *datas,const int &row, const int &column,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    for(int i=row+1;i<=AttackerRow;i++){
+        if(i!=AttackerRow){
+            if(*(datas+i*8+column)!=0){
+                break;
+            }
+        }
+        else{
+            if(*(datas+i*8+column)==0 || *(datas+i*8+column)>0){
+                std::vector<int> v;
+                v.push_back(i);
+                v.push_back(column);
+
+                if(*(datas+i*8+column)==0){
+                    v.push_back(0);
+                }
+                else{
+                    v.push_back(10);
+                }
+
+                MoveAndPoint.push_back(v);
+            }
+        }
+    }
+}
+
+
+
+
+void Black_rook::king_column_black_queen_rook_column_equal_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint, const int &king_row, const int &king_column)
+{
+    Check check;
+
+    if(check.step_white_right_and_left_check(datas,row,column)){
+        if((row>king_row && row<=AttackerRow) || (row<king_row && row>=AttackerRow)){
+            if(column>AttackerColumn){
+                right_check_step_machine(datas, row, column,AttackerColumn,MoveAndPoint);
+            }
+            if(column<AttackerColumn){
+                left_check_step_machine(datas,row, column,AttackerColumn,MoveAndPoint);
+            }
+        }
+    }
+
+    if(check.step_white_up_and_down_check(datas,row,column)){
+        if(column==AttackerColumn){
+            if(row<AttackerRow){
+                down_check_step_machine(datas,row,column,AttackerRow,MoveAndPoint);
+            }
+            else{
+                up_check_step_machine(datas,row,column,AttackerRow,MoveAndPoint);
+            }
+        }
+    }
+}
+
+
+
+void Black_rook::king_row_black_queen_rook_row_equal_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint, const int &king_row, const int &king_column)
+{
+    Check check;
+
+    if(check.step_white_up_and_down_check(datas,row,column)){
+        if((column>king_column && column<=AttackerColumn) || (column<king_column && column>=AttackerColumn)){
+            if(row>AttackerRow){
+                up_check_step_machine(datas,row,column,AttackerRow,MoveAndPoint);
+            }
+            if(row<AttackerRow){
+                down_check_step_machine(datas,row,column,AttackerRow,MoveAndPoint);
+            }
+        }
+    }
+
+    if(check.step_white_right_and_left_check(datas,row,column)){
+        if(row==AttackerRow){
+            if(column<AttackerColumn){
+                left_check_step_machine(datas,row,column,AttackerColumn,MoveAndPoint);
+            }
+            if(column>AttackerColumn){
+                right_check_step_machine(datas,row,column,AttackerColumn,MoveAndPoint);
+            }
+        }
+    }
+}
+
+
+
+
+void Black_rook::king_dialog_black_queen_pawn_equal_left_down_step_machine(int *datas, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow, const int &king_row, const int &king_column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(row>=AttackerRow && row<king_row){
+        if(check.step_white_right_and_left_check(datas,row,column)){
+            if(column>king_column-king_row+row){
+                right_check_step_machine(datas,row,column,king_column-king_row+row,MoveAndPoint);
+            }
+            if(column<king_column-king_row+row){
+                left_check_step_machine(datas,row,column,king_column-king_row+row,MoveAndPoint);
+            }
+        }
+    }
+
+    if(column>=AttackerColumn && column<king_column){
+        if(check.step_white_up_and_down_check(datas,row,column)){
+            if(row>king_row-king_column+column){
+                up_check_step_machine(datas,row,column,king_row-king_column+column,MoveAndPoint);
+            }
+            if(row<king_row-king_column+column){
+                down_check_step_machine(datas,row,column,king_row-king_column+column,MoveAndPoint);
+            }
+        }
+    }
+}
+
+
+
+void Black_rook::king_dialog_black_queen_pawn_equal_left_up_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(row<=AttackerRow && row>king_row){
+        if(check.step_white_right_and_left_check(datas,row,column)){
+            if(column>king_column+king_row-row){
+                right_check_step_machine(datas,row,column,king_column+king_row-row,MoveAndPoint);
+            }
+            if(column<king_column+king_row-row){
+                left_check_step_machine(datas,row,column,king_column+king_row-row,MoveAndPoint);
+            }
+        }
+    }
+
+    if(column>=AttackerColumn && column<king_column){
+        if(check.step_white_up_and_down_check(datas,row,column)){
+            if(row>king_row+king_column-column){
+                up_check_step_machine(datas,row,column,king_row+king_column-column,MoveAndPoint);
+            }
+            if(row<king_row+king_column-column){
+                down_check_step_machine(datas,row,column,king_row+king_column-column,MoveAndPoint);
+            }
+        }
+    }
+}
+
+
+
+
+void Black_rook::king_dialog_black_queen_pawn_equal_right_down_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(row>=AttackerRow && row<king_row){
+        if(check.step_white_right_and_left_check(datas,row,column)){
+            if(column>king_column+king_row-row){
+                right_check_step_machine(datas,row,column,king_column+king_row-row,MoveAndPoint);
+            }
+            if(column<king_column+king_row-row){
+                left_check_step_machine(datas,row,column,king_column+king_row-row,MoveAndPoint);
+            }
+        }
+    }
+
+    if(column<=AttackerColumn && column>king_column){
+        if(check.step_white_up_and_down_check(datas,row,column)){
+            if(row>king_row+king_column-column){
+                up_check_step_machine(datas,row,column,king_row+king_column-column,MoveAndPoint);
+            }
+            if(row<king_row+king_column-column){
+                down_check_step_machine(datas,row,column,king_row+king_column-column,MoveAndPoint);
+            }
+        }
+    }
+}
+
+
+
+void Black_rook::king_dialog_black_queen_pawn_equal_right_up_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(row<=AttackerRow && row>king_row){
+        if(check.step_white_right_and_left_check(datas,row,column)){
+            if(column>king_column-king_row+row){
+                right_check_step_machine(datas,row,column,king_column-king_row+row,MoveAndPoint);
+            }
+            if(column<king_column-king_row+row){
+                left_check_step_machine(datas,row,column,king_column-king_row+row,MoveAndPoint);
+            }
+        }
+    }
+
+    if(column<=AttackerColumn && column>king_column){
+        if(check.step_white_up_and_down_check(datas,row,column)){
+            if(row>king_row-king_column+column){
+                up_check_step_machine(datas,row,column,king_row-king_column+column,MoveAndPoint);
+            }
+            if(row<king_row-king_column+column){
+                down_check_step_machine(datas,row,column,king_row-king_column+column,MoveAndPoint);
+            }
+        }
+    }
+}
+
+
+
+
+
+void Black_rook::step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<int>> &MoveAndPoint,const int &row, const int &column)
+{
+    Check check;
+    int king_row,king_column;
+
+    if(KnightBishop==0){
+
+        for(int f=0;f<8;f++){
+            for(int l=0;l<8;l++){
+                if(*(datas+f*8+l)==-10){
+                    king_column=l;
+                    king_row=f;
+                }
+            }
+        }
+
+        if((king_row<=row && row<=AttackerRow) || (king_row>=row && row>=AttackerRow) || (king_column<=column && column<=AttackerColumn) || (king_column>=column && column>=AttackerColumn)){
+            //column
+            if(king_column==AttackerColumn){
+                king_column_black_queen_rook_column_equal_step_machine(datas,row,column,AttackerColumn,AttackerRow,MoveAndPoint,king_row,king_column);
+            }
+            //row
+            if(king_row==AttackerRow){
+                king_row_black_queen_rook_row_equal_step_machine(datas,row,column,AttackerColumn,AttackerRow,MoveAndPoint,king_row,king_column);
+            }
+            //diagonal
+            if((king_row-AttackerRow)>0 && (king_column-AttackerColumn)>0){
+                king_dialog_black_queen_pawn_equal_left_down_step_machine(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,MoveAndPoint);
+            }
+            if((king_row-AttackerRow)<0 && (king_column-AttackerColumn)>0){
+                king_dialog_black_queen_pawn_equal_left_up_step_machine(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,MoveAndPoint);
+            }
+            if((king_row-AttackerRow)>0 && (king_column-AttackerColumn)<0){
+                king_dialog_black_queen_pawn_equal_right_down_step_machine(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,MoveAndPoint);
+            }
+            if((king_row-AttackerRow)<0 && (king_column-AttackerColumn)<0){
+                king_dialog_black_queen_pawn_equal_right_up_step_machine(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,MoveAndPoint);
+            }
+        }
+    }
+    else{
+        if(row==AttackerRow){
+            if(check.step_white_right_and_left_check(datas,row,column)){
+                right_check_step_machine(datas,row,column,AttackerColumn,MoveAndPoint);
+                left_check_step_machine(datas,row,column,AttackerColumn,MoveAndPoint);
+            }
+        }
+
+        if(column==AttackerColumn){
+            if(check.step_white_up_and_down_check(datas,row,column)){
+                up_check_step_machine(datas,row,column,AttackerRow,MoveAndPoint);
+                down_check_step_machine(datas,row,column,AttackerRow,MoveAndPoint);
+            }
+        }
+    }
+}
+
+
+
 
 
 

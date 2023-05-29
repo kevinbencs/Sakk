@@ -773,83 +773,47 @@ void Black_bishop::dialog_right_up_machine(int *datas, const int &row, const int
 
 
 
-void Black_bishop::get_checkmate_CanMove_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop,std::vector<std::vector<std::vector<int>>> &v)
+void Black_bishop::step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<int> > &MoveAndPoint,const int &row, const int &column)
 {
-    int row, column,king_row,king_column;
+    int king_row,king_column;
 
     if(KnightBishop==0){
-        for(int i=0;i<8;i++){
-            for(int j=0;j<8;j++){
-                if(*(datas+i*8+j)==-1){
-                    row=i;
-                    column=j;
-                    std::vector<std::vector<int>> MoveAndPoint;
-                    std::vector<int> coordinate;
-                    coordinate.push_back(row);
-                    coordinate.push_back(column);
-                    MoveAndPoint.push_back(coordinate);
 
-
-                    for(int f=0;f<8;f++){
-                        for(int l=0;l<8;l++){
-                            if(*(datas+f*8+l)==-10){
-                                king_column=l;
-                                king_row=f;
-                            }
-                        }
-                    }
-
-                    if(king_column==AttackerColumn){
-                        check_step_move_machine(datas,row,column,king_column,AttackerRow,MoveAndPoint);
-                    }
-                    //row
-                    if(king_row==AttackerRow){
-                        row_equal_check_step_machine(datas,row,column,king_column,king_row,AttackerColumn,MoveAndPoint);
-                    }
-                    //dialog
-                    if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
-                        dialog_left_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
-                    }
-
-                    if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
-                        dialog_right_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
-                    }
-
-                    if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
-                        dialog_right_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
-                    }
-
-                    if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
-                        dialog_left_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
-                    }
-                    if(MoveAndPoint.size()>1){
-                        v.push_back(MoveAndPoint);
-                    }
-
+        for(int f=0;f<8;f++){
+            for(int l=0;l<8;l++){
+                if(*(datas+f*8+l)==-10){
+                    king_column=l;
+                    king_row=f;
                 }
             }
+        }
+
+        if(king_column==AttackerColumn){
+            check_step_move_machine(datas,row,column,king_column,AttackerRow,MoveAndPoint);
+        }
+        //row
+        if(king_row==AttackerRow){
+            row_equal_check_step_machine(datas,row,column,king_column,king_row,AttackerColumn,MoveAndPoint);
+        }
+        //dialog
+        if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
+            dialog_left_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+        }
+
+        if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
+            dialog_right_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+        }
+
+        if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
+            dialog_right_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+        }
+
+        if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
+            dialog_left_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
         }
     }
     else{
-        for(int i=0;i<8;i++){
-            for(int j=0;j<8;j++){
-                if(*(datas+i*8+j)==-1){
-                    row=i;
-                    column=j;
-                    std::vector<std::vector<int>> MoveAndPoint;
-                    std::vector<int> coordinate;
-                    coordinate.push_back(row);
-                    coordinate.push_back(column);
-                    MoveAndPoint.push_back(coordinate);
-
-                    check_step_move_machine(datas,row,column,AttackerColumn,AttackerRow,MoveAndPoint);
-
-                    if(MoveAndPoint.size()>1){
-                        v.push_back(MoveAndPoint);
-                    }
-                }
-            }
-        }
+        check_step_move_machine(datas,row,column,AttackerColumn,AttackerRow,MoveAndPoint);
     }
 }
 

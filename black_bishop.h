@@ -19,7 +19,7 @@ public:
     void step_down_right_machine(int* datas, const int &row, const int &column, std::vector<std::vector<int> > &MoveAndPoint);
     void step_down_left_machine(int* datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
 
-    void get_checkmate_CanMove_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<std::vector<int>>> &v);
+    void step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<int>> &MoveAndPoint,const int &row, const int &column);
 
 private:
     void step_down(Ui::Game* ui, const int &row, const int &column,int *datas);

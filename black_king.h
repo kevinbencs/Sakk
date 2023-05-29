@@ -25,6 +25,7 @@ public:
     bool there_is_no_white_king(int *datas,const int &row, const int &column);
 
     bool get_CanMove(int *datas);
+    void step_machine(int *datas,std::vector<std::vector<int>> &MoveAndPoint);
 
 private:
     bool there_is_no_white_bishop(int *datas, const int &row, const int &column);
@@ -60,6 +61,17 @@ private:
     void step_6(int *datas, const int &row, const int &column,  bool &CanMove);
     void step_7(int *datas, const int &row, const int &column,  bool &CanMove);
     void step_8(int *datas, const int &row, const int &column,  bool &CanMove);
+
+    void step_1_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_2_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_3_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_4_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_5_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_6_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_7_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_8_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_castling_left_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_castling_right_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
 
 };
 
