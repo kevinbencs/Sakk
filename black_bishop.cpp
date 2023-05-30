@@ -95,10 +95,10 @@ void Black_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
 
             ColumnOld=column;
             RowOld=row;
-
         }
     }
 }
+
 
 
 void Black_bishop::check_step_move(Ui::Game* ui, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow,int* datas)
@@ -496,8 +496,6 @@ bool Black_bishop::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
                     if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
                         dialog_left_down(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                     }
-
-
                 }
             }
         }
@@ -513,8 +511,6 @@ bool Black_bishop::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
                 }
             }
         }
-
-
     }
 
     return CanMove;
@@ -528,7 +524,7 @@ bool Black_bishop::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
 
 void Black_bishop::step_down(int *datas, const int &row, const int &column,bool &CanMove)
 {
-    if(row<8){
+    if(row<7){
         if(*(datas+(row+1)*8+column)==0){
             CanMove=true;
         }
@@ -538,7 +534,7 @@ void Black_bishop::step_down(int *datas, const int &row, const int &column,bool 
 
 void Black_bishop::step_down_right(int* datas, const int &row, const int &column,bool &CanMove)
 {
-    if(column!=7 && row<8){
+    if(column!=7 && row<7){
         if(*(datas+(row+1)*8+column+1)>0){
             CanMove=true;
         }
@@ -550,7 +546,7 @@ void Black_bishop::step_down_right(int* datas, const int &row, const int &column
 
 void Black_bishop::step_down_left(int* datas, const int &row, const int &column,bool &CanMove)
 {
-    if(column!=0 && row<8){
+    if(column!=0 && row<7){
         if(*(datas+(row+1)*8+column-1)>0){
             CanMove=true;
         }
@@ -592,9 +588,12 @@ bool Black_bishop::get_draw_CanMove(int* datas)
 }
 
 
+
+
+
 void Black_bishop::step_down_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
 {
-    if(row<8){
+    if(row<7){
         if(*(datas+(row+1)*8+column)==0){
             std::vector<int> v;
             v.push_back(row+1);
@@ -615,7 +614,7 @@ void Black_bishop::step_down_machine(int *datas, const int &row, const int &colu
 
 void Black_bishop::step_down_right_machine(int* datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
-    if(column!=7 && row<8){
+    if(column!=7 && row<7){
         if(*(datas+(row+1)*8+column+1)>0){
             std::vector<int> v;
             v.push_back(row+1);
@@ -631,7 +630,7 @@ void Black_bishop::step_down_right_machine(int* datas, const int &row, const int
 
 void Black_bishop::step_down_left_machine(int* datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
 {
-    if(column!=0 && row<8){
+    if(column!=0 && row<7){
         if(*(datas+(row+1)*8+column-1)>0){
             std::vector<int> v;
             v.push_back(row+1);

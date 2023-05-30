@@ -59,7 +59,7 @@ Game::Game(QWidget *parent) :
     for(int i=0;i<8;i++){
         for(int j=0; j<8;j++){
             datas[i*8+j]=0;
-            /*if(i==6){
+            if(i==6){
                 QImage* img=new QImage("Gui/white_bishop.png");
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
@@ -77,7 +77,7 @@ Game::Game(QWidget *parent) :
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=-1;
 
-            }*/
+            }
 
             if(i==7 && (j==0 || j==7)){
                 QImage* img=new QImage("Gui/white_rook.png");
@@ -97,7 +97,7 @@ Game::Game(QWidget *parent) :
 
             }
 
-            /*if(i==0 && (j==1 || j==6)){
+            if(i==0 && (j==1 || j==6)){
                 QImage* img=new QImage("Gui/black_knight.png");
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
@@ -105,16 +105,16 @@ Game::Game(QWidget *parent) :
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=-4;
 
-            }*/
+            }
 
-            /*if(i==7 && (j==1 || j==6)){
+            if(i==7 && (j==1 || j==6)){
                 QImage* img=new QImage("Gui/white_knight.png");
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=4;
-            }*/
+            }
 
             if(i==0 && (j==2 || j==5)){
                 QImage* img=new QImage("Gui/black_pawn.png");
@@ -134,23 +134,23 @@ Game::Game(QWidget *parent) :
                 datas[i*8+j]=3;
             }
 
-            /*if(i==0 && j==3){
+            if(i==0 && j==3){
                 QImage* img=new QImage("Gui/black_queen.png");
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=-8;
-            }*/
+            }
 
-            /*if(i==7 && j==3){
+            if(i==7 && j==3){
                 QImage* img=new QImage("Gui/white_queen.png");
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=8;
-            }*/
+            }
 
             if(i==7 && j==4){
                 QImage* img=new QImage("Gui/white_king.png");

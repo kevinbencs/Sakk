@@ -14,6 +14,9 @@ public:
     bool get_checkmate_CanMove(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
     bool get_draw_CanMove(int *datas);
 
+    void step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop,std::vector<std::vector<int>> &MoveAndPoint,const int &row,const int &column);
+    void step_machine(int *datas,const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+
 private:
     void step_1(Ui::Game* ui, const int &row, const int &column,int *datas);
     void step_2(Ui::Game* ui, const int &row, const int &column,int *datas);
@@ -64,6 +67,31 @@ private:
     void step_6_check(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,bool &CanMove);
     void step_7_check(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,bool &CanMove);
     void step_8_check(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,bool &CanMove);
+
+    void step_1_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_2_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_3_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_4_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_5_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_6_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_7_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_8_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint);
+
+    void column_equal_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint);
+    void row_equal_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint);
+    void dialog_left_up_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint);
+    void dialog_right_down_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint);
+    void dialog_left_down_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint);
+    void dialog_right_up_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint);
+
+    void step_1_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_2_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_3_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_4_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_5_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_6_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_7_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_8_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
 
 };
 
