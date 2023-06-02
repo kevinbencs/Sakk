@@ -1184,8 +1184,38 @@ bool Black_knight::get_draw_CanMove(int *datas)
 
 
 
+/*int Black_knight::check_point_machine(int *datas,const int &row, const int &column,const int &OldRow,const int &OldColumn)
+{
+    Check check;
+    int point=0;
 
+    if(check.check_check(datas,row+1,column+2,4,row,column)){
+        point+=100;
+    }
+    if(check.check_check(datas,row-1,column+2,4,row,column)){
+        point+=100;
+    }
+    if(check.check_check(datas,row+1,column-2,4,row,column)){
+        point+=100;
+    }
+    if(check.check_check(datas,row-1,column-2,4,row,column)){
+        point+=100;
+    }
+    if(check.check_check(datas,row+2,column+1,4,row,column)){
+        point+=100;
+    }
+    if(check.check_check(datas,row-2,column+1,4,row,column)){
+        point+=100;
+    }
+    if(check.check_check(datas,row+2,column-1,4,row,column)){
+        point+=100;
+    }
+    if(check.check_check(datas,row-2,column-1,4,row,column)){
+        point+=100;
+    }
 
+    return point;
+}*/
 
 
 
@@ -1196,6 +1226,8 @@ bool Black_knight::get_draw_CanMove(int *datas)
 
 void Black_knight::step_1_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row+1)<8 && (column+2)<8){
         for(int i=0;i<v.size();i++){
             if((row+1)==v[i].first && (column+2)==v[i].second){
@@ -1203,7 +1235,10 @@ void Black_knight::step_1_check_machine(int *datas, const int &row, const int &c
                     std::vector<int> f;
                     f.push_back(row+1);
                     f.push_back(column+2);
-                    f.push_back(0);
+                    if(check.check_check(datas,row+1,column+2,-4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
                     MoveAndPoint.push_back(f);
                 }
                 else{
@@ -1211,7 +1246,11 @@ void Black_knight::step_1_check_machine(int *datas, const int &row, const int &c
                         std::vector<int> f;
                         f.push_back(row+1);
                         f.push_back(column+2);
-                        f.push_back(10);
+                        if(check.check_check(datas,row+1,column+2,-4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row+1,column+2);
+                        f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
                 }
@@ -1226,6 +1265,8 @@ void Black_knight::step_1_check_machine(int *datas, const int &row, const int &c
 
 void Black_knight::step_2_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row-1)>=0 && (column+2)<8){
         for(int i=0;i<v.size();i++){
             if((row-1)==v[i].first && (column+2)==v[i].second){
@@ -1233,7 +1274,10 @@ void Black_knight::step_2_check_machine(int *datas, const int &row, const int &c
                     std::vector<int> f;
                     f.push_back(row-1);
                     f.push_back(column+2);
-                    f.push_back(0);
+                    if(check.check_check(datas,row-1,column+2,-4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
                     MoveAndPoint.push_back(f);
                 }
                 else{
@@ -1241,7 +1285,11 @@ void Black_knight::step_2_check_machine(int *datas, const int &row, const int &c
                         std::vector<int> f;
                         f.push_back(row-1);
                         f.push_back(column+2);
-                        f.push_back(10);
+                        if(check.check_check(datas,row-1,column+2,-4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row-1,column+2);
+                        f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
                 }
@@ -1256,6 +1304,8 @@ void Black_knight::step_2_check_machine(int *datas, const int &row, const int &c
 
 void Black_knight::step_3_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row+1)<8 && (column-2)>=0){
         for(int i=0;i<v.size();i++){
             if((row+1)==v[i].first && (column-2)==v[i].second){
@@ -1263,7 +1313,10 @@ void Black_knight::step_3_check_machine(int *datas, const int &row, const int &c
                     std::vector<int> f;
                     f.push_back(row+1);
                     f.push_back(column-2);
-                    f.push_back(0);
+                    if(check.check_check(datas,row-1,column-2,-4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
                     MoveAndPoint.push_back(f);
                 }
                 else{
@@ -1271,7 +1324,11 @@ void Black_knight::step_3_check_machine(int *datas, const int &row, const int &c
                         std::vector<int> f;
                         f.push_back(row+1);
                         f.push_back(column-2);
-                        f.push_back(10);
+                        if(check.check_check(datas,row-1,column-2,-4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row+1,column-2);
+                        f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
                 }
@@ -1284,6 +1341,8 @@ void Black_knight::step_3_check_machine(int *datas, const int &row, const int &c
 
 void Black_knight::step_4_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row-1)>=0 && (column-2)>=0){
         for(int i=0;i<v.size();i++){
             if((row-1)==v[i].first && (column-2)==v[i].second){
@@ -1291,7 +1350,10 @@ void Black_knight::step_4_check_machine(int *datas, const int &row, const int &c
                     std::vector<int> f;
                     f.push_back(row-1);
                     f.push_back(column-2);
-                    f.push_back(0);
+                    if(check.check_check(datas,row-1,column-2,-4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
                     MoveAndPoint.push_back(f);
                 }
                 else{
@@ -1299,7 +1361,11 @@ void Black_knight::step_4_check_machine(int *datas, const int &row, const int &c
                         std::vector<int> f;
                         f.push_back(row-1);
                         f.push_back(column-2);
-                        f.push_back(10);
+                        point+=check.occupying_an_white_piece(datas,row-1,column-2);
+                        if(check.check_check(datas,row-1,column-2,-4,row,column)){
+                            point+=100;
+                        }
+                        f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
                 }
@@ -1313,6 +1379,8 @@ void Black_knight::step_4_check_machine(int *datas, const int &row, const int &c
 
 void Black_knight::step_5_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row+2)<8 && (column+1)<8){
         for(int i=0;i<v.size();i++){
             if((row+2)==v[i].first && (column+1)==v[i].second){
@@ -1320,7 +1388,10 @@ void Black_knight::step_5_check_machine(int *datas, const int &row, const int &c
                     std::vector<int> f;
                     f.push_back(row+2);
                     f.push_back(column+1);
-                    f.push_back(0);
+                    if(check.check_check(datas,row+2,column+1,-4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
                     MoveAndPoint.push_back(f);
                 }
                 else{
@@ -1328,7 +1399,11 @@ void Black_knight::step_5_check_machine(int *datas, const int &row, const int &c
                         std::vector<int> f;
                         f.push_back(row+2);
                         f.push_back(column+1);
-                        f.push_back(10);
+                        if(check.check_check(datas,row+2,column+1,-4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row+2,column+1);
+                        f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
                 }
@@ -1342,6 +1417,8 @@ void Black_knight::step_5_check_machine(int *datas, const int &row, const int &c
 
 void Black_knight::step_6_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row-2)<8 && (column+1)<8){
         for(int i=0;i<v.size();i++){
             if((row-2)==v[i].first && (column+1)==v[i].second){
@@ -1349,7 +1426,10 @@ void Black_knight::step_6_check_machine(int *datas, const int &row, const int &c
                     std::vector<int> f;
                     f.push_back(row-2);
                     f.push_back(column+1);
-                    f.push_back(0);
+                    if(check.check_check(datas,row-2,column+1,-4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
                     MoveAndPoint.push_back(f);
                 }
                 else{
@@ -1357,7 +1437,11 @@ void Black_knight::step_6_check_machine(int *datas, const int &row, const int &c
                         std::vector<int> f;
                         f.push_back(row-2);
                         f.push_back(column+1);
-                        f.push_back(10);
+                        if(check.check_check(datas,row-2,column+1,-4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row-2,column+1);
+                        f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
                 }
@@ -1372,6 +1456,8 @@ void Black_knight::step_6_check_machine(int *datas, const int &row, const int &c
 
 void Black_knight::step_7_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row+2)<8 && (column-1)>=0){
         for(int i=0;i<v.size();i++){
             if((row+2)==v[i].first && (column-1)==v[i].second){
@@ -1379,7 +1465,10 @@ void Black_knight::step_7_check_machine(int *datas, const int &row, const int &c
                     std::vector<int> f;
                     f.push_back(row+2);
                     f.push_back(column-1);
-                    f.push_back(0);
+                    if(check.check_check(datas,row+2,column-1,-4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
                     MoveAndPoint.push_back(f);
                 }
                 else{
@@ -1387,7 +1476,11 @@ void Black_knight::step_7_check_machine(int *datas, const int &row, const int &c
                         std::vector<int> f;
                         f.push_back(row+2);
                         f.push_back(column-1);
-                        f.push_back(10);
+                        if(check.check_check(datas,row+2,column-1,-4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row+2,column-1);
+                        f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
                 }
@@ -1401,6 +1494,8 @@ void Black_knight::step_7_check_machine(int *datas, const int &row, const int &c
 
 void Black_knight::step_8_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row-2)>=0 && (column-1)>=0){
         for(int i=0;i<v.size();i++){
             if((row-2)==v[i].first && (column-1)==v[i].second){
@@ -1408,7 +1503,10 @@ void Black_knight::step_8_check_machine(int *datas, const int &row, const int &c
                     std::vector<int> f;
                     f.push_back(row-2);
                     f.push_back(column-1);
-                    f.push_back(0);
+                    if(check.check_check(datas,row-2,column-1,-4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
                     MoveAndPoint.push_back(f);
                 }
                 else{
@@ -1416,7 +1514,11 @@ void Black_knight::step_8_check_machine(int *datas, const int &row, const int &c
                         std::vector<int> f;
                         f.push_back(row-2);
                         f.push_back(column-1);
-                        f.push_back(10);
+                        if(check.check_check(datas,row-2,column-1,-4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row-2,column-1);
+                        f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
                 }
@@ -1634,12 +1736,17 @@ void Black_knight::step_check_machine(int *datas, const int &AttackerRow, const 
 
 void Black_knight::step_1_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row+1)<8 && (column+2)<8){
         if(*(datas+(row+1)*8+column+2)==0){
             std::vector<int> f;
             f.push_back(row+1);
             f.push_back(column+2);
-            f.push_back(0);
+            if(check.check_check(datas,row+1,column+2,-4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
             MoveAndPoint.push_back(f);
         }
         else{
@@ -1647,7 +1754,11 @@ void Black_knight::step_1_machine(int *datas, const int &row, const int &column,
                 std::vector<int> f;
                 f.push_back(row+1);
                 f.push_back(column+2);
-                f.push_back(10);
+                if(check.check_check(datas,row+1,column+2,-4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row+1,column+2);
+                f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
         }
@@ -1659,12 +1770,17 @@ void Black_knight::step_1_machine(int *datas, const int &row, const int &column,
 
 void Black_knight::step_2_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row-1)>=0 && (column+2)<8){
         if(*(datas+(row-1)*8+column+2)==0){
             std::vector<int> f;
             f.push_back(row-1);
             f.push_back(column+2);
-            f.push_back(0);
+            if(check.check_check(datas,row-1,column+2,-4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
             MoveAndPoint.push_back(f);
         }
         else{
@@ -1672,7 +1788,11 @@ void Black_knight::step_2_machine(int *datas, const int &row, const int &column,
                 std::vector<int> f;
                 f.push_back(row-1);
                 f.push_back(column+2);
-                f.push_back(10);
+                if(check.check_check(datas,row-1,column+2,-4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row-1,column+2);
+                f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
         }
@@ -1683,12 +1803,17 @@ void Black_knight::step_2_machine(int *datas, const int &row, const int &column,
 
 void Black_knight::step_3_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row+1)<8 && (column-2)>=0){
         if(*(datas+(row+1)*8+column-2)==0){
             std::vector<int> f;
             f.push_back(row+1);
             f.push_back(column-2);
-            f.push_back(0);
+            if(check.check_check(datas,row+1,column-2,-4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
             MoveAndPoint.push_back(f);
         }
         else{
@@ -1696,7 +1821,11 @@ void Black_knight::step_3_machine(int *datas, const int &row, const int &column,
                 std::vector<int> f;
                 f.push_back(row+1);
                 f.push_back(column-2);
-                f.push_back(10);
+                if(check.check_check(datas,row+1,column-2,-4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row+1,column-2);
+                f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
         }
@@ -1708,12 +1837,17 @@ void Black_knight::step_3_machine(int *datas, const int &row, const int &column,
 
 void Black_knight::step_4_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row-1)>=0 && (column-2)>=0){
         if(*(datas+(row-1)*8+column-2)==0){
             std::vector<int> f;
             f.push_back(row-1);
             f.push_back(column-2);
-            f.push_back(0);
+            if(check.check_check(datas,row-1,column-2,-4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
             MoveAndPoint.push_back(f);
         }
         else{
@@ -1721,7 +1855,11 @@ void Black_knight::step_4_machine(int *datas, const int &row, const int &column,
                 std::vector<int> f;
                 f.push_back(row-1);
                 f.push_back(column-2);
-                f.push_back(10);
+                if(check.check_check(datas,row-1,column-2,-4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row-1,column-2);
+                f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
         }
@@ -1731,12 +1869,17 @@ void Black_knight::step_4_machine(int *datas, const int &row, const int &column,
 
 void Black_knight::step_5_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row+2)<8 && (column+1)<8){
         if(*(datas+(row+2)*8+column+1)==0){
             std::vector<int> f;
             f.push_back(row+2);
             f.push_back(column+1);
-            f.push_back(0);
+            if(check.check_check(datas,row+2,column+1,-4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
             MoveAndPoint.push_back(f);
         }
         else{
@@ -1744,7 +1887,11 @@ void Black_knight::step_5_machine(int *datas, const int &row, const int &column,
                 std::vector<int> f;
                 f.push_back(row+2);
                 f.push_back(column+1);
-                f.push_back(10);
+                if(check.check_check(datas,row+2,column+1,-4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row+2,column+1);
+                f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
         }
@@ -1754,12 +1901,17 @@ void Black_knight::step_5_machine(int *datas, const int &row, const int &column,
 
 void Black_knight::step_6_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row-2)>=0 && (column+1)<8){
         if(*(datas+(row-2)*8+column+1)==0){
             std::vector<int> f;
             f.push_back(row-2);
             f.push_back(column+1);
-            f.push_back(0);
+            if(check.check_check(datas,row-2,column+1,-4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
             MoveAndPoint.push_back(f);
         }
         else{
@@ -1767,7 +1919,11 @@ void Black_knight::step_6_machine(int *datas, const int &row, const int &column,
                 std::vector<int> f;
                 f.push_back(row-2);
                 f.push_back(column+1);
-                f.push_back(10);
+                if(check.check_check(datas,row-2,column+1,-4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row-2,column+1);
+                f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
         }
@@ -1778,12 +1934,17 @@ void Black_knight::step_6_machine(int *datas, const int &row, const int &column,
 
 void Black_knight::step_7_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row+2)<8 && (column-1)>=0){
         if(*(datas+(row+2)*8+column-1)==0){
             std::vector<int> f;
             f.push_back(row+2);
             f.push_back(column-1);
-            f.push_back(0);
+            if(check.check_check(datas,row+2,column-1,-4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
             MoveAndPoint.push_back(f);
         }
         else{
@@ -1791,7 +1952,11 @@ void Black_knight::step_7_machine(int *datas, const int &row, const int &column,
                 std::vector<int> f;
                 f.push_back(row+2);
                 f.push_back(column-1);
-                f.push_back(10);
+                if(check.check_check(datas,row+2,column-1,-4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row+2,column-1);
+                f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
         }
@@ -1802,12 +1967,17 @@ void Black_knight::step_7_machine(int *datas, const int &row, const int &column,
 
 void Black_knight::step_8_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     if((row-2)>=0 && (column-1)>=0){
         if(*(datas+(row-2)*8+column-1)==0){
             std::vector<int> f;
             f.push_back(row-2);
             f.push_back(column-1);
-            f.push_back(0);
+            if(check.check_check(datas,row-2,column-1,-4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
             MoveAndPoint.push_back(f);
         }
         else{
@@ -1815,7 +1985,11 @@ void Black_knight::step_8_machine(int *datas, const int &row, const int &column,
                 std::vector<int> f;
                 f.push_back(row-2);
                 f.push_back(column-1);
-                f.push_back(10);
+                if(check.check_check(datas,row-2,column-1,-4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row-2,column-1);
+                f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
         }

@@ -1301,6 +1301,8 @@ bool Black_pawn::get_draw_CanMove(int *datas)
 
 void Black_pawn::step_left_up_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row-1,j=column-1;i>=0 && j>=0;i--,j--){
         if(*(datas+i*8+i)<0){
             break;
@@ -1311,12 +1313,19 @@ void Black_pawn::step_left_up_machine(int *datas, const int &row, const int &col
             v.push_back(j);
 
             if(*(datas+i*8+j)==0){
-                v.push_back(0);
+                if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                    point+=100;
+                }
+                v.push_back(point);
                 MoveAndPoint.push_back(v);
             }
             else{
                 if(*(datas+i*8+j)>0){
-                    v.push_back(10);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    point+=check.occupying_an_white_piece(datas,i,j);
+                    v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
                 break;
@@ -1329,6 +1338,8 @@ void Black_pawn::step_left_up_machine(int *datas, const int &row, const int &col
 
 void Black_pawn::step_left_down_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row+1,j=column-1;i<8 && j>=0;i++,j--){
         if(*(datas+i*8+i)<0){
             break;
@@ -1339,12 +1350,19 @@ void Black_pawn::step_left_down_machine(int *datas, const int &row, const int &c
             v.push_back(j);
 
             if(*(datas+i*8+j)==0){
-                v.push_back(0);
+                if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                    point+=100;
+                }
+                v.push_back(point);
                 MoveAndPoint.push_back(v);
             }
             else{
                 if(*(datas+i*8+j)>0){
-                    v.push_back(10);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    point+=check.occupying_an_white_piece(datas,i,j);
+                    v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
                 break;
@@ -1357,6 +1375,8 @@ void Black_pawn::step_left_down_machine(int *datas, const int &row, const int &c
 
 void Black_pawn::step_right_up_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row-1,j=column+1;i>=0 && j<8;i--,j++){
         if(*(datas+i*8+i)<0){
             break;
@@ -1367,12 +1387,19 @@ void Black_pawn::step_right_up_machine(int *datas, const int &row, const int &co
             v.push_back(j);
 
             if(*(datas+i*8+j)==0){
-                v.push_back(0);
+                if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                    point+=100;
+                }
+                v.push_back(point);
                 MoveAndPoint.push_back(v);
             }
             else{
                 if(*(datas+i*8+j)>0){
-                    v.push_back(10);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    point+=check.occupying_an_white_piece(datas,i,j);
+                    v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
                 break;
@@ -1385,6 +1412,8 @@ void Black_pawn::step_right_up_machine(int *datas, const int &row, const int &co
 
 void Black_pawn::step_right_down_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row+1,j=column+1;i<8 && j<8;i++,j++){
         if(*(datas+i*8+i)<0){
             break;
@@ -1395,12 +1424,19 @@ void Black_pawn::step_right_down_machine(int *datas, const int &row, const int &
             v.push_back(j);
 
             if(*(datas+i*8+j)==0){
-                v.push_back(0);
+                if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                    point+=100;
+                }
+                v.push_back(point);
                 MoveAndPoint.push_back(v);
             }
             else{
                 if(*(datas+i*8+j)>0){
-                    v.push_back(10);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    point+=check.occupying_an_white_piece(datas,i,j);
+                    v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
                 break;
@@ -1448,6 +1484,8 @@ void Black_pawn::step_machine(int *datas, const int &row, const int &column,std:
 
 void Black_pawn::column_up_right_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row-1,j=column+1; j<=king_column && i>=0 ;i--,j++){
         if(j!=king_column){
             if(*(datas+i*i+j)!=0){
@@ -1461,11 +1499,18 @@ void Black_pawn::column_up_right_check_step_machine(int *datas,const int &row, c
                 v.push_back(j);
 
                 if(*(datas+i*8+j)==0){
-                    v.push_back(0);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    v.push_back(point);
                 }
                 else{
                     if(*(datas+i*8+j)>0){
-                        v.push_back(10);
+                        if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,i,j);
+                        v.push_back(point);
                     }
                 }
 
@@ -1479,6 +1524,8 @@ void Black_pawn::column_up_right_check_step_machine(int *datas,const int &row, c
 
 void Black_pawn::column_down_right_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row+1,j=column+1;j<=king_column && i<8;i++,j++){
         if(j!=king_column){
             if(*(datas+i*i+j)!=0){
@@ -1492,11 +1539,18 @@ void Black_pawn::column_down_right_check_step_machine(int *datas,const int &row,
                 v.push_back(j);
 
                 if(*(datas+i*8+j)==0){
-                    v.push_back(0);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    v.push_back(point);
                 }
                 else{
                     if(*(datas+i*8+j)>0){
-                        v.push_back(10);
+                        if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,i,j);
+                        v.push_back(point);
                     }
                 }
 
@@ -1512,6 +1566,8 @@ void Black_pawn::column_down_right_check_step_machine(int *datas,const int &row,
 
 void Black_pawn::column_up_left_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row-1,j=column-1; j>=king_column && i>=0 ;i--,j--){
         if(j!=king_column){
             if(*(datas+i*i+j)!=0){
@@ -1525,11 +1581,18 @@ void Black_pawn::column_up_left_check_step_machine(int *datas,const int &row, co
                 v.push_back(j);
 
                 if(*(datas+i*8+j)==0){
-                    v.push_back(0);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    v.push_back(point);
                 }
                 else{
                     if(*(datas+i*8+j)>0){
-                        v.push_back(10);
+                        if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,i,j);
+                        v.push_back(point);
                     }
                 }
 
@@ -1543,6 +1606,8 @@ void Black_pawn::column_up_left_check_step_machine(int *datas,const int &row, co
 
 void Black_pawn::column_down_left_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row+1,j=column-1;j>=king_column && i<8;i++,j--){
         if(j!=king_column){
             if(*(datas+i*i+j)!=0){
@@ -1556,11 +1621,18 @@ void Black_pawn::column_down_left_check_step_machine(int *datas,const int &row, 
                 v.push_back(j);
 
                 if(*(datas+i*8+j)==0){
-                    v.push_back(0);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    v.push_back(point);
                 }
                 else{
                     if(*(datas+i*8+j)>0){
-                        v.push_back(10);
+                        if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,i,j);
+                        v.push_back(point);
                     }
                 }
 
@@ -1600,6 +1672,8 @@ void Black_pawn::column_equal_check_step_machine(int *datas,const int &row, cons
 
 void Black_pawn::row_up_right_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row-1,j=column+1; j<8 && i>=king_row ;i--,j++){
         if(i!=king_row){
             if(*(datas+i*i+j)!=0){
@@ -1613,11 +1687,18 @@ void Black_pawn::row_up_right_check_step_machine(int *datas,const int &row, cons
                 v.push_back(j);
 
                 if(*(datas+i*8+j)==0){
-                    v.push_back(0);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    v.push_back(point);
                 }
                 else{
                     if(*(datas+i*8+j)>0){
-                        v.push_back(10);
+                        if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,i,j);
+                        v.push_back(point);
                     }
                 }
 
@@ -1631,6 +1712,8 @@ void Black_pawn::row_up_right_check_step_machine(int *datas,const int &row, cons
 
 void Black_pawn::row_down_right_check_step_machine(int *datas, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row+1,j=column+1;j<8 && i<=king_row;i++,j++){
         if(i!=king_row){
             if(*(datas+i*i+j)!=0){
@@ -1644,11 +1727,18 @@ void Black_pawn::row_down_right_check_step_machine(int *datas, const int &row, c
                 v.push_back(j);
 
                 if(*(datas+i*8+j)==0){
-                    v.push_back(0);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    v.push_back(point);
                 }
                 else{
                     if(*(datas+i*8+j)>0){
-                        v.push_back(10);
+                        if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,i,j);
+                        v.push_back(point);
                     }
                 }
 
@@ -1664,6 +1754,8 @@ void Black_pawn::row_down_right_check_step_machine(int *datas, const int &row, c
 
 void Black_pawn::row_up_left_check_step_machine(int *datas, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row-1,j=column-1; j>=0 && i>=king_row ;i--,j--){
         if(i!=king_row){
             if(*(datas+i*i+j)!=0){
@@ -1677,11 +1769,18 @@ void Black_pawn::row_up_left_check_step_machine(int *datas, const int &row, cons
                 v.push_back(j);
 
                 if(*(datas+i*8+j)==0){
-                    v.push_back(0);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    v.push_back(point);
                 }
                 else{
                     if(*(datas+i*8+j)>0){
-                        v.push_back(10);
+                        if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,i,j);
+                        v.push_back(point);
                     }
                 }
 
@@ -1695,6 +1794,8 @@ void Black_pawn::row_up_left_check_step_machine(int *datas, const int &row, cons
 
 void Black_pawn::row_down_left_check_step_machine(int *datas, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row+1,j=column-1;j>=0 && i<=king_row;i++,j--){
         if(i!=king_row){
             if(*(datas+i*i+j)!=0){
@@ -1708,11 +1809,18 @@ void Black_pawn::row_down_left_check_step_machine(int *datas, const int &row, co
                 v.push_back(j);
 
                 if(*(datas+i*8+j)==0){
-                    v.push_back(0);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    v.push_back(point);
                 }
                 else{
                     if(*(datas+i*8+j)>0){
-                        v.push_back(10);
+                        if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,i,j);
+                        v.push_back(point);
                     }
                 }
 
@@ -1751,6 +1859,8 @@ void Black_pawn::row_equal_check_step_machine(int *datas, const int &row, const 
 
 void Black_pawn::helper_down_left_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row+1,j=column-1;i<=x && j>=y;i++,j--){
         if(i==x && j==y){
             std::vector<int> v;
@@ -1758,11 +1868,18 @@ void Black_pawn::helper_down_left_check_step_machine(int *datas,const int &row, 
             v.push_back(j);
 
             if(*(datas+i*8+j)==0){
-                v.push_back(0);
+                if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                    point+=100;
+                }
+                v.push_back(point);
             }
             else{
                 if(*(datas+i*8+j)>0){
-                    v.push_back(10);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    point+=check.occupying_an_white_piece(datas,i,j);
+                    v.push_back(point);
                 }
             }
 
@@ -1805,6 +1922,8 @@ void Black_pawn::down_left_check_step_machine(int *datas,const int &row, const i
 
 void Black_pawn::helper_down_right_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row+1,j=column+1;i<=x && j<=y;i++,j++){
         if(i==x && j==y){
             std::vector<int> v;
@@ -1812,11 +1931,18 @@ void Black_pawn::helper_down_right_check_step_machine(int *datas,const int &row,
             v.push_back(j);
 
             if(*(datas+i*8+j)==0){
-                v.push_back(0);
+                if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                    point+=100;
+                }
+                v.push_back(point);
             }
             else{
                 if(*(datas+i*8+j)>0){
-                    v.push_back(10);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    point+=check.occupying_an_white_piece(datas,i,j);
+                    v.push_back(point);
                 }
             }
 
@@ -1857,6 +1983,8 @@ void Black_pawn::down_right_check_step_machine(int *datas,const int &row, const 
 
 void Black_pawn::helper_up_right_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row-1,j=column+1;i>=x && j<=y;i--,j++){
         if(i==x && j==y){
             std::vector<int> v;
@@ -1864,11 +1992,18 @@ void Black_pawn::helper_up_right_check_step_machine(int *datas,const int &row, c
             v.push_back(j);
 
             if(*(datas+i*8+j)==0){
-                v.push_back(0);
+                if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                    point+=100;
+                }
+                v.push_back(point);
             }
             else{
                 if(*(datas+i*8+j)>0){
-                    v.push_back(10);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    point+=check.occupying_an_white_piece(datas,i,j);
+                    v.push_back(point);
                 }
             }
 
@@ -1912,6 +2047,8 @@ void Black_pawn::up_right_check_step_machine(int *datas,const int &row, const in
 
 void Black_pawn::helper_up_left_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint)
 {
+    Check check;
+    int point=0;
     for(int i=row-1,j=column-1;i>=x && j>=y;i--,j--){
         if(i==x && j==y){
             std::vector<int> v;
@@ -1919,11 +2056,18 @@ void Black_pawn::helper_up_left_check_step_machine(int *datas,const int &row, co
             v.push_back(j);
 
             if(*(datas+i*8+j)==0){
-                v.push_back(0);
+                if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                    point+=100;
+                }
+                v.push_back(point);
             }
             else{
                 if(*(datas+i*8+j)>0){
-                    v.push_back(10);
+                    if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
+                        point+=100;
+                    }
+                    point+=check.occupying_an_white_piece(datas,i,j);
+                    v.push_back(point);
                 }
             }
 

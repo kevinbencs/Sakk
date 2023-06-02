@@ -92,6 +92,7 @@ private:
     void step_6_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
     void step_7_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
     void step_8_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint);
+    //int check_point_machine(int *datas, const int &row, const int &column, const int &OldRow, const int &OldColumn);
 
 };
 

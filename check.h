@@ -59,6 +59,9 @@ public:
     bool step_black_knight_check(int *datas,const int &row, const int &column);
 
     void green_cell_disappear(Ui::Game* ui);
+    bool check_check(int *datas, const int &row, const int &column, const int &piece, const int &OldRow, const int &OldColumn);
+    void look_for_the_kings(int *datas, const int &BlackOrWhite, int &king_row, int &king_column);
+    int occupying_an_white_piece(int *datas, const int &row, const int &column);
 
 };
 

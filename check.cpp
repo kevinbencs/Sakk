@@ -57,9 +57,6 @@ bool Check::king_check(int *datas,const int &BlackOrWhite,const int &row, const 
         if(!black_king.there_is_no_white_queen_and_rook(datas,row,column,AttackerRow,AttackerColumn)){
             return true;
         }
-
-
-
     }
     return false;
 }
@@ -97,7 +94,6 @@ bool Check::white_king_left_check(int* datas,const int &row, const int &column)
                 return false;
             }
         }
-
     }
     return false;
 }
@@ -943,6 +939,92 @@ bool Check::step_black_knight_check(int *datas, const int &row, const int &colum
 }
 
 
+
+void Check::look_for_the_kings(int *datas, const int &BlackOrWhite, int &king_row, int &king_column)
+{
+    if(BlackOrWhite==1){
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(*(datas+i*8+j)==10){
+                    king_row=i;
+                    king_column=j;
+                }
+            }
+        }
+    }
+    else{
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(*(datas+i*8+j)==-10){
+                    king_row=i;
+                    king_column=j;
+                }
+            }
+        }
+    }
+}
+
+
+bool Check::check_check(int *datas, const int &row, const int &column, const int &piece,const int &OldRow, const int &OldColumn)
+{
+    bool check=false;
+    int *datas1=new int[64];
+    int BlackOrWhite=1,king_row,king_column,AttackerRow,AttackerColumn,KnightAndBishop;
+    int z;
+
+
+
+    for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
+            *(datas1+i*8+j)=*(datas+i*8+j);
+        }
+    }
+
+    *(datas1+OldRow*8+OldColumn)=0;
+    *(datas1+row*8+column)=piece;
+    z=*(datas1+row*8+column);
+
+    look_for_the_kings(datas1, BlackOrWhite, king_row,king_column);
+
+    if(king_check(datas1,BlackOrWhite,king_row,king_column,AttackerRow,AttackerColumn,KnightAndBishop)){
+        check=true;
+    }
+
+    delete [] datas1;
+
+    return check;
+}
+
+
+
+
+
+
+
+int Check::occupying_an_white_piece(int *datas, const int &row, const int &column)
+{
+    int point;
+
+    switch (*(datas+8*row+column)){
+    case 1:
+        point=10;
+        break;
+    case 3:
+        point=30;
+        break;
+    case 4:
+        point=30;
+        break;
+    case 5:
+        point=50;
+        break;
+    case 8:
+        point=80;
+        break;
+    }
+
+    return point;
+}
 
 
 
