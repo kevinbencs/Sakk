@@ -969,9 +969,14 @@ bool Check::check_check(int *datas, const int &row, const int &column, const int
 {
     bool check=false;
     int *datas1=new int[64];
-    int BlackOrWhite=1,king_row,king_column,AttackerRow,AttackerColumn,KnightAndBishop;
-    int z;
+    int BlackOrWhite,king_row,king_column,AttackerRow,AttackerColumn,KnightAndBishop;
 
+    if(piece<0){
+        BlackOrWhite=1;
+    }
+    else{
+        BlackOrWhite=-1;
+    }
 
 
     for(int i=0;i<8;i++){
@@ -982,7 +987,6 @@ bool Check::check_check(int *datas, const int &row, const int &column, const int
 
     *(datas1+OldRow*8+OldColumn)=0;
     *(datas1+row*8+column)=piece;
-    z=*(datas1+row*8+column);
 
     look_for_the_kings(datas1, BlackOrWhite, king_row,king_column);
 

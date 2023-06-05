@@ -674,12 +674,28 @@ void Black_bishop::step_down_left_machine(int* datas, const int &row, const int 
 
 
 
+void Black_bishop::step_machine(int* datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(check.step_black_up_and_down_check(datas,row,column)){
+        step_down_machine(datas, row, column, MoveAndPoint);
+    }
+    if(check.step_black_left_up_and_right_down_check(datas,row,column)){
+        step_down_left_machine(datas, row, column,MoveAndPoint);
+    }
+    if(check.step_black_right_up_and_left_down_check(datas,row,column)){
+        step_down_right_machine(datas, row,column,MoveAndPoint);
+    }
+}
+
 
 
 
 void Black_bishop::check_step_move_machine(int* datas, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow, std::vector<std::vector<int>> &MoveAndPoint)
 {
     Check check;
+
     int point=0;
     if(check.step_black_left_up_and_right_down_check(datas,row,column)){
         if(AttackerRow==row+1 && AttackerColumn==column-1 && *(datas+(row+1)*8+column-1)>0){

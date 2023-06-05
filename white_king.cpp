@@ -1007,3 +1007,261 @@ bool White_king::get_CanMove(int *datas)
     return CanMove;
 }
 
+
+
+
+void White_king::step_1_machine(int *datas, const int &row, const int &column,  std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if((row+1)<8 && there_is_no_black_bishop(datas,row+1,column) && there_is_no_black_knight(datas,row+1,column) && there_is_no_black_queen_and_rook(datas,row+1,column) && there_is_no_black_queen_and_pawn(datas,row+1,column) && there_is_no_black_king(datas,row+1,column)){
+        if(*(datas+(row+1)*8+column)==0){
+            std::vector<int> f;
+            f.push_back(row+1);
+            f.push_back(column);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row+1)*8+column)<0){
+                std::vector<int> f;
+                f.push_back(row+1);
+                f.push_back(column);
+                f.push_back(10);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+void White_king::step_2_machine(int *datas, const int &row, const int &column,  std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if((column+1)<8 && there_is_no_black_bishop(datas,row,column+1) && there_is_no_black_knight(datas,row,column+1) && there_is_no_black_queen_and_rook(datas,row,column+1) && there_is_no_black_queen_and_pawn(datas,row,column+1) && there_is_no_black_king(datas,row,column+1)){
+        if(*(datas+row*8+column+1)==0){
+            std::vector<int> f;
+            f.push_back(row);
+            f.push_back(column+1);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+row*8+column+1)<0){
+                std::vector<int> f;
+                f.push_back(row);
+                f.push_back(column+1);
+                f.push_back(10);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+void White_king::step_3_machine(int *datas, const int &row, const int &column,  std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if((row-1)>=0 && there_is_no_black_bishop(datas,row-1,column) && there_is_no_black_knight(datas,row-1,column) && there_is_no_black_queen_and_rook(datas,row-1,column) && there_is_no_black_queen_and_pawn(datas,row-1,column) && there_is_no_black_king(datas,row-1,column)){
+        if(*(datas+(row-1)*8+column)==0){
+            std::vector<int> f;
+            f.push_back(row-1);
+            f.push_back(column);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row-1)*8+column)<0){
+                std::vector<int> f;
+                f.push_back(row-1);
+                f.push_back(column);
+                f.push_back(10);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+void White_king::step_4_machine(int *datas, const int &row, const int &column,  std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if((column-1)>=0 && there_is_no_black_bishop(datas,row,column-1) && there_is_no_black_knight(datas,row,column-1) && there_is_no_black_queen_and_rook(datas,row,column-1) && there_is_no_black_queen_and_pawn(datas,row,column-1) && there_is_no_black_king(datas,row,column-1)){
+        if(*(datas+row*8+column-1)==0){
+            std::vector<int> f;
+            f.push_back(row);
+            f.push_back(column-1);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+row*8+column-1)<0){
+                std::vector<int> f;
+                f.push_back(row);
+                f.push_back(column-1);
+                f.push_back(10);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+
+void White_king::step_5_machine(int *datas, const int &row, const int &column,  std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if((row+1)<8 && (column+1)<8 && there_is_no_black_bishop(datas,row+1,column+1) && there_is_no_black_knight(datas,row+1,column+1) && there_is_no_black_queen_and_rook(datas,row+1,column+1) && there_is_no_black_queen_and_pawn(datas,row+1,column+1) && there_is_no_black_king(datas,row+1,column+1)){
+        if(*(datas+(row+1)*8+column+1)==0){
+            std::vector<int> f;
+            f.push_back(row+1);
+            f.push_back(column+1);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row+1)*8+column+1)<0){
+                std::vector<int> f;
+                f.push_back(row+1);
+                f.push_back(column+1);
+                f.push_back(10);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+
+
+void White_king::step_6_machine(int *datas, const int &row, const int &column,  std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if((row-1)>=0 && (column+1)<8 && there_is_no_black_bishop(datas,row-1,column+1) && there_is_no_black_knight(datas,row-1,column+1) && there_is_no_black_queen_and_rook(datas,row-1,column+1) && there_is_no_black_queen_and_pawn(datas,row-1,column+1) && there_is_no_black_king(datas,row-1,column+1)){
+        if(*(datas+(row-1)*8+column+1)==0){
+            std::vector<int> f;
+            f.push_back(row-1);
+            f.push_back(column+1);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row-1)*8+column+1)<0){
+                std::vector<int> f;
+                f.push_back(row-1);
+                f.push_back(column+1);
+                f.push_back(10);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+
+
+void White_king::step_7_machine(int *datas, const int &row, const int &column,  std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if((row+1)<8 && (column-1)>=0 && there_is_no_black_bishop(datas,row+1,column-1) && there_is_no_black_knight(datas,row+1,column-1) && there_is_no_black_queen_and_rook(datas,row+1,column-1) && there_is_no_black_queen_and_pawn(datas,row+1,column-1) && there_is_no_black_king(datas,row+1,column-1)){
+        if(*(datas+(row+1)*8+column-1)==0){
+            std::vector<int> f;
+            f.push_back(row+1);
+            f.push_back(column-1);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row+1)*8+column-1)<0){
+                std::vector<int> f;
+                f.push_back(row+1);
+                f.push_back(column-1);
+                f.push_back(10);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+void White_king::step_8_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if((row-1)>=0 && (column-1)>=0 && there_is_no_black_bishop(datas,row-1,column-1) && there_is_no_black_knight(datas,row-1,column-1) && there_is_no_black_queen_and_rook(datas,row-1,column-1) && there_is_no_black_queen_and_pawn(datas,row-1,column-1) && there_is_no_black_king(datas,row-1,column-1)){
+        if(*(datas+(row-1)*8+column-1)==0){
+            std::vector<int> f;
+            f.push_back(row-1);
+            f.push_back(column-1);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row-1)*8+column-1)<0){
+                std::vector<int> f;
+                f.push_back(row-1);
+                f.push_back(column-1);
+                f.push_back(10);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+void White_king::step_castling_right_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if(row==0 && there_is_no_black_bishop(datas,row,column+2) && there_is_no_black_knight(datas,row,column+2) && there_is_no_black_queen_and_rook(datas,row,column+2) && there_is_no_black_queen_and_pawn(datas,row,column+2) && there_is_no_black_king(datas,row,column+2)){
+        if(*(datas+row*8+column+1)==0 && *(datas+row*8+column+2)==0 && *(datas+row*8+column+3)==-5){
+            std::vector<int> f;
+            f.push_back(row);
+            f.push_back(column+2);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+    }
+}
+
+
+
+void White_king::step_castling_left_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
+{
+    if(row==0 && there_is_no_black_bishop(datas,row,column-2) && there_is_no_black_knight(datas,row,column-2) && there_is_no_black_queen_and_rook(datas,row,column-2) && there_is_no_black_queen_and_pawn(datas,row,column-2) && there_is_no_black_king(datas,row,column-2)){
+        if(*(datas+row*8+column-1)==0 && *(datas+row*8+column-2)==0 && *(datas+row*8+column-3)==0 && *(datas+row*8+column-4)==-5){
+            std::vector<int> f;
+            f.push_back(row);
+            f.push_back(column-2);
+            f.push_back(0);
+            MoveAndPoint.push_back(f);
+        }
+    }
+}
+
+
+
+
+
+void White_king::step_machine(int *datas,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    int row, column;
+
+    for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
+            if(*(datas+i*8+j)==10){
+                row=i;
+                column=j;
+
+                step_1_machine(datas, row, column, MoveAndPoint);
+                step_2_machine(datas, row, column, MoveAndPoint);
+                step_3_machine(datas, row, column, MoveAndPoint);
+                step_4_machine(datas, row, column, MoveAndPoint);
+                step_5_machine(datas, row, column, MoveAndPoint);
+                step_6_machine(datas, row, column, MoveAndPoint);
+                step_7_machine(datas, row, column, MoveAndPoint);
+                step_8_machine(datas, row, column, MoveAndPoint);
+                step_castling_left_machine(datas,row, column, MoveAndPoint);
+                step_castling_right_machine(datas,row, column, MoveAndPoint);
+            }
+        }
+    }
+}
+
+
+
+

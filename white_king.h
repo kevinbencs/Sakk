@@ -24,7 +24,7 @@ public:
     bool there_is_no_black_queen_and_pawn(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
 
     bool get_CanMove(int *datas);
-
+    void step_machine(int *datas,std::vector<std::vector<int>> &MoveAndPoint);
 private:
     void step_1(Ui::Game *ui, const int &row, const int &column,int *datas);
     void step_2(Ui::Game *ui, const int &row, const int &column,int *datas);
@@ -60,6 +60,16 @@ private:
     bool there_is_no_black_queen_and_pawn(int *datas,const int &row, const int &column);
     bool there_is_no_black_king(int *datas,const int &row, const int &column);
 
+    void step_1_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_2_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_3_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_4_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_5_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_6_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_7_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_8_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_castling_left_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_castling_right_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
 };
 
 #endif // WHITE_KING_H

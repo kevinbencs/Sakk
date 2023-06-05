@@ -84,7 +84,7 @@ void White_or_black::on_pushButton_clicked()
     hide();
     int WhiteOrBlack=1;
     game.show();
-    game.exec()
+    game.exec();
 }
 
 //black
@@ -94,7 +94,7 @@ void White_or_black::on_pushButton_2_clicked()
     hide();
     int WhiteOrBlack=1;
     game.show();
-    game.exec()
+    game.exec();
 }
 
 
@@ -105,6 +105,6 @@ void White_or_black::on_pushButton_3_clicked()
     srand(time(0));
     int WhiteOrBlack=rand()%2;
     game.show();
-    game.exec()
+    game.exec();
 }
 

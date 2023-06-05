@@ -15,6 +15,9 @@ public:
     bool get_checkmate_CanMove(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
     bool get_draw_CanMove(int *datas);
 
+    void step_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<int>> &MoveAndPoint, const int &row, const int &column);
+
 };
 
 #endif // WHITE_QUEEN_H

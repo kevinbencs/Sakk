@@ -124,9 +124,7 @@ void Black_machine::make_v(int *datas, int row ,int column)
 
     switch (*(datas+row*8+column)){
     case -1:
-        black_bishop.step_down_left_machine(datas,row,column,MoveAndPoint);
-        black_bishop.step_down_machine(datas,row,column,MoveAndPoint);
-        black_bishop.step_down_right_machine(datas,row,column,MoveAndPoint);
+        black_bishop.step_machine(datas,row,column,MoveAndPoint);
 
         break;
     case -10:
@@ -222,6 +220,36 @@ void Black_machine::max_point_move_search()
 
 
 
+
+
+void Black_machine::minimum_point(int *datas)
+{
+    White_machine machine;
+    int *datas1=new int[64];
+    int z;
+
+    for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
+            *(datas1+i*8+j)=*(datas+i*8+j);
+        }
+    }
+
+    for(int i=0;i<v.size();i++){
+        for(int j=1;j<v[i].size();j++){
+            *(datas1+v[i][j][0]*8+v[i][j][1])=*(datas1+v[i][0][0]*8+v[i][0][1]);
+            *(datas1+v[i][0][0]*8+v[i][0][1])=0;
+            z=machine.get_max_point(datas1);
+            v[i][j][2]-=z;
+            *(datas1+v[i][0][0]*8+v[i][0][1])=*(datas1+v[i][j][0]*8+v[i][j][1]);
+            *(datas1+v[i][j][0]*8+v[i][j][1])=0;
+        }
+    }
+
+    delete [] datas1;
+}
+
+
+
 void Black_machine::step(Ui::Game* ui, int* datas, int &BlackOrWhite)
 {
     Check check;
@@ -233,7 +261,7 @@ void Black_machine::step(Ui::Game* ui, int* datas, int &BlackOrWhite)
             make_v(datas,i,j);
         }
     }
-
+    minimum_point(datas);
     max_point_move_search();
 
     moving=rand()%v1.size();
@@ -327,6 +355,8 @@ void Black_machine::make_v_check(int *datas, const int &AttackerRow,const int &A
 
 
 
+
+
 void Black_machine::step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop)
 {
     Check check;
@@ -338,7 +368,7 @@ void Black_machine::step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, cons
             make_v_check(datas, AttackerRow,AttackerColumn, KnightBishop,i,j);
         }
     }
-
+    minimum_point(datas);
     max_point_move_search();
 
     moving=rand()%v1.size();

@@ -1182,3 +1182,799 @@ bool White_knight::get_draw_CanMove(int *datas)
 
 
 
+
+
+void White_knight::step_1_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row+1)<8 && (column+2)<8){
+        for(int i=0;i<v.size();i++){
+            if((row+1)==v[i].first && (column+2)==v[i].second){
+                if(*(datas+(row+1)*8+column+2)==0){
+                    std::vector<int> f;
+                    f.push_back(row+1);
+                    f.push_back(column+2);
+                    if(check.check_check(datas,row+1,column+2,4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
+                    MoveAndPoint.push_back(f);
+                }
+                else{
+                    if(*(datas+(row+1)*8+column+2)<0){
+                        std::vector<int> f;
+                        f.push_back(row+1);
+                        f.push_back(column+2);
+                        if(check.check_check(datas,row+1,column+2,4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row+1,column+2);
+                        f.push_back(point);
+                        MoveAndPoint.push_back(f);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+void White_knight::step_2_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row-1)>=0 && (column+2)<8){
+        for(int i=0;i<v.size();i++){
+            if((row-1)==v[i].first && (column+2)==v[i].second){
+                if(*(datas+(row-1)*8+column+2)==0){
+                    std::vector<int> f;
+                    f.push_back(row-1);
+                    f.push_back(column+2);
+                    if(check.check_check(datas,row-1,column+2,4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
+                    MoveAndPoint.push_back(f);
+                }
+                else{
+                    if(*(datas+(row-1)*8+column+2)<0){
+                        std::vector<int> f;
+                        f.push_back(row-1);
+                        f.push_back(column+2);
+                        if(check.check_check(datas,row-1,column+2,4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row-1,column+2);
+                        f.push_back(point);
+                        MoveAndPoint.push_back(f);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+void White_knight::step_3_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row+1)<8 && (column-2)>=0){
+        for(int i=0;i<v.size();i++){
+            if((row+1)==v[i].first && (column-2)==v[i].second){
+                if(*(datas+(row+1)*8+column-2)==0){
+                    std::vector<int> f;
+                    f.push_back(row+1);
+                    f.push_back(column-2);
+                    if(check.check_check(datas,row-1,column-2,4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
+                    MoveAndPoint.push_back(f);
+                }
+                else{
+                    if(*(datas+(row+1)*8+column-2)<0){
+                        std::vector<int> f;
+                        f.push_back(row+1);
+                        f.push_back(column-2);
+                        if(check.check_check(datas,row-1,column-2,4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row+1,column-2);
+                        f.push_back(point);
+                        MoveAndPoint.push_back(f);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+void White_knight::step_4_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row-1)>=0 && (column-2)>=0){
+        for(int i=0;i<v.size();i++){
+            if((row-1)==v[i].first && (column-2)==v[i].second){
+                if(*(datas+(row-1)*8+column-2)==0){
+                    std::vector<int> f;
+                    f.push_back(row-1);
+                    f.push_back(column-2);
+                    if(check.check_check(datas,row-1,column-2,4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
+                    MoveAndPoint.push_back(f);
+                }
+                else{
+                    if(*(datas+(row-1)*8+column-2)<0){
+                        std::vector<int> f;
+                        f.push_back(row-1);
+                        f.push_back(column-2);
+                        point+=check.occupying_an_white_piece(datas,row-1,column-2);
+                        if(check.check_check(datas,row-1,column-2,4,row,column)){
+                            point+=100;
+                        }
+                        f.push_back(point);
+                        MoveAndPoint.push_back(f);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+void White_knight::step_5_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row+2)<8 && (column+1)<8){
+        for(int i=0;i<v.size();i++){
+            if((row+2)==v[i].first && (column+1)==v[i].second){
+                if(*(datas+(row+2)*8+column+1)==0){
+                    std::vector<int> f;
+                    f.push_back(row+2);
+                    f.push_back(column+1);
+                    if(check.check_check(datas,row+2,column+1,4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
+                    MoveAndPoint.push_back(f);
+                }
+                else{
+                    if(*(datas+(row+2)*8+column+1)<0){
+                        std::vector<int> f;
+                        f.push_back(row+2);
+                        f.push_back(column+1);
+                        if(check.check_check(datas,row+2,column+1,4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row+2,column+1);
+                        f.push_back(point);
+                        MoveAndPoint.push_back(f);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+void White_knight::step_6_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row-2)<8 && (column+1)<8){
+        for(int i=0;i<v.size();i++){
+            if((row-2)==v[i].first && (column+1)==v[i].second){
+                if(*(datas+(row-2)*8+column+1)==0){
+                    std::vector<int> f;
+                    f.push_back(row-2);
+                    f.push_back(column+1);
+                    if(check.check_check(datas,row-2,column+1,4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
+                    MoveAndPoint.push_back(f);
+                }
+                else{
+                    if(*(datas+(row-2)*8+column+1)<0){
+                        std::vector<int> f;
+                        f.push_back(row-2);
+                        f.push_back(column+1);
+                        if(check.check_check(datas,row-2,column+1,4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row-2,column+1);
+                        f.push_back(point);
+                        MoveAndPoint.push_back(f);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+void White_knight::step_7_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row+2)<8 && (column-1)>=0){
+        for(int i=0;i<v.size();i++){
+            if((row+2)==v[i].first && (column-1)==v[i].second){
+                if(*(datas+(row+2)*8+column-1)==0){
+                    std::vector<int> f;
+                    f.push_back(row+2);
+                    f.push_back(column-1);
+                    if(check.check_check(datas,row+2,column-1,4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
+                    MoveAndPoint.push_back(f);
+                }
+                else{
+                    if(*(datas+(row+2)*8+column-1)<0){
+                        std::vector<int> f;
+                        f.push_back(row+2);
+                        f.push_back(column-1);
+                        if(check.check_check(datas,row+2,column-1,4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row+2,column-1);
+                        f.push_back(point);
+                        MoveAndPoint.push_back(f);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+void White_knight::step_8_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row-2)>=0 && (column-1)>=0){
+        for(int i=0;i<v.size();i++){
+            if((row-2)==v[i].first && (column-1)==v[i].second){
+                if(*(datas+(row-2)*8+column-1)==0){
+                    std::vector<int> f;
+                    f.push_back(row-2);
+                    f.push_back(column-1);
+                    if(check.check_check(datas,row-2,column-1,4,row,column)){
+                        point+=100;
+                    }
+                    f.push_back(point);
+                    MoveAndPoint.push_back(f);
+                }
+                else{
+                    if(*(datas+(row-2)*8+column-1)<0){
+                        std::vector<int> f;
+                        f.push_back(row-2);
+                        f.push_back(column-1);
+                        if(check.check_check(datas,row-2,column-1,4,row,column)){
+                            point+=100;
+                        }
+                        point+=check.occupying_an_white_piece(datas,row-2,column-1);
+                        f.push_back(point);
+                        MoveAndPoint.push_back(f);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+void White_knight::column_equal_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+
+    if(king_row>AttackerRow){
+        for(int i=king_row;i>=AttackerRow;i--){
+            v.push_back(std::make_pair(i,king_column));
+        }
+    }
+    else{
+        for(int i=king_row;i<=AttackerRow;i++){
+            v.push_back(std::make_pair(i,king_column));
+        }
+    }
+
+    step_1_check_machine(datas,row,column,v,MoveAndPoint);
+    step_2_check_machine(datas,row,column,v,MoveAndPoint);
+    step_3_check_machine(datas,row,column,v,MoveAndPoint);
+    step_4_check_machine(datas,row,column,v,MoveAndPoint);
+    step_5_check_machine(datas,row,column,v,MoveAndPoint);
+    step_6_check_machine(datas,row,column,v,MoveAndPoint);
+    step_7_check_machine(datas,row,column,v,MoveAndPoint);
+    step_8_check_machine(datas,row,column,v,MoveAndPoint);
+}
+
+
+
+
+void White_knight::row_equal_check_step_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+
+    if(king_column>AttackerColumn){
+        for(int i=king_column;i>=AttackerColumn;i--){
+            v.push_back(std::make_pair(king_row,i));
+        }
+    }
+    else{
+        for(int i=king_column;i<=AttackerColumn;i++){
+            v.push_back(std::make_pair(king_row,i));
+        }
+    }
+
+    step_1_check_machine(datas,row,column,v,MoveAndPoint);
+    step_2_check_machine(datas,row,column,v,MoveAndPoint);
+    step_3_check_machine(datas,row,column,v,MoveAndPoint);
+    step_4_check_machine(datas,row,column,v,MoveAndPoint);
+    step_5_check_machine(datas,row,column,v,MoveAndPoint);
+    step_6_check_machine(datas,row,column,v,MoveAndPoint);
+    step_7_check_machine(datas,row,column,v,MoveAndPoint);
+    step_8_check_machine(datas,row,column,v,MoveAndPoint);
+}
+
+
+
+void White_knight::dialog_right_up_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+
+    for(int i=king_row-1,j=king_column+1;i>=AttackerRow && j<=AttackerColumn;i--,j++){
+        v.push_back(std::make_pair(i,j));
+    }
+
+    step_1_check_machine(datas,row,column,v,MoveAndPoint);
+    step_2_check_machine(datas,row,column,v,MoveAndPoint);
+    step_3_check_machine(datas,row,column,v,MoveAndPoint);
+    step_4_check_machine(datas,row,column,v,MoveAndPoint);
+    step_5_check_machine(datas,row,column,v,MoveAndPoint);
+    step_6_check_machine(datas,row,column,v,MoveAndPoint);
+    step_7_check_machine(datas,row,column,v,MoveAndPoint);
+    step_8_check_machine(datas,row,column,v,MoveAndPoint);
+}
+
+
+void White_knight::dialog_left_down_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+
+    for(int i=king_row+1,j=king_column-1;i<=AttackerRow && j>=AttackerColumn;i++,j--){
+        v.push_back(std::make_pair(i,j));
+    }
+
+    step_1_check_machine(datas,row,column,v,MoveAndPoint);
+    step_2_check_machine(datas,row,column,v,MoveAndPoint);
+    step_3_check_machine(datas,row,column,v,MoveAndPoint);
+    step_4_check_machine(datas,row,column,v,MoveAndPoint);
+    step_5_check_machine(datas,row,column,v,MoveAndPoint);
+    step_6_check_machine(datas,row,column,v,MoveAndPoint);
+    step_7_check_machine(datas,row,column,v,MoveAndPoint);
+    step_8_check_machine(datas,row,column,v,MoveAndPoint);
+}
+
+
+
+
+void White_knight::dialog_right_down_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+
+    for(int i=king_row+1,j=king_column+1;i<=AttackerRow && j<=AttackerColumn;i++,j++){
+        v.push_back(std::make_pair(i,j));
+    }
+
+    step_1_check_machine(datas,row,column,v,MoveAndPoint);
+    step_2_check_machine(datas,row,column,v,MoveAndPoint);
+    step_3_check_machine(datas,row,column,v,MoveAndPoint);
+    step_4_check_machine(datas,row,column,v,MoveAndPoint);
+    step_5_check_machine(datas,row,column,v,MoveAndPoint);
+    step_6_check_machine(datas,row,column,v,MoveAndPoint);
+    step_7_check_machine(datas,row,column,v,MoveAndPoint);
+    step_8_check_machine(datas,row,column,v,MoveAndPoint);
+}
+
+
+
+
+void White_knight::dialog_left_up_machine(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerColumn,const int &AttackerRow,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    std::vector<std::pair<int,int>> v;
+
+    for(int i=king_row-1,j=king_column-1;i>=AttackerRow && j>=AttackerColumn;i--,j--){
+        v.push_back(std::make_pair(i,j));
+    }
+
+    step_1_check_machine(datas,row,column,v,MoveAndPoint);
+    step_2_check_machine(datas,row,column,v,MoveAndPoint);
+    step_3_check_machine(datas,row,column,v,MoveAndPoint);
+    step_4_check_machine(datas,row,column,v,MoveAndPoint);
+    step_5_check_machine(datas,row,column,v,MoveAndPoint);
+    step_6_check_machine(datas,row,column,v,MoveAndPoint);
+    step_7_check_machine(datas,row,column,v,MoveAndPoint);
+    step_8_check_machine(datas,row,column,v,MoveAndPoint);
+}
+
+
+
+
+
+
+
+void White_knight::step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop,std::vector<std::vector<int>> &MoveAndPoint,const int &row,const int &column)
+{
+    Check check;
+    int king_row,king_column;
+    if(KnightBishop==0){
+        for(int f=0;f<8;f++){
+            for(int l=0;l<8;l++){
+                if(*(datas+f*8+l)==-10){
+                    king_column=l;
+                    king_row=f;
+                }
+            }
+        }
+
+        if(check.step_white_knight_check(datas,row,column)){
+            //column
+            if(king_column==AttackerColumn){
+                column_equal_check_step_machine(datas,row, column, king_column, king_row,AttackerRow,MoveAndPoint);
+            }
+
+            //row
+            if(king_row==AttackerRow){
+                row_equal_check_step_machine(datas,row, column, king_column, king_row,AttackerColumn,MoveAndPoint);
+            }
+
+            //dialog
+            if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
+                dialog_left_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+            }
+
+            if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
+                dialog_right_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+            }
+
+            if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
+                dialog_right_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+            }
+
+            if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
+                dialog_left_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
+            }
+        }
+    }
+    else{
+        if(check.step_white_knight_check(datas,row,column)){
+            std::vector<std::pair<int,int>> v;
+            v.push_back(std::make_pair(AttackerRow,AttackerColumn));
+
+            step_1_check_machine(datas,row,column,v,MoveAndPoint);
+            step_2_check_machine(datas,row,column,v,MoveAndPoint);
+            step_3_check_machine(datas,row,column,v,MoveAndPoint);
+            step_4_check_machine(datas,row,column,v,MoveAndPoint);
+            step_5_check_machine(datas,row,column,v,MoveAndPoint);
+            step_6_check_machine(datas,row,column,v,MoveAndPoint);
+            step_7_check_machine(datas,row,column,v,MoveAndPoint);
+            step_8_check_machine(datas,row,column,v,MoveAndPoint);
+        }
+    }
+}
+
+
+
+
+
+
+
+void White_knight::step_1_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row+1)<8 && (column+2)<8){
+        if(*(datas+(row+1)*8+column+2)==0){
+            std::vector<int> f;
+            f.push_back(row+1);
+            f.push_back(column+2);
+            if(check.check_check(datas,row+1,column+2,4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row+1)*8+column+2)<0){
+                std::vector<int> f;
+                f.push_back(row+1);
+                f.push_back(column+2);
+                if(check.check_check(datas,row+1,column+2,4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row+1,column+2);
+                f.push_back(point);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+
+void White_knight::step_2_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row-1)>=0 && (column+2)<8){
+        if(*(datas+(row-1)*8+column+2)==0){
+            std::vector<int> f;
+            f.push_back(row-1);
+            f.push_back(column+2);
+            if(check.check_check(datas,row-1,column+2,4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row-1)*8+column+2)<0){
+                std::vector<int> f;
+                f.push_back(row-1);
+                f.push_back(column+2);
+                if(check.check_check(datas,row-1,column+2,4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row-1,column+2);
+                f.push_back(point);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+void White_knight::step_3_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row+1)<8 && (column-2)>=0){
+        if(*(datas+(row+1)*8+column-2)==0){
+            std::vector<int> f;
+            f.push_back(row+1);
+            f.push_back(column-2);
+            if(check.check_check(datas,row+1,column-2,4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row+1)*8+column-2)<0){
+                std::vector<int> f;
+                f.push_back(row+1);
+                f.push_back(column-2);
+                if(check.check_check(datas,row+1,column-2,4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row+1,column-2);
+                f.push_back(point);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+
+void White_knight::step_4_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row-1)>=0 && (column-2)>=0){
+        if(*(datas+(row-1)*8+column-2)==0){
+            std::vector<int> f;
+            f.push_back(row-1);
+            f.push_back(column-2);
+            if(check.check_check(datas,row-1,column-2,4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row-1)*8+column-2)<0){
+                std::vector<int> f;
+                f.push_back(row-1);
+                f.push_back(column-2);
+                if(check.check_check(datas,row-1,column-2,4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row-1,column-2);
+                f.push_back(point);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+void White_knight::step_5_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row+2)<8 && (column+1)<8){
+        if(*(datas+(row+2)*8+column+1)==0){
+            std::vector<int> f;
+            f.push_back(row+2);
+            f.push_back(column+1);
+            if(check.check_check(datas,row+2,column+1,4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row+2)*8+column+1)<0){
+                std::vector<int> f;
+                f.push_back(row+2);
+                f.push_back(column+1);
+                if(check.check_check(datas,row+2,column+1,4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row+2,column+1);
+                f.push_back(point);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+void White_knight::step_6_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row-2)>=0 && (column+1)<8){
+        if(*(datas+(row-2)*8+column+1)==0){
+            std::vector<int> f;
+            f.push_back(row-2);
+            f.push_back(column+1);
+            if(check.check_check(datas,row-2,column+1,4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row-2)*8+column+1)<0){
+                std::vector<int> f;
+                f.push_back(row-2);
+                f.push_back(column+1);
+                if(check.check_check(datas,row-2,column+1,4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row-2,column+1);
+                f.push_back(point);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+void White_knight::step_7_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row+2)<8 && (column-1)>=0){
+        if(*(datas+(row+2)*8+column-1)==0){
+            std::vector<int> f;
+            f.push_back(row+2);
+            f.push_back(column-1);
+            if(check.check_check(datas,row+2,column-1,4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row+2)*8+column-1)<0){
+                std::vector<int> f;
+                f.push_back(row+2);
+                f.push_back(column-1);
+                if(check.check_check(datas,row+2,column-1,4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row+2,column-1);
+                f.push_back(point);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+void White_knight::step_8_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+    int point=0;
+    if((row-2)>=0 && (column-1)>=0){
+        if(*(datas+(row-2)*8+column-1)==0){
+            std::vector<int> f;
+            f.push_back(row-2);
+            f.push_back(column-1);
+            if(check.check_check(datas,row-2,column-1,4,row,column)){
+                point+=100;
+            }
+            f.push_back(point);
+            MoveAndPoint.push_back(f);
+        }
+        else{
+            if(*(datas+(row-2)*8+column-1)<0){
+                std::vector<int> f;
+                f.push_back(row-2);
+                f.push_back(column-1);
+                if(check.check_check(datas,row-2,column-1,4,row,column)){
+                    point+=100;
+                }
+                point+=check.occupying_an_white_piece(datas,row-2,column-1);
+                f.push_back(point);
+                MoveAndPoint.push_back(f);
+            }
+        }
+    }
+}
+
+
+
+
+
+void White_knight::step_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
+{
+    Check check;
+
+    if(check.step_white_knight_check(datas,row,column)){
+        step_1_machine(datas,row,column,MoveAndPoint);
+        step_2_machine(datas,row,column,MoveAndPoint);
+        step_3_machine(datas,row,column,MoveAndPoint);
+        step_4_machine(datas,row,column,MoveAndPoint);
+        step_5_machine(datas,row,column,MoveAndPoint);
+        step_6_machine(datas,row,column,MoveAndPoint);
+        step_7_machine(datas,row,column,MoveAndPoint);
+        step_8_machine(datas,row,column,MoveAndPoint);
+    }
+}
+
+
+

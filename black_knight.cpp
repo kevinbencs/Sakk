@@ -1184,45 +1184,6 @@ bool Black_knight::get_draw_CanMove(int *datas)
 
 
 
-/*int Black_knight::check_point_machine(int *datas,const int &row, const int &column,const int &OldRow,const int &OldColumn)
-{
-    Check check;
-    int point=0;
-
-    if(check.check_check(datas,row+1,column+2,4,row,column)){
-        point+=100;
-    }
-    if(check.check_check(datas,row-1,column+2,4,row,column)){
-        point+=100;
-    }
-    if(check.check_check(datas,row+1,column-2,4,row,column)){
-        point+=100;
-    }
-    if(check.check_check(datas,row-1,column-2,4,row,column)){
-        point+=100;
-    }
-    if(check.check_check(datas,row+2,column+1,4,row,column)){
-        point+=100;
-    }
-    if(check.check_check(datas,row-2,column+1,4,row,column)){
-        point+=100;
-    }
-    if(check.check_check(datas,row+2,column-1,4,row,column)){
-        point+=100;
-    }
-    if(check.check_check(datas,row-2,column-1,4,row,column)){
-        point+=100;
-    }
-
-    return point;
-}*/
-
-
-
-
-
-
-
 
 void Black_knight::step_1_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)
 {

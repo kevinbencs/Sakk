@@ -29,6 +29,7 @@ private:
     void step_knight(Ui::Game *ui, int *datas, const int &moving, const int &coordinate);
 
     void max_point_move_search();
+    void minimum_point(int *datas);
 };
 
 #endif // BLACK_MACHINE_H

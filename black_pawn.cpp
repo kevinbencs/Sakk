@@ -680,7 +680,7 @@ void Black_pawn::column_up_right_check_step(int *datas,const int &row, const int
 {
     for(int i=row-1,j=column+1; j<=king_column && i>=0 ;i--,j++){
         if(j!=king_column){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -698,7 +698,7 @@ void Black_pawn::column_down_right_check_step(int *datas,const int &row, const i
 {
     for(int i=row+1,j=column+1;j<=king_column && i<8;i++,j++){
         if(j!=king_column){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -718,7 +718,7 @@ void Black_pawn::column_up_left_check_step(int *datas,const int &row, const int 
 {
     for(int i=row-1,j=column-1; j>=king_column && i>=0 ;i--,j--){
         if(j!=king_column){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -736,7 +736,7 @@ void Black_pawn::column_down_left_check_step(int *datas,const int &row, const in
 {
     for(int i=row+1,j=column-1;j>=king_column && i<8;i++,j--){
         if(j!=king_column){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -780,7 +780,7 @@ void Black_pawn::row_up_right_check_step(int *datas,const int &row, const int &c
 {
     for(int i=row-1,j=column+1; j<8 && i>=king_row ;i--,j++){
         if(i!=king_row){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -798,7 +798,7 @@ void Black_pawn::row_down_right_check_step(int *datas, const int &row, const int
 {
     for(int i=row+1,j=column+1;j<8 && i<=king_row;i++,j++){
         if(i!=king_row){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -818,7 +818,7 @@ void Black_pawn::row_up_left_check_step(int *datas, const int &row, const int &c
 {
     for(int i=row-1,j=column-1; j>=0 && i>=king_row ;i--,j--){
         if(i!=king_row){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -836,7 +836,7 @@ void Black_pawn::row_down_left_check_step(int *datas, const int &row, const int 
 {
     for(int i=row+1,j=column-1;j>=0 && i<=king_row;i++,j--){
         if(i!=king_row){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -882,7 +882,7 @@ void Black_pawn::helper_down_left_check_step(int *datas,const int &row, const in
             CanMove=true;
         }
         else{
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -923,7 +923,7 @@ void Black_pawn::helper_down_right_check_step(int *datas,const int &row, const i
             CanMove=true;
         }
         else{
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -962,7 +962,7 @@ void Black_pawn::helper_up_right_check_step(int *datas,const int &row, const int
             CanMove=true;
         }
         else{
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1004,7 +1004,7 @@ void Black_pawn::helper_up_left_check_step(int *datas,const int &row, const int 
             CanMove=true;
         }
         else{
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1304,7 +1304,7 @@ void Black_pawn::step_left_up_machine(int *datas, const int &row, const int &col
     Check check;
     int point=0;
     for(int i=row-1,j=column-1;i>=0 && j>=0;i--,j--){
-        if(*(datas+i*8+i)<0){
+        if(*(datas+i*8+j)<0){
             break;
         }
         else{
@@ -1341,7 +1341,7 @@ void Black_pawn::step_left_down_machine(int *datas, const int &row, const int &c
     Check check;
     int point=0;
     for(int i=row+1,j=column-1;i<8 && j>=0;i++,j--){
-        if(*(datas+i*8+i)<0){
+        if(*(datas+i*8+j)<0){
             break;
         }
         else{
@@ -1378,7 +1378,7 @@ void Black_pawn::step_right_up_machine(int *datas, const int &row, const int &co
     Check check;
     int point=0;
     for(int i=row-1,j=column+1;i>=0 && j<8;i--,j++){
-        if(*(datas+i*8+i)<0){
+        if(*(datas+i*8+j)<0){
             break;
         }
         else{
@@ -1415,7 +1415,7 @@ void Black_pawn::step_right_down_machine(int *datas, const int &row, const int &
     Check check;
     int point=0;
     for(int i=row+1,j=column+1;i<8 && j<8;i++,j++){
-        if(*(datas+i*8+i)<0){
+        if(*(datas+i*8+j)<0){
             break;
         }
         else{
@@ -1488,7 +1488,7 @@ void Black_pawn::column_up_right_check_step_machine(int *datas,const int &row, c
     int point=0;
     for(int i=row-1,j=column+1; j<=king_column && i>=0 ;i--,j++){
         if(j!=king_column){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1528,7 +1528,7 @@ void Black_pawn::column_down_right_check_step_machine(int *datas,const int &row,
     int point=0;
     for(int i=row+1,j=column+1;j<=king_column && i<8;i++,j++){
         if(j!=king_column){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1570,7 +1570,7 @@ void Black_pawn::column_up_left_check_step_machine(int *datas,const int &row, co
     int point=0;
     for(int i=row-1,j=column-1; j>=king_column && i>=0 ;i--,j--){
         if(j!=king_column){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1610,7 +1610,7 @@ void Black_pawn::column_down_left_check_step_machine(int *datas,const int &row, 
     int point=0;
     for(int i=row+1,j=column-1;j>=king_column && i<8;i++,j--){
         if(j!=king_column){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1676,7 +1676,7 @@ void Black_pawn::row_up_right_check_step_machine(int *datas,const int &row, cons
     int point=0;
     for(int i=row-1,j=column+1; j<8 && i>=king_row ;i--,j++){
         if(i!=king_row){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1716,7 +1716,7 @@ void Black_pawn::row_down_right_check_step_machine(int *datas, const int &row, c
     int point=0;
     for(int i=row+1,j=column+1;j<8 && i<=king_row;i++,j++){
         if(i!=king_row){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1758,7 +1758,7 @@ void Black_pawn::row_up_left_check_step_machine(int *datas, const int &row, cons
     int point=0;
     for(int i=row-1,j=column-1; j>=0 && i>=king_row ;i--,j--){
         if(i!=king_row){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1798,7 +1798,7 @@ void Black_pawn::row_down_left_check_step_machine(int *datas, const int &row, co
     int point=0;
     for(int i=row+1,j=column-1;j>=0 && i<=king_row;i++,j--){
         if(i!=king_row){
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1886,7 +1886,7 @@ void Black_pawn::helper_down_left_check_step_machine(int *datas,const int &row, 
             MoveAndPoint.push_back(v);
         }
         else{
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -1949,7 +1949,7 @@ void Black_pawn::helper_down_right_check_step_machine(int *datas,const int &row,
             MoveAndPoint.push_back(v);
         }
         else{
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -2010,7 +2010,7 @@ void Black_pawn::helper_up_right_check_step_machine(int *datas,const int &row, c
             MoveAndPoint.push_back(v);
         }
         else{
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
@@ -2074,7 +2074,7 @@ void Black_pawn::helper_up_left_check_step_machine(int *datas,const int &row, co
             MoveAndPoint.push_back(v);
         }
         else{
-            if(*(datas+i*i+j)!=0){
+            if(*(datas+i*8+j)!=0){
                 break;
             }
         }
