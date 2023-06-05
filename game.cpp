@@ -190,7 +190,7 @@ Game::Game(QWidget *parent) :
         }
     }
 
-    white_machine.step(ui,datas,BlackOrWhite);
+    //white_machine.step(ui,datas,BlackOrWhite);
 
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
@@ -794,15 +794,19 @@ void Game::on_tableWidget_cellClicked(int row, int column)
 
     if(there_is_no_draw_and_checkmatt()){
         if(ui->label->text()=="<p align=center><span style= color:white;font-size:22pt><b>Sakk<b><span><p>" || ui->label->text()=="<p align=center><span style= color:black;font-size:22pt><b>Sakk<b><span><p>"){
-            if(BlackOrWhite==1){
-                //black_machine.step_check(ui,datas,BlackOrWhite,AttackerRow,AttackerColumn,KnightAndBishop);
-                white_machine.step_check(ui,datas,BlackOrWhite,AttackerRow,AttackerColumn,KnightAndBishop);
+            if(BlackOrWhite==-1){
+                black_machine.step_check(ui,datas,BlackOrWhite,AttackerRow,AttackerColumn,KnightAndBishop);
+            }
+            else{
+                //white_machine.step_check(ui,datas,BlackOrWhite,AttackerRow,AttackerColumn,KnightAndBishop);
             }
         }
         else{
-            if(BlackOrWhite==1){
-                //black_machine.step(ui,datas,BlackOrWhite);
-                white_machine.step(ui,datas,BlackOrWhite);
+            if(BlackOrWhite==-1){
+                black_machine.step(ui,datas,BlackOrWhite);
+            }
+            else{
+                //white_machine.step(ui,datas,BlackOrWhite);
             }
         }
     }
