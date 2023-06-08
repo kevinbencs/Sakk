@@ -649,7 +649,7 @@ void White_bishop::step_down_right_machine(int* datas, const int &row, const int
                 point+=100;
             }
 
-            point+=check.occupying_an_white_piece(datas,row-1,column+1);
+            point+=check.occupying_an_black_piece(datas,row-1,column+1);
             v.push_back(point);
             MoveAndPoint.push_back(v);
         }
@@ -672,7 +672,7 @@ void White_bishop::step_down_left_machine(int* datas, const int &row, const int 
                 point+=100;
             }
 
-            point+=check.occupying_an_white_piece(datas,row-1,column-1);
+            point+=check.occupying_an_black_piece(datas,row-1,column-1);
             v.push_back(point);
             MoveAndPoint.push_back(v);
         }
@@ -719,7 +719,7 @@ void White_bishop::check_step_move_machine(int* datas, const int &row, const int
                 point+=100;
             }
 
-            point+=check.occupying_an_white_piece(datas,row-1,column-1);
+            point+=check.occupying_an_black_piece(datas,row-1,column-1);
             v.push_back(point);
             MoveAndPoint.push_back(v);
         }
@@ -733,7 +733,7 @@ void White_bishop::check_step_move_machine(int* datas, const int &row, const int
                 point+=100;
             }
 
-            point+=check.occupying_an_white_piece(datas,row-1,column+1);
+            point+=check.occupying_an_black_piece(datas,row-1,column+1);
             v.push_back(point);
             MoveAndPoint.push_back(v);
         }

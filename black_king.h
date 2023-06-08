@@ -3,6 +3,7 @@
 
 
 #include "ui_game.h"
+#include "check.h"
 
 class Black_king
 {

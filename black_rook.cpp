@@ -1028,9 +1028,11 @@ void Black_rook::step_down_machine(int *datas, const int &row, const int &column
 {
     Check check;
     int point=0;
+    int f;
     for(int i=row+1;i<8;i++){
+        f=*(datas+i*8+column);
         if(*(datas+i*8+column)<0){
-            break;
+             break;
         }
         else{
             if(*(datas+i*8+column)==0){

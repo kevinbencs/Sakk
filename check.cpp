@@ -1032,4 +1032,30 @@ int Check::occupying_an_white_piece(int *datas, const int &row, const int &colum
 
 
 
+int Check::occupying_an_black_piece(int *datas, const int &row, const int &column)
+{
+    int point;
+
+    switch (*(datas+8*row+column)){
+    case -1:
+        point=10;
+        break;
+    case -3:
+        point=30;
+        break;
+    case -4:
+        point=30;
+        break;
+    case -5:
+        point=50;
+        break;
+    case -8:
+        point=80;
+        break;
+    }
+
+    return point;
+}
+
+
 

@@ -1322,7 +1322,7 @@ void White_pawn::step_left_up_machine(int *datas, const int &row, const int &col
     Check check;
     int point=0;
     for(int i=row-1,j=column-1;i>=0 && j>=0;i--,j--){
-        if(*(datas+i*8+j)<0){
+        if(*(datas+i*8+j)>0){
             break;
         }
         else{
@@ -1342,7 +1342,7 @@ void White_pawn::step_left_up_machine(int *datas, const int &row, const int &col
                     if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,j);
+                    point+=check.occupying_an_black_piece(datas,i,j);
                     v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
@@ -1359,7 +1359,7 @@ void White_pawn::step_left_down_machine(int *datas, const int &row, const int &c
     Check check;
     int point=0;
     for(int i=row+1,j=column-1;i<8 && j>=0;i++,j--){
-        if(*(datas+i*8+j)<0){
+        if(*(datas+i*8+j)>0){
             break;
         }
         else{
@@ -1379,7 +1379,7 @@ void White_pawn::step_left_down_machine(int *datas, const int &row, const int &c
                     if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,j);
+                    point+=check.occupying_an_black_piece(datas,i,j);
                     v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
@@ -1396,7 +1396,7 @@ void White_pawn::step_right_up_machine(int *datas, const int &row, const int &co
     Check check;
     int point=0;
     for(int i=row-1,j=column+1;i>=0 && j<8;i--,j++){
-        if(*(datas+i*8+j)<0){
+        if(*(datas+i*8+j)>0){
             break;
         }
         else{
@@ -1416,7 +1416,7 @@ void White_pawn::step_right_up_machine(int *datas, const int &row, const int &co
                     if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,j);
+                    point+=check.occupying_an_black_piece(datas,i,j);
                     v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
@@ -1433,7 +1433,7 @@ void White_pawn::step_right_down_machine(int *datas, const int &row, const int &
     Check check;
     int point=0;
     for(int i=row+1,j=column+1;i<8 && j<8;i++,j++){
-        if(*(datas+i*8+j)<0){
+        if(*(datas+i*8+j)>0){
             break;
         }
         else{
@@ -1453,7 +1453,7 @@ void White_pawn::step_right_down_machine(int *datas, const int &row, const int &
                     if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,j);
+                    point+=check.occupying_an_black_piece(datas,i,j);
                     v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
@@ -1527,7 +1527,7 @@ void White_pawn::column_up_right_check_step_machine(int *datas,const int &row, c
                         if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,i,j);
+                        point+=check.occupying_an_black_piece(datas,i,j);
                         v.push_back(point);
                     }
                 }
@@ -1567,7 +1567,7 @@ void White_pawn::column_down_right_check_step_machine(int *datas,const int &row,
                         if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,i,j);
+                        point+=check.occupying_an_black_piece(datas,i,j);
                         v.push_back(point);
                     }
                 }
@@ -1609,7 +1609,7 @@ void White_pawn::column_up_left_check_step_machine(int *datas,const int &row, co
                         if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,i,j);
+                        point+=check.occupying_an_black_piece(datas,i,j);
                         v.push_back(point);
                     }
                 }
@@ -1649,7 +1649,7 @@ void White_pawn::column_down_left_check_step_machine(int *datas,const int &row, 
                         if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,i,j);
+                        point+=check.occupying_an_black_piece(datas,i,j);
                         v.push_back(point);
                     }
                 }
@@ -1715,7 +1715,7 @@ void White_pawn::row_up_right_check_step_machine(int *datas,const int &row, cons
                         if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,i,j);
+                        point+=check.occupying_an_black_piece(datas,i,j);
                         v.push_back(point);
                     }
                 }
@@ -1755,7 +1755,7 @@ void White_pawn::row_down_right_check_step_machine(int *datas, const int &row, c
                         if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,i,j);
+                        point+=check.occupying_an_black_piece(datas,i,j);
                         v.push_back(point);
                     }
                 }
@@ -1797,7 +1797,7 @@ void White_pawn::row_up_left_check_step_machine(int *datas, const int &row, cons
                         if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,i,j);
+                        point+=check.occupying_an_black_piece(datas,i,j);
                         v.push_back(point);
                     }
                 }
@@ -1837,7 +1837,7 @@ void White_pawn::row_down_left_check_step_machine(int *datas, const int &row, co
                         if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,i,j);
+                        point+=check.occupying_an_black_piece(datas,i,j);
                         v.push_back(point);
                     }
                 }
@@ -1896,7 +1896,7 @@ void White_pawn::helper_down_left_check_step_machine(int *datas,const int &row, 
                     if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,j);
+                    point+=check.occupying_an_black_piece(datas,i,j);
                     v.push_back(point);
                 }
             }
@@ -1959,7 +1959,7 @@ void White_pawn::helper_down_right_check_step_machine(int *datas,const int &row,
                     if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,j);
+                    point+=check.occupying_an_black_piece(datas,i,j);
                     v.push_back(point);
                 }
             }
@@ -2020,7 +2020,7 @@ void White_pawn::helper_up_right_check_step_machine(int *datas,const int &row, c
                     if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,j);
+                    point+=check.occupying_an_black_piece(datas,i,j);
                     v.push_back(point);
                 }
             }
@@ -2084,7 +2084,7 @@ void White_pawn::helper_up_left_check_step_machine(int *datas,const int &row, co
                     if(check.check_check(datas,i,j,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,j);
+                    point+=check.occupying_an_black_piece(datas,i,j);
                     v.push_back(point);
                 }
             }

@@ -7,6 +7,7 @@
 #include "black_king.h"
 #include "black_rook.h"
 #include "black_queen.h"
+#include "white_machine.h"
 
 class Black_machine
 {
@@ -14,6 +15,7 @@ public:
     Black_machine();
     void step(Ui::Game *ui, int *datas, int &BlackOrWhite);
     void step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
+    int get_max_point(int* datas);
 
 private:
     std::vector<std::vector<std::vector<int>>> v;

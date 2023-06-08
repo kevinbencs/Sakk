@@ -234,7 +234,7 @@ void Black_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
             picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
             ui->tableWidget->setItem(row,column,picture);
 
-            datas[OldRow*8+OldColumn]=-1;
+            datas[row*8+column]=-1;
         }
 
         check.green_cell_disappear(ui);
@@ -310,7 +310,7 @@ void Black_bishop::check_knight_and_bishop_step(Ui::Game *ui, const int &row, co
             picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
             ui->tableWidget->setItem(row,column,picture);
 
-            datas[OldRow*8+OldColumn]=-1;
+            datas[row*8+column]=-1;
         }
 
         check.green_cell_disappear(ui);

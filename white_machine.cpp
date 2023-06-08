@@ -1,4 +1,7 @@
 #include "white_machine.h"
+#include <QFile>
+#include <QTextStream>
+#include <fstream>
 
 White_machine::White_machine()
 {
@@ -155,7 +158,7 @@ void White_machine::make_v(int *datas, int row ,int column)
 
 void White_machine::max_point_move_search()
 {
-    int max=-1;
+    int max=-1000;
     std::vector<std::vector<int>> MoveAndPoint;
     std::vector<int> coordinate;
 
@@ -216,6 +219,42 @@ void White_machine::max_point_move_search()
 
 
 
+
+
+void White_machine::minimum_point(int *datas)
+{
+    int *datas1=new int[64];
+    int z,f;
+
+
+    for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
+            *(datas1+i*8+j)=*(datas+i*8+j);
+        }
+    }
+
+    for(int i=0;i<v.size();i++){
+        for(int j=1;j<v[i].size();j++){
+            f=*(datas1+v[i][j][0]*8+v[i][j][1]);
+            *(datas1+v[i][j][0]*8+v[i][j][1])=*(datas1+v[i][0][0]*8+v[i][0][1]);
+            *(datas1+v[i][0][0]*8+v[i][0][1])=0;
+            Black_machine machine;
+            z=machine.get_max_point(datas1);
+            v[i][j][2]-=z;
+            *(datas1+v[i][0][0]*8+v[i][0][1])=*(datas1+v[i][j][0]*8+v[i][j][1]);
+            *(datas1+v[i][j][0]*8+v[i][j][1])=f;
+        }
+    }
+
+    delete [] datas1;
+}
+
+
+
+
+
+
+
 int White_machine::get_max_point(int* datas)
 {
     for(int i=0; i<8;i++){
@@ -225,6 +264,7 @@ int White_machine::get_max_point(int* datas)
     }
 
     max_point_move_search();
+
 
     return v1[0][1][2];
 }
@@ -242,6 +282,8 @@ void White_machine::step(Ui::Game* ui, int* datas, int &BlackOrWhite)
         }
     }
 
+
+    minimum_point(datas);
     max_point_move_search();
 
     moving=rand()%v1.size();
@@ -346,7 +388,7 @@ void White_machine::step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, cons
             make_v_check(datas, AttackerRow,AttackerColumn, KnightBishop,i,j);
         }
     }
-
+    //minimum_point(datas);
     max_point_move_search();
 
     moving=rand()%v1.size();

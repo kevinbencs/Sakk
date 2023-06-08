@@ -67,8 +67,8 @@ Game::Game(QWidget *parent) :
                 ui->tableWidget->setItem(i,j,picture);
 
                 datas[i*8+j]=1;
-
             }
+
             if(i==1){
                 QImage* img=new QImage("Gui/black_bishop.png");
 
@@ -76,7 +76,6 @@ Game::Game(QWidget *parent) :
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=-1;
-
             }
 
             if(i==7 && (j==0 || j==7)){
@@ -87,6 +86,7 @@ Game::Game(QWidget *parent) :
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=5;
             }
+
             if(i==0 && (j==0 || j==7)){
                 QImage* img=new QImage("Gui/black_rook.png");
 
@@ -97,17 +97,16 @@ Game::Game(QWidget *parent) :
 
             }
 
-            if(i==0 && (j==1 || j==6)){
+            if(i==0 && (j==6 || j==1) ){
                 QImage* img=new QImage("Gui/black_knight.png");
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
                 datas[i*8+j]=-4;
-
             }
 
-            if(i==7 && (j==1 || j==6)){
+            if( ( i==7 && (j==1 || j==6))){
                 QImage* img=new QImage("Gui/white_knight.png");
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
@@ -190,7 +189,7 @@ Game::Game(QWidget *parent) :
         }
     }
 
-    //white_machine.step(ui,datas,BlackOrWhite);
+    white_machine.step(ui,datas,BlackOrWhite);
 
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
@@ -795,18 +794,18 @@ void Game::on_tableWidget_cellClicked(int row, int column)
     if(there_is_no_draw_and_checkmatt()){
         if(ui->label->text()=="<p align=center><span style= color:white;font-size:22pt><b>Sakk<b><span><p>" || ui->label->text()=="<p align=center><span style= color:black;font-size:22pt><b>Sakk<b><span><p>"){
             if(BlackOrWhite==-1){
-                black_machine.step_check(ui,datas,BlackOrWhite,AttackerRow,AttackerColumn,KnightAndBishop);
+                //black_machine.step_check(ui,datas,BlackOrWhite,AttackerRow,AttackerColumn,KnightAndBishop);
             }
             else{
-                //white_machine.step_check(ui,datas,BlackOrWhite,AttackerRow,AttackerColumn,KnightAndBishop);
+                white_machine.step_check(ui,datas,BlackOrWhite,AttackerRow,AttackerColumn,KnightAndBishop);
             }
         }
         else{
             if(BlackOrWhite==-1){
-                black_machine.step(ui,datas,BlackOrWhite);
+                //black_machine.step(ui,datas,BlackOrWhite);
             }
             else{
-                //white_machine.step(ui,datas,BlackOrWhite);
+                white_machine.step(ui,datas,BlackOrWhite);
             }
         }
     }

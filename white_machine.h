@@ -7,6 +7,7 @@
 #include "white_knight.h"
 #include "white_queen.h"
 #include "white_king.h"
+#include "black_machine.h"
 
 
 
@@ -19,6 +20,7 @@ public:
     void step(Ui::Game *ui, int *datas, int &BlackOrWhite);
     void step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
     int get_max_point(int* datas);
+
 
 private:
     std::vector<std::vector<std::vector<int>>> v;
@@ -34,6 +36,10 @@ private:
     void step_knight(Ui::Game *ui, int *datas, const int &moving, const int &coordinate);
 
     void max_point_move_search();
+    void minimum_point(int *datas);
+
+
+
 };
 
 #endif // WHITE_MACHINE_H

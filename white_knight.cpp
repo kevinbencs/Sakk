@@ -1209,7 +1209,7 @@ void White_knight::step_1_check_machine(int *datas, const int &row, const int &c
                         if(check.check_check(datas,row+1,column+2,4,row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,row+1,column+2);
+                        point+=check.occupying_an_black_piece(datas,row+1,column+2);
                         f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
@@ -1248,7 +1248,7 @@ void White_knight::step_2_check_machine(int *datas, const int &row, const int &c
                         if(check.check_check(datas,row-1,column+2,4,row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,row-1,column+2);
+                        point+=check.occupying_an_black_piece(datas,row-1,column+2);
                         f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
@@ -1287,7 +1287,7 @@ void White_knight::step_3_check_machine(int *datas, const int &row, const int &c
                         if(check.check_check(datas,row-1,column-2,4,row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,row+1,column-2);
+                        point+=check.occupying_an_black_piece(datas,row+1,column-2);
                         f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
@@ -1321,7 +1321,7 @@ void White_knight::step_4_check_machine(int *datas, const int &row, const int &c
                         std::vector<int> f;
                         f.push_back(row-1);
                         f.push_back(column-2);
-                        point+=check.occupying_an_white_piece(datas,row-1,column-2);
+                        point+=check.occupying_an_black_piece(datas,row-1,column-2);
                         if(check.check_check(datas,row-1,column-2,4,row,column)){
                             point+=100;
                         }
@@ -1362,7 +1362,7 @@ void White_knight::step_5_check_machine(int *datas, const int &row, const int &c
                         if(check.check_check(datas,row+2,column+1,4,row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,row+2,column+1);
+                        point+=check.occupying_an_black_piece(datas,row+2,column+1);
                         f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
@@ -1400,7 +1400,7 @@ void White_knight::step_6_check_machine(int *datas, const int &row, const int &c
                         if(check.check_check(datas,row-2,column+1,4,row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,row-2,column+1);
+                        point+=check.occupying_an_black_piece(datas,row-2,column+1);
                         f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
@@ -1439,7 +1439,7 @@ void White_knight::step_7_check_machine(int *datas, const int &row, const int &c
                         if(check.check_check(datas,row+2,column-1,4,row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,row+2,column-1);
+                        point+=check.occupying_an_black_piece(datas,row+2,column-1);
                         f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
@@ -1477,7 +1477,7 @@ void White_knight::step_8_check_machine(int *datas, const int &row, const int &c
                         if(check.check_check(datas,row-2,column-1,4,row,column)){
                             point+=100;
                         }
-                        point+=check.occupying_an_white_piece(datas,row-2,column-1);
+                        point+=check.occupying_an_black_piece(datas,row-2,column-1);
                         f.push_back(point);
                         MoveAndPoint.push_back(f);
                     }
@@ -1717,7 +1717,7 @@ void White_knight::step_1_machine(int *datas, const int &row, const int &column,
                 if(check.check_check(datas,row+1,column+2,4,row,column)){
                     point+=100;
                 }
-                point+=check.occupying_an_white_piece(datas,row+1,column+2);
+                point+=check.occupying_an_black_piece(datas,row+1,column+2);
                 f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
@@ -1751,7 +1751,7 @@ void White_knight::step_2_machine(int *datas, const int &row, const int &column,
                 if(check.check_check(datas,row-1,column+2,4,row,column)){
                     point+=100;
                 }
-                point+=check.occupying_an_white_piece(datas,row-1,column+2);
+                point+=check.occupying_an_black_piece(datas,row-1,column+2);
                 f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
@@ -1784,7 +1784,7 @@ void White_knight::step_3_machine(int *datas, const int &row, const int &column,
                 if(check.check_check(datas,row+1,column-2,4,row,column)){
                     point+=100;
                 }
-                point+=check.occupying_an_white_piece(datas,row+1,column-2);
+                point+=check.occupying_an_black_piece(datas,row+1,column-2);
                 f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
@@ -1818,7 +1818,7 @@ void White_knight::step_4_machine(int *datas, const int &row, const int &column,
                 if(check.check_check(datas,row-1,column-2,4,row,column)){
                     point+=100;
                 }
-                point+=check.occupying_an_white_piece(datas,row-1,column-2);
+                point+=check.occupying_an_black_piece(datas,row-1,column-2);
                 f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
@@ -1850,7 +1850,7 @@ void White_knight::step_5_machine(int *datas, const int &row, const int &column,
                 if(check.check_check(datas,row+2,column+1,4,row,column)){
                     point+=100;
                 }
-                point+=check.occupying_an_white_piece(datas,row+2,column+1);
+                point+=check.occupying_an_black_piece(datas,row+2,column+1);
                 f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
@@ -1882,7 +1882,7 @@ void White_knight::step_6_machine(int *datas, const int &row, const int &column,
                 if(check.check_check(datas,row-2,column+1,4,row,column)){
                     point+=100;
                 }
-                point+=check.occupying_an_white_piece(datas,row-2,column+1);
+                point+=check.occupying_an_black_piece(datas,row-2,column+1);
                 f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
@@ -1915,7 +1915,7 @@ void White_knight::step_7_machine(int *datas, const int &row, const int &column,
                 if(check.check_check(datas,row+2,column-1,4,row,column)){
                     point+=100;
                 }
-                point+=check.occupying_an_white_piece(datas,row+2,column-1);
+                point+=check.occupying_an_black_piece(datas,row+2,column-1);
                 f.push_back(point);
                 MoveAndPoint.push_back(f);
             }
@@ -1948,7 +1948,7 @@ void White_knight::step_8_machine(int *datas, const int &row, const int &column,
                 if(check.check_check(datas,row-2,column-1,4,row,column)){
                     point+=100;
                 }
-                point+=check.occupying_an_white_piece(datas,row-2,column-1);
+                point+=check.occupying_an_black_piece(datas,row-2,column-1);
                 f.push_back(point);
                 MoveAndPoint.push_back(f);
             }

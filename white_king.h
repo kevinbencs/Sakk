@@ -1,7 +1,7 @@
 #ifndef WHITE_KING_H
 #define WHITE_KING_H
 
-//#include "game.h"
+#include "check.h"
 #include "ui_game.h"
 
 class White_king

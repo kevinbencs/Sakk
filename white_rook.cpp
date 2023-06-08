@@ -1014,7 +1014,7 @@ void White_rook::step_up_machine(int *datas, const int &row, const int &column,s
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,column);
+                    point+=check.occupying_an_black_piece(datas,i,column);
                     v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
@@ -1054,7 +1054,7 @@ void White_rook::step_down_machine(int *datas, const int &row, const int &column
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,column);
+                    point+=check.occupying_an_black_piece(datas,i,column);
                     v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
@@ -1093,7 +1093,7 @@ void White_rook::step_left_machine(int *datas, const int &row, const int &column
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,row,i);
+                    point+=check.occupying_an_black_piece(datas,row,i);
                     v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
@@ -1132,7 +1132,7 @@ void White_rook::step_right_machine(int *datas, const int &row, const int &colum
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,row,i);
+                    point+=check.occupying_an_black_piece(datas,row,i);
                     v.push_back(point);
                     MoveAndPoint.push_back(v);
                 }
@@ -1197,7 +1197,7 @@ void White_rook::left_check_step_machine(int *datas, const int &row, const int &
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,row,i);
+                    point+=check.occupying_an_black_piece(datas,row,i);
                     v.push_back(point);
                 }
 
@@ -1234,7 +1234,7 @@ void White_rook::right_check_step_machine(int *datas, const int &row, const int 
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,row,i);
+                    point+=check.occupying_an_black_piece(datas,row,i);
                     v.push_back(point);
                 }
 
@@ -1275,7 +1275,7 @@ void White_rook::up_check_step_machine(int *datas,const int &row, const int &col
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,column);
+                    point+=check.occupying_an_black_piece(datas,i,column);
                     v.push_back(point);
                 }
 
@@ -1313,7 +1313,7 @@ void White_rook::down_check_step_machine(int *datas,const int &row, const int &c
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
                         point+=100;
                     }
-                    point+=check.occupying_an_white_piece(datas,i,column);
+                    point+=check.occupying_an_black_piece(datas,i,column);
                     v.push_back(point);
                 }
 
