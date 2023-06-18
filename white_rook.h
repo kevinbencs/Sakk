@@ -9,9 +9,9 @@ class White_rook
 {
 public:
     White_rook();
-    void step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight, int* datas);
-    void check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn, int &BlackOrWhite, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight, int* datas);
-    void check_step(Ui::Game* ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn, int &BlackOrWhite, int &king_row, int &king_column, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight, int* datas);
+    void step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight, int* datas,const int &WhiteOrBlackMachine);
+    void check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn, int &BlackOrWhite, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight, int* datas,const int &WhiteOrBlackMachine);
+    void check_step(Ui::Game* ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn, int &BlackOrWhite, int &king_row, int &king_column, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight, int* datas,const int &WhiteOrBlackMachine);
 
     bool get_checkmate_CanMove(int* datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
     bool get_draw_CanMove(int* datas);
@@ -69,7 +69,8 @@ protected:
     void king_dialog_black_queen_pawn_equal_left_up_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint);
     void king_dialog_black_queen_pawn_equal_right_down_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint);
     void king_dialog_black_queen_pawn_equal_right_up_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint);
-
+private:
+    void change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas, const int &WhiteOrBlackMachine, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight);
 };
 
 #endif // WHITE_ROOK_H

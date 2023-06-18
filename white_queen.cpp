@@ -8,36 +8,50 @@ White_queen::White_queen()
 }
 
 
-void White_queen::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int* datas)
+void White_queen::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine)
+{
+    Check check;
+    QImage* img;
+
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+
+    if(WhiteOrBlackMachine==-1){
+        img=new QImage("Gui/black_queen.png");
+    }
+    else{
+        img=new QImage("Gui/white_queen.png");
+    }
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+    datas[row*8+column]=8;
+
+    check.green_cell_disappear(ui);
+    piece=0;
+    BlackOrWhite=-1;
+}
+
+
+void White_queen::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int* datas,const int &WhiteOrBlackMachine)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/white_queen.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=8;
-        datas[RowOld*8+ColumnOld]=0;
-
-        piece=0;
-        BlackOrWhite=-1;
-        check.green_cell_disappear(ui);
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas,WhiteOrBlackMachine);
     }
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=8 && *(datas+row*8+column)==8){
             if(check.step_white_up_and_down_check(datas,row,column)){
                 step_up(ui,row, column, datas);
                 step_down(ui,row, column,datas);
-
             }
             if(check.step_white_right_and_left_check(datas,row,column)){
                 step_left(ui,row, column, datas);
                 step_right(ui,row, column, datas);
-
             }
             if(check.step_white_left_up_and_right_down_check(datas,row,column)){
                 step_left_up(ui,row,column, datas);
@@ -50,7 +64,7 @@ void White_queen::step(Ui::Game *ui, const int &row, const int &column, int &Row
             piece=8;
         }
         else{
-            piece=0;
+            piece=100;
         }
 
         ColumnOld=column;
@@ -61,33 +75,19 @@ void White_queen::step(Ui::Game *ui, const int &row, const int &column, int &Row
 
 
 
-void White_queen::check_step(Ui::Game* ui,const int &row,const int &column,int &piece,int &OldRow, int &OldColumn, const int &AttackerRow, const int &AttackerColumn,int &BlackOrWhite,const int &king_row,const int &king_column,int* datas)
+void White_queen::check_step(Ui::Game* ui,const int &row,const int &column,int &piece,int &OldRow, int &OldColumn, const int &AttackerRow, const int &AttackerColumn,int &BlackOrWhite,const int &king_row,const int &king_column,int* datas,const int &WhiteOrBlackMachine)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/white_queen.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=8;
-        datas[OldRow*8+OldColumn]=0;
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=-1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas,WhiteOrBlackMachine);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=8 && *(datas+row*8+column)==8){
             piece=8;
-            OldRow=row;
-            OldColumn=column;
-
             //column
             if(king_column==AttackerColumn){
                 column_equal_check_step(ui,row, column, king_column, king_row,AttackerRow, datas);
@@ -117,37 +117,27 @@ void White_queen::check_step(Ui::Game* ui,const int &row,const int &column,int &
             }
         }
         else{
-            piece=0;
+            piece=100;
         }
+
+        OldRow=row;
+        OldColumn=column;
     }
 }
 
 
-void White_queen::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int* datas)
+void White_queen::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int* datas,const int &WhiteOrBlackMachine)
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/white_queen.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=8;
-        datas[OldRow*8+OldColumn]=0;
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=-1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas,WhiteOrBlackMachine);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=8 && *(datas+row*8+column)==8){
             piece=8;
-            OldRow=row;
-            OldColumn=column;
 
             if(row==AttackerRow){
                 right_check_step(ui,row,column,AttackerColumn, datas);
@@ -172,8 +162,11 @@ void White_queen::check_knight_and_bishop_step(Ui::Game *ui, const int &row, con
             }
         }
         else{
-         piece=0;
+            piece=100;
         }
+
+        OldRow=row;
+        OldColumn=column;
     }
 }
 

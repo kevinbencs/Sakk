@@ -81,36 +81,52 @@ void White_rook::step_right(Ui::Game* ui, const int &row, const int &column,int 
 
 
 
+void White_rook::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight)
+{
+    Check check;
+    QImage* img;
 
-void White_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight,int *datas)
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+
+    if(WhiteOrBlackMachine==-1){
+        img=new QImage("Gui/black_rook.png");
+    }
+    else{
+        img=new QImage("Gui/white_rook.png");
+    }
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+    datas[row*8+column]=5;
+
+    if(ColumnOld==7){
+        WhiteKingRookDidNotMoveRight=false;
+    }
+    if(ColumnOld==0){
+        WhiteKingRookDidNotMoveLeft=false;
+    }
+
+    check.green_cell_disappear(ui);
+    piece=0;
+    BlackOrWhite=-1;
+}
+
+
+
+
+void White_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight,int *datas,const int &WhiteOrBlackMachine)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/white_rook.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=5;
-        datas[RowOld*8+ColumnOld]=0;
-
-        if(ColumnOld==7){
-            WhiteKingRookDidNotMoveRight=false;
-        }
-        if(ColumnOld==0){
-            WhiteKingRookDidNotMoveLeft=false;
-        }
-
-        check.green_cell_disappear(ui);
-        piece=0;
-        BlackOrWhite=-1;
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas,WhiteOrBlackMachine,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight);
     }
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
-
+        if(piece!=5 && *(datas+row*8+column)==5){
             if(check.step_white_up_and_down_check(datas,row,column)){
                 step_up(ui,row, column,datas);
                 step_down(ui,row, column,datas);
@@ -123,7 +139,7 @@ void White_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowO
             piece=5;
         }
         else{
-            piece=0;
+            piece=100;
         }
 
         ColumnOld=column;
@@ -223,7 +239,6 @@ void White_rook::king_column_black_queen_rook_column_equal_step(Ui::Game* ui,con
                 left_check_step(ui,row, column,AttackerColumn,datas);
             }
         }
-
     }
 
     if(check.step_white_up_and_down_check(datas,row,column)){
@@ -236,7 +251,6 @@ void White_rook::king_column_black_queen_rook_column_equal_step(Ui::Game* ui,con
             }
         }
     }
-
 }
 
 
@@ -254,7 +268,6 @@ void White_rook::king_row_black_queen_rook_row_equal_step(Ui::Game* ui,const int
                 down_check_step(ui,row,column,AttackerRow,datas);
             }
         }
-
     }
 
     if(check.step_white_right_and_left_check(datas,row,column)){
@@ -267,7 +280,6 @@ void White_rook::king_row_black_queen_rook_row_equal_step(Ui::Game* ui,const int
             }
         }
     }
-
 }
 
 
@@ -286,7 +298,6 @@ void White_rook::king_dialog_black_queen_pawn_equal_left_down_step(Ui::Game* ui,
                 left_check_step(ui,row,column,king_column-king_row+row,datas);
             }
         }
-
     }
 
     if(column>=AttackerColumn && column<king_column){
@@ -298,7 +309,6 @@ void White_rook::king_dialog_black_queen_pawn_equal_left_down_step(Ui::Game* ui,
                 down_check_step(ui,row,column,king_row-king_column+column,datas);
             }
         }
-
     }
 }
 
@@ -317,7 +327,6 @@ void White_rook::king_dialog_black_queen_pawn_equal_left_up_step(Ui::Game* ui,co
                 left_check_step(ui,row,column,king_column+king_row-row,datas);
             }
         }
-
     }
 
     if(column>=AttackerColumn && column<king_column){
@@ -329,7 +338,6 @@ void White_rook::king_dialog_black_queen_pawn_equal_left_up_step(Ui::Game* ui,co
                 down_check_step(ui,row,column,king_row+king_column-column,datas);
             }
         }
-
     }
 }
 
@@ -349,7 +357,6 @@ void White_rook::king_dialog_black_queen_pawn_equal_right_down_step(Ui::Game* ui
                 left_check_step(ui,row,column,king_column+king_row-row,datas);
             }
         }
-
     }
 
     if(column<=AttackerColumn && column>king_column){
@@ -361,7 +368,6 @@ void White_rook::king_dialog_black_queen_pawn_equal_right_down_step(Ui::Game* ui
                 down_check_step(ui,row,column,king_row+king_column-column,datas);
             }
         }
-
     }
 }
 
@@ -380,7 +386,6 @@ void White_rook::king_dialog_black_queen_pawn_equal_right_up_step(Ui::Game* ui,c
                 left_check_step(ui,row,column,king_column-king_row+row,datas);
             }
         }
-
     }
 
     if(column<=AttackerColumn && column>king_column){
@@ -392,42 +397,22 @@ void White_rook::king_dialog_black_queen_pawn_equal_right_up_step(Ui::Game* ui,c
                 down_check_step(ui,row,column,king_row-king_column+column,datas);
             }
         }
-
     }
 }
 
 
-void White_rook::check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight,int *datas)
+void White_rook::check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight,int *datas,const int &WhiteOrBlackMachine)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/white_rook.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-
-        datas[row*8+column]=5;
-        datas[OldRow*8+OldColumn]=0;
-
-        if(OldColumn==7){
-            WhiteKingRookDidNotMoveRight=false;
-        }
-        if(OldColumn==0){
-            WhiteKingRookDidNotMoveLeft=false;
-        }
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=-1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas,WhiteOrBlackMachine,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=5 && *(datas+row*8+column)==5){
             piece=5;
             if((king_row<=row && row<=AttackerRow) || (king_row>=row && row>=AttackerRow) || (king_column<=column && column<=AttackerColumn) || (king_column>=column && column>=AttackerColumn)){
                 //column
@@ -451,59 +436,37 @@ void White_rook::check_step(Ui::Game *ui, const int &row, const int &column, int
                 if((king_row-AttackerRow)<0 && (king_column-AttackerColumn)<0){
                     king_dialog_black_queen_pawn_equal_right_up_step(ui,row,column,AttackerColumn,AttackerRow,king_row,king_column,datas);
                 }
-
-                OldRow=row;
-                OldColumn=column;
             }
         }
         else{
-            piece=0;
+            piece=100;
         }
 
-
+        OldRow=row;
+        OldColumn=column;
     }
 }
 
 
 
-void White_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight,int *datas)
+void White_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight,int *datas,const int &WhiteOrBlackMachine)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/white_rook.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-
-        datas[row*8+column]=5;
-        datas[OldRow*8+OldColumn]=0;
-
-        if(OldColumn==7){
-            WhiteKingRookDidNotMoveRight=false;
-        }
-        if(OldColumn==0){
-            WhiteKingRookDidNotMoveLeft=false;
-        }
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=-1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas,WhiteOrBlackMachine,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=5 && *(datas+row*8+column)==5){
             piece=5;
             if(row==AttackerRow){
                 if(check.step_white_right_and_left_check(datas,row,column)){
                     right_check_step(ui,row,column,AttackerColumn,datas);
                     left_check_step(ui,row,column,AttackerColumn,datas);
                 }
-
             }
 
             if(column==AttackerColumn){
@@ -511,19 +474,14 @@ void White_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, cons
                     up_check_step(ui,row,column,AttackerRow,datas);
                     down_check_step(ui,row,column,AttackerRow,datas);
                 }
-
             }
-
-
-            OldRow=row;
-            OldColumn=column;
-
         }
         else{
-            piece=0;
+            piece=100;
         }
 
-
+        OldRow=row;
+        OldColumn=column;
     }
 }
 
@@ -992,6 +950,7 @@ void White_rook::step_up_machine(int *datas, const int &row, const int &column,s
     Check check;
     int point=0;
     for(int i=row-1;i>=0;i--){
+        point=0;
         if(*(datas+i*8+column)>0){
             break;
         }
@@ -1001,7 +960,7 @@ void White_rook::step_up_machine(int *datas, const int &row, const int &column,s
                 v.push_back(i);
                 v.push_back(column);
                 if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                    point+=100;
+                    point+=900;
                 }
                 v.push_back(point);
                 MoveAndPoint.push_back(v);
@@ -1012,7 +971,7 @@ void White_rook::step_up_machine(int *datas, const int &row, const int &column,s
                     v.push_back(i);
                     v.push_back(column);
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_black_piece(datas,i,column);
                     v.push_back(point);
@@ -1032,6 +991,7 @@ void White_rook::step_down_machine(int *datas, const int &row, const int &column
     Check check;
     int point=0;
     for(int i=row+1;i<8;i++){
+        point=0;
         if(*(datas+i*8+column)>0){
             break;
         }
@@ -1041,7 +1001,7 @@ void White_rook::step_down_machine(int *datas, const int &row, const int &column
                 v.push_back(i);
                 v.push_back(column);
                 if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                    point+=100;
+                    point+=900;
                 }
                 v.push_back(point);
                 MoveAndPoint.push_back(v);
@@ -1052,7 +1012,7 @@ void White_rook::step_down_machine(int *datas, const int &row, const int &column
                     v.push_back(i);
                     v.push_back(column);
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_black_piece(datas,i,column);
                     v.push_back(point);
@@ -1071,6 +1031,7 @@ void White_rook::step_left_machine(int *datas, const int &row, const int &column
     Check check;
     int point=0;
     for(int i=column-1;i>=0;i--){
+        point=0;
         if(*(datas+row*8+i)>0){
             break;
         }
@@ -1080,7 +1041,7 @@ void White_rook::step_left_machine(int *datas, const int &row, const int &column
                 v.push_back(row);
                 v.push_back(i);
                 if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                    point+=100;
+                    point+=900;
                 }
                 v.push_back(point);
                 MoveAndPoint.push_back(v);
@@ -1091,7 +1052,7 @@ void White_rook::step_left_machine(int *datas, const int &row, const int &column
                     v.push_back(row);
                     v.push_back(i);
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_black_piece(datas,row,i);
                     v.push_back(point);
@@ -1110,6 +1071,7 @@ void White_rook::step_right_machine(int *datas, const int &row, const int &colum
     Check check;
     int point=0;
     for(int i=column+1;i<8;i++){
+        point=0;
         if(*(datas+row*8+i)>0){
             break;
         }
@@ -1119,7 +1081,7 @@ void White_rook::step_right_machine(int *datas, const int &row, const int &colum
                 v.push_back(row);
                 v.push_back(i);
                 if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                    point+=100;
+                    point+=900;
                 }
                 v.push_back(point);
                 MoveAndPoint.push_back(v);
@@ -1130,7 +1092,7 @@ void White_rook::step_right_machine(int *datas, const int &row, const int &colum
                     v.push_back(row);
                     v.push_back(i);
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_black_piece(datas,row,i);
                     v.push_back(point);
@@ -1176,6 +1138,7 @@ void White_rook::left_check_step_machine(int *datas, const int &row, const int &
     Check check;
     int point=0;
     for(int i=column+1;i<=AttackerColumn;i++){
+        point=0;
         if(i!=AttackerColumn){
             if(*(datas+row*8+i)!=0){
                 break;
@@ -1189,13 +1152,13 @@ void White_rook::left_check_step_machine(int *datas, const int &row, const int &
 
                 if(*(datas+row*8+i)==0){
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     v.push_back(point);
                 }
                 else{
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_black_piece(datas,row,i);
                     v.push_back(point);
@@ -1213,6 +1176,7 @@ void White_rook::right_check_step_machine(int *datas, const int &row, const int 
     Check check;
     int point=0;
     for(int i=column-1;i>=AttackerColumn;i--){
+        point=0;
         if(i!=AttackerColumn){
             if(*(datas+row*8+i)!=0){
                 break;
@@ -1226,13 +1190,13 @@ void White_rook::right_check_step_machine(int *datas, const int &row, const int 
 
                 if(*(datas+row*8+i)==0){
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     v.push_back(point);
                 }
                 else{
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_black_piece(datas,row,i);
                     v.push_back(point);
@@ -1254,6 +1218,7 @@ void White_rook::up_check_step_machine(int *datas,const int &row, const int &col
     Check check;
     int point=0;
     for(int i=row-1;i>=AttackerRow;i--){
+        point=0;
         if(i!=AttackerRow){
             if(*(datas+i*8+column)!=0){
                 break;
@@ -1267,13 +1232,13 @@ void White_rook::up_check_step_machine(int *datas,const int &row, const int &col
 
                 if(*(datas+i*8+column)==0){
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     v.push_back(point);
                 }
                 else{
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_black_piece(datas,i,column);
                     v.push_back(point);
@@ -1292,6 +1257,7 @@ void White_rook::down_check_step_machine(int *datas,const int &row, const int &c
     Check check;
     int point=0;
     for(int i=row+1;i<=AttackerRow;i++){
+        point=0;
         if(i!=AttackerRow){
             if(*(datas+i*8+column)!=0){
                 break;
@@ -1305,13 +1271,13 @@ void White_rook::down_check_step_machine(int *datas,const int &row, const int &c
 
                 if(*(datas+i*8+column)==0){
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     v.push_back(point);
                 }
                 else{
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_black_piece(datas,i,column);
                     v.push_back(point);

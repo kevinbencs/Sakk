@@ -28,30 +28,28 @@ void Black_queen::step(Ui::Game *ui, const int &row, const int &column, int &Row
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=-8 && *(datas+row*8+column)==-8){
             if(check.step_black_up_and_down_check(datas,row,column)){
                 step_up(ui,row, column,datas);
                 step_down(ui,row, column,datas);
-                piece=-8;
             }
             if(check.step_black_right_and_left_check(datas,row,column)){
                 step_left(ui,row, column,datas);
                 step_right(ui,row, column,datas);
-                piece=-8;
             }
             if(check.step_black_left_up_and_right_down_check(datas,row,column)){
                 step_left_up(ui,row,column,datas);
                 step_right_down(ui,row,column,datas);
-                piece=-8;
             }
             if(check.step_black_right_up_and_left_down_check(datas,row,column)){
                 step_right_up(ui,row,column,datas);
                 step_left_down(ui,row,column,datas);
-                piece=-8;
             }
+
+            piece=-8;
         }
         else{
-            piece=0;
+            piece=100;
         }
 
         ColumnOld=column;
@@ -84,11 +82,8 @@ void Black_queen::check_step(Ui::Game* ui,const int &row,const int &column,int &
     }
     else{
         check.green_cell_disappear(ui);
-
-        if(piece==0){
+        if(piece!=-8 && *(datas+row*8+column)==-8){
             piece=-8;
-            OldRow=row;
-            OldColumn=column;
 
             //column
             if(king_column==AttackerColumn){
@@ -119,8 +114,11 @@ void Black_queen::check_step(Ui::Game* ui,const int &row,const int &column,int &
             }
         }
         else{
-            piece=0;
+            piece=100;
         }
+
+        OldRow=row;
+        OldColumn=column;
     }
 }
 
@@ -146,11 +144,8 @@ void Black_queen::check_knight_and_bishop_step(Ui::Game *ui, const int &row, con
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=-8 && *(datas+row*8+column)==-8){
             piece=-8;
-            OldRow=row;
-            OldColumn=column;
-
             if(row==AttackerRow){
                 right_check_step(ui,row,column,AttackerColumn,datas);
                 left_check_step(ui,row,column,AttackerColumn,datas);
@@ -173,9 +168,9 @@ void Black_queen::check_knight_and_bishop_step(Ui::Game *ui, const int &row, con
                 down_left_check_step(ui,row,column,v,datas);
             }
         }
-        else{
-         piece=0;
-        }
+
+        OldRow=row;
+        OldColumn=column;
     }
 }
 

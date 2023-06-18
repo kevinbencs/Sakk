@@ -750,43 +750,60 @@ void White_king::step_castling_left(Ui::Game* ui,const int &row, const int &colu
 
 
 
+void White_king::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight)
+{
+    QImage* img;
+    QImage *img2;
 
-void White_king::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight,int *datas)
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+    datas[row*8+column]=10;
+
+    if(WhiteOrBlackMachine==-1){
+        img=new QImage("Gui/black_king.png");
+        img2=new QImage("Gui/black_rook.png");
+    }
+    else{
+        img=new QImage("Gui/white_king.png");
+        img2=new QImage("Gui/white_rook.png");
+    }
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+
+
+    if(row==7 && column==6 && WhiteKingRookDidNotMoveRight){
+        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
+        ui->tableWidget->setItem(row,column-1,picture);
+        datas[row*8+column-1]=5;
+        datas[row*8+column+1]=0;
+        ui->tableWidget->setItem(row,column+1,new QTableWidgetItem(""));
+    }
+    if(row==7 && column==2 && WhiteKingRookDidNotMoveLeft){
+        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
+        ui->tableWidget->setItem(row,column+1,picture);
+        datas[row*8+column+1]=5;
+        datas[row*8+column-1]=0;
+        ui->tableWidget->setItem(row,column-1,new QTableWidgetItem(""));
+    }
+
+    WhiteKingRookDidNotMoveLeft=false;
+    WhiteKingRookDidNotMoveRight=false;
+
+    piece=0;
+    BlackOrWhite=-1;
+    ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
+}
+
+
+
+
+
+void White_king::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight,int *datas,const int &WhiteOrBlackMachine)
 {
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-
-        QImage *img=new QImage("Gui/white_king.png");
-
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=10;
-
-        datas[RowOld*8+ColumnOld]=0;
-
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-
-
-
-        if(row==7 && column==6 && WhiteKingRookDidNotMoveRight){
-            QImage *img2=new QImage("Gui/white_rook.png");
-            picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
-            ui->tableWidget->setItem(row,column-1,picture);
-            datas[row*8+column-1]=5;
-            datas[row*8+column+1]=0;
-            ui->tableWidget->setItem(row,column+1,new QTableWidgetItem(""));
-        }
-        if(row==7 && column==2 && WhiteKingRookDidNotMoveLeft){
-            QImage *img2=new QImage("Gui/white_rook.png");
-            picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
-            ui->tableWidget->setItem(row,column+1,picture);
-            datas[row*8+column+1]=5;
-            datas[row*8+column-1]=0;
-            ui->tableWidget->setItem(row,column-1,new QTableWidgetItem(""));
-        }
-
-        WhiteKingRookDidNotMoveLeft=false;
-        WhiteKingRookDidNotMoveRight=false;
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas,WhiteOrBlackMachine,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight);
 
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
@@ -798,10 +815,6 @@ void White_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
                 }
             }
         }
-
-        piece=0;
-        BlackOrWhite=-1;
-        ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
         for(int i=0;i<8;i++){
@@ -815,8 +828,7 @@ void White_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
             }
         }
 
-        if(piece==0){
-
+        if(piece!=10 && *(datas+row*8+column)==10){
             step_1(ui, row, column,datas);
             step_2(ui, row, column,datas);
             step_3(ui, row, column,datas);
@@ -832,10 +844,9 @@ void White_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
                 step_castling_left(ui,row,column,datas);
             }
             piece=10;
-
         }
         else{
-            piece=0;
+            piece=100;
         }
 
         ColumnOld=column;
@@ -1261,7 +1272,7 @@ void White_king::step_castling_left_machine(int *datas,const int &row, const int
 
 
 
-void White_king::step_machine(int *datas,std::vector<std::vector<int>> &MoveAndPoint)
+void White_king::step_machine(int *datas, std::vector<std::vector<int>> &MoveAndPoint, const bool &WhiteKingRookDidNotMoveRight, const bool &WhiteKingRookDidNotMoveLeft)
 {
     int row, column;
 
@@ -1279,8 +1290,12 @@ void White_king::step_machine(int *datas,std::vector<std::vector<int>> &MoveAndP
                 step_6_machine(datas, row, column, MoveAndPoint);
                 step_7_machine(datas, row, column, MoveAndPoint);
                 step_8_machine(datas, row, column, MoveAndPoint);
-                step_castling_left_machine(datas,row, column, MoveAndPoint);
-                step_castling_right_machine(datas,row, column, MoveAndPoint);
+                if(WhiteKingRookDidNotMoveLeft){
+                    step_castling_left_machine(datas,row, column, MoveAndPoint);
+                }
+                if(WhiteKingRookDidNotMoveRight){
+                    step_castling_right_machine(datas,row, column, MoveAndPoint);
+                }
             }
         }
     }

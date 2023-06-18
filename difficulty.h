@@ -24,6 +24,10 @@ private slots:
 
     void on_Action_triggered();
 
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
 private:
     Ui::Difficulty *ui;
     QMenuBar* menuBar;

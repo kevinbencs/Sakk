@@ -38,6 +38,9 @@ set(PROJECT_SOURCES
         humanormachine.cpp
         humanormachine.h
         humanormachine.ui
+        load.cpp
+        load.h
+        load.ui
         main.cpp
         mainwindow.cpp
         mainwindow.h

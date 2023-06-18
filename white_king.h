@@ -8,7 +8,7 @@ class White_king
 {
 public:
     White_king();
-    void step(Ui::Game* ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight,int *datas);
+    void step(Ui::Game* ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight,int *datas,const int &WhiteOrBlackMachine);
 
     bool there_is_no_black_bishop(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
     bool there_is_no_black_knight(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
@@ -24,8 +24,10 @@ public:
     bool there_is_no_black_queen_and_pawn(int *datas,const int &row, const int &column, int &AttackerRow, int &AttackerColumn);
 
     bool get_CanMove(int *datas);
-    void step_machine(int *datas,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_machine(int *datas,std::vector<std::vector<int>> &MoveAndPoint,const bool &WhiteKingRookDidNotMoveRight,const bool &WhiteKingRookDidNotMoveLeft);
 private:
+    void change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas, const int &WhiteOrBlackMachine, bool &WhiteKingRookDidNotMoveLeft, bool &WhiteKingRookDidNotMoveRight);
+
     void step_1(Ui::Game *ui, const int &row, const int &column,int *datas);
     void step_2(Ui::Game *ui, const int &row, const int &column,int *datas);
     void step_3(Ui::Game *ui, const int &row, const int &column,int *datas);

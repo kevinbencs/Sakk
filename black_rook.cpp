@@ -104,23 +104,23 @@ void Black_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowO
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=-5 && *(datas+row*8+column)==-5){
             piece=-5;
             if(check.step_black_up_and_down_check(datas,row,column)){
                 step_up(ui,row, column,datas);
                 step_down(ui,row, column,datas);
-
             }
 
             if(check.step_black_right_and_left_check(datas,row,column)){
                 step_left(ui,row, column,datas);
                 step_right(ui,row, column,datas);
             }
-
         }
         else{
-            piece=0;
+            piece=100;
         }
+
+
 
         ColumnOld=column;
         RowOld=row;
@@ -418,7 +418,7 @@ void Black_rook::check_step(Ui::Game *ui, const int &row, const int &column, int
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=-5 && *(datas+row*8+column)==-5){
             if((king_row<=row && row<=AttackerRow) || (king_row>=row && row>=AttackerRow) || (king_column<=column && column<=AttackerColumn) || (king_column>=column && column>=AttackerColumn)){
                 //column
                 if(king_column==AttackerColumn){
@@ -441,17 +441,17 @@ void Black_rook::check_step(Ui::Game *ui, const int &row, const int &column, int
                 if((king_row-AttackerRow)<0 && (king_column-AttackerColumn)<0){
                     king_dialog_black_queen_pawn_equal_right_up_step(ui,row,column,AttackerColumn,AttackerRow,king_row,king_column,datas);
                 }
-
-                piece=-5;
-                OldRow=row;
-                OldColumn=column;
             }
+
+            piece=-5;
         }
         else{
-            piece=0;
+            piece=100;
         }
 
 
+        OldRow=row;
+        OldColumn=column;
     }
 }
 
@@ -487,14 +487,12 @@ void Black_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, cons
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
-
+        if(piece!=-5 && *(datas+row*8+column)==-5){
             if(row==AttackerRow){
                 if(check.step_black_right_and_left_check(datas,row,column)){
                     right_check_step(ui,row,column,AttackerColumn,datas);
                     left_check_step(ui,row,column,AttackerColumn,datas);
                 }
-
             }
 
             if(column==AttackerColumn){
@@ -502,19 +500,17 @@ void Black_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, cons
                     up_check_step(ui,row,column,AttackerRow,datas);
                     down_check_step(ui,row,column,AttackerRow,datas);
                 }
-
             }
 
             piece=-5;
-            OldRow=row;
-            OldColumn=column;
-
         }
         else{
-            piece=0;
+            piece=100;
         }
 
 
+        OldRow=row;
+        OldColumn=column;
     }
 }
 
@@ -989,6 +985,7 @@ void Black_rook::step_up_machine(int *datas, const int &row, const int &column,s
     Check check;
     int point=0;
     for(int i=row-1;i>=0;i--){
+        point=0;
         if(*(datas+i*8+column)<0){
             break;
         }
@@ -998,7 +995,7 @@ void Black_rook::step_up_machine(int *datas, const int &row, const int &column,s
                 v.push_back(i);
                 v.push_back(column);
                 if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                    point+=100;
+                    point+=900;
                 }
                 v.push_back(point);
                 MoveAndPoint.push_back(v);
@@ -1009,7 +1006,7 @@ void Black_rook::step_up_machine(int *datas, const int &row, const int &column,s
                     v.push_back(i);
                     v.push_back(column);
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_white_piece(datas,i,column);
                     v.push_back(point);
@@ -1028,9 +1025,8 @@ void Black_rook::step_down_machine(int *datas, const int &row, const int &column
 {
     Check check;
     int point=0;
-    int f;
     for(int i=row+1;i<8;i++){
-        f=*(datas+i*8+column);
+        point=0;
         if(*(datas+i*8+column)<0){
              break;
         }
@@ -1040,7 +1036,7 @@ void Black_rook::step_down_machine(int *datas, const int &row, const int &column
                 v.push_back(i);
                 v.push_back(column);
                 if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                    point+=100;
+                    point+=900;
                 }
                 v.push_back(point);
                 MoveAndPoint.push_back(v);
@@ -1051,7 +1047,7 @@ void Black_rook::step_down_machine(int *datas, const int &row, const int &column
                     v.push_back(i);
                     v.push_back(column);
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_white_piece(datas,i,column);
                     v.push_back(point);
@@ -1070,6 +1066,7 @@ void Black_rook::step_left_machine(int *datas, const int &row, const int &column
     Check check;
     int point=0;
     for(int i=column-1;i>=0;i--){
+        point=0;
         if(*(datas+row*8+i)<0){
             break;
         }
@@ -1079,7 +1076,7 @@ void Black_rook::step_left_machine(int *datas, const int &row, const int &column
                 v.push_back(row);
                 v.push_back(i);
                 if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                    point+=100;
+                    point+=900;
                 }
                 v.push_back(point);
                 MoveAndPoint.push_back(v);
@@ -1090,7 +1087,7 @@ void Black_rook::step_left_machine(int *datas, const int &row, const int &column
                     v.push_back(row);
                     v.push_back(i);
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_white_piece(datas,row,i);
                     v.push_back(point);
@@ -1109,6 +1106,7 @@ void Black_rook::step_right_machine(int *datas, const int &row, const int &colum
     Check check;
     int point=0;
     for(int i=column+1;i<8;i++){
+        point=0;
         if(*(datas+row*8+i)<0){
             break;
         }
@@ -1118,7 +1116,7 @@ void Black_rook::step_right_machine(int *datas, const int &row, const int &colum
                 v.push_back(row);
                 v.push_back(i);
                 if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                    point+=100;
+                    point+=900;
                 }
                 v.push_back(point);
                 MoveAndPoint.push_back(v);
@@ -1129,7 +1127,7 @@ void Black_rook::step_right_machine(int *datas, const int &row, const int &colum
                     v.push_back(row);
                     v.push_back(i);
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_white_piece(datas,row,i);
                     v.push_back(point);
@@ -1175,6 +1173,7 @@ void Black_rook::left_check_step_machine(int *datas, const int &row, const int &
     Check check;
     int point=0;
     for(int i=column+1;i<=AttackerColumn;i++){
+        point=0;
         if(i!=AttackerColumn){
             if(*(datas+row*8+i)!=0){
                 break;
@@ -1188,13 +1187,13 @@ void Black_rook::left_check_step_machine(int *datas, const int &row, const int &
 
                 if(*(datas+row*8+i)==0){
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     v.push_back(point);
                 }
                 else{
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_white_piece(datas,row,i);
                     v.push_back(point);
@@ -1212,6 +1211,7 @@ void Black_rook::right_check_step_machine(int *datas, const int &row, const int 
     Check check;
     int point=0;
     for(int i=column-1;i>=AttackerColumn;i--){
+        point=0;
         if(i!=AttackerColumn){
             if(*(datas+row*8+i)!=0){
                 break;
@@ -1225,13 +1225,13 @@ void Black_rook::right_check_step_machine(int *datas, const int &row, const int 
 
                 if(*(datas+row*8+i)==0){
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     v.push_back(point);
                 }
                 else{
                     if(check.check_check(datas,row,i,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_white_piece(datas,row,i);
                     v.push_back(point);
@@ -1253,6 +1253,7 @@ void Black_rook::up_check_step_machine(int *datas,const int &row, const int &col
     Check check;
     int point=0;
     for(int i=row-1;i>=AttackerRow;i--){
+        point=0;
         if(i!=AttackerRow){
             if(*(datas+i*8+column)!=0){
                 break;
@@ -1266,13 +1267,13 @@ void Black_rook::up_check_step_machine(int *datas,const int &row, const int &col
 
                 if(*(datas+i*8+column)==0){
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     v.push_back(point);
                 }
                 else{
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_white_piece(datas,i,column);
                     v.push_back(point);
@@ -1291,6 +1292,7 @@ void Black_rook::down_check_step_machine(int *datas,const int &row, const int &c
     Check check;
     int point=0;
     for(int i=row+1;i<=AttackerRow;i++){
+        point=0;
         if(i!=AttackerRow){
             if(*(datas+i*8+column)!=0){
                 break;
@@ -1304,13 +1306,13 @@ void Black_rook::down_check_step_machine(int *datas,const int &row, const int &c
 
                 if(*(datas+i*8+column)==0){
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     v.push_back(point);
                 }
                 else{
                     if(check.check_check(datas,i,column,*(datas+row*8+column),row,column)){
-                        point+=100;
+                        point+=900;
                     }
                     point+=check.occupying_an_white_piece(datas,i,column);
                     v.push_back(point);

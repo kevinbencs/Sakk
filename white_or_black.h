@@ -18,6 +18,7 @@ class White_or_black : public QDialog
 public:
     explicit White_or_black(QWidget *parent = nullptr);
     ~White_or_black();
+    void set_difficulty_level(int difficulty_level);
 
 private slots:
     void on_Action_triggered();
@@ -34,6 +35,7 @@ private:
     QMenu* menu;
     QAction* Action;
     int theme;
+    int difficulty_level;
 };
 
 #endif // WHITE_OR_BLACK_H

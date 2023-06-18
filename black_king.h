@@ -26,7 +26,7 @@ public:
     bool there_is_no_white_king(int *datas,const int &row, const int &column);
 
     bool get_CanMove(int *datas);
-    void step_machine(int *datas,std::vector<std::vector<int>> &MoveAndPoint);
+    void step_machine(int *datas,std::vector<std::vector<int>> &MoveAndPoint,const bool &BlackKingRookDidNotMoveRight, const bool &BlackKingRookDidNotMoveLeft);
 
 private:
     bool there_is_no_white_bishop(int *datas, const int &row, const int &column);
@@ -51,8 +51,8 @@ private:
     void step_6(Ui::Game *ui, const int &row, const int &column,int *datas);
     void step_7(Ui::Game *ui, const int &row, const int &column,int *datas);
     void step_8(Ui::Game *ui, const int &row, const int &column,int *datas);
-    void step_castling_left(Ui::Game* ui, const int &row, const int &column,int *datas);
-    void step_castling_right(Ui::Game* ui, const int &row, const int &column,int *datas);
+    void step_castling_left(Ui::Game* ui, const int &row, const int &column, int *datas);
+    void step_castling_right(Ui::Game* ui, const int &row, const int &column, int *datas);
 
     void step_1(int *datas, const int &row, const int &column,  bool &CanMove);
     void step_2(int *datas, const int &row, const int &column,  bool &CanMove);
@@ -71,8 +71,8 @@ private:
     void step_6_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
     void step_7_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
     void step_8_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
-    void step_castling_left_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
-    void step_castling_right_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_castling_left_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
+    void step_castling_right_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
 
 };
 

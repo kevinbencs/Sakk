@@ -9,7 +9,7 @@ White_machine::White_machine()
 }
 
 
-void White_machine::step_bishop(Ui::Game *ui, int *datas, const int &moving, const int &coordinate)
+/*void White_machine::step_bishop(Ui::Game *ui, int *datas, const int &moving, const int &coordinate)
 {
     QImage* img;
     if(v1[moving][coordinate][0]==7){
@@ -32,7 +32,7 @@ void White_machine::step_bishop(Ui::Game *ui, int *datas, const int &moving, con
 
 
 
-void White_machine::step_king(Ui::Game *ui, int *datas, const int &moving, const int &coordinate)
+void White_machine::step_king(Ui::Game *ui, int *datas, const int &moving, const int &coordinate, int &WhiteKingRookDidNotMoveRight, int &WhiteKingRookDidNotMoveLeft)
 {
     datas[v1[moving][coordinate][0]*8+v1[moving][coordinate][1]]=10;
     datas[v1[moving][0][0]*8+v1[moving][0][1]]=0;
@@ -63,7 +63,7 @@ void White_machine::step_queen(Ui::Game *ui, int *datas, const int &moving, cons
 }
 
 
-void White_machine::step_rook(Ui::Game *ui, int *datas, const int &moving, const int &coordinate)
+void White_machine::step_rook(Ui::Game *ui, int *datas, const int &moving, const int &coordinate,int &WhiteKingRookDidNotMoveRight,int &WhiteKingRookDidNotMoveLeft)
 {
     datas[v1[moving][coordinate][0]*8+v1[moving][coordinate][1]]=5;
     datas[v1[moving][0][0]*8+v1[moving][0][1]]=0;
@@ -104,9 +104,9 @@ void White_machine::step_knight(Ui::Game *ui, int *datas, const int &moving, con
     ui->tableWidget->setItem(v1[moving][coordinate][0],v1[moving][coordinate][1],picture);
     ui->tableWidget->setItem(v1[moving][0][0],v1[moving][0][1],new QTableWidgetItem(""));
 }
+*/
 
-
-void White_machine::make_v(int *datas, int row ,int column)
+void White_machine::make_v(int *datas, int row , int column, const bool &WhiteKingRookDidNotMoveRight, const bool &WhiteKingRookDidNotMoveLeft)
 {
     White_bishop white_bishop;
     White_king white_king;
@@ -127,7 +127,7 @@ void White_machine::make_v(int *datas, int row ,int column)
 
         break;
     case 10:
-        white_king.step_machine(datas,MoveAndPoint);
+        white_king.step_machine(datas,MoveAndPoint,WhiteKingRookDidNotMoveRight,WhiteKingRookDidNotMoveLeft);
 
         break;
     case 8:
@@ -221,11 +221,10 @@ void White_machine::max_point_move_search()
 
 
 
-void White_machine::minimum_point(int *datas)
+void White_machine::minimum_point(int *datas, const bool &BlackKingRookDidNotMoveRight, const bool &BlackKingRookDidNotMoveLeft)
 {
     int *datas1=new int[64];
-    int z,f;
-
+    int f;
 
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
@@ -239,8 +238,7 @@ void White_machine::minimum_point(int *datas)
             *(datas1+v[i][j][0]*8+v[i][j][1])=*(datas1+v[i][0][0]*8+v[i][0][1]);
             *(datas1+v[i][0][0]*8+v[i][0][1])=0;
             Black_machine machine;
-            z=machine.get_max_point(datas1);
-            v[i][j][2]-=z;
+            v[i][j][2]-=machine.get_max_point(datas1,BlackKingRookDidNotMoveRight,BlackKingRookDidNotMoveLeft);
             *(datas1+v[i][0][0]*8+v[i][0][1])=*(datas1+v[i][j][0]*8+v[i][j][1]);
             *(datas1+v[i][j][0]*8+v[i][j][1])=f;
         }
@@ -250,27 +248,60 @@ void White_machine::minimum_point(int *datas)
 }
 
 
+int White_machine::get_point_of_table_helper(int* datas,const int &row, const int &column,const int &NewRow,const int &NewColumn)
+{
+    int point=0;
+    switch (*(datas+row*8+column)) {
+    case 1:
+        point=bishop_data[NewRow][NewColumn]-bishop_data[row][column];
+        break;
+    case 3:
+        point=pawn_data[NewRow][NewColumn]-bishop_data[row][column];
+        break;
+    case 4:
+        point=knight_data[NewRow][NewColumn]-bishop_data[row][column];
+        break;
+    case 5:
+        point=rook_data[NewRow][NewColumn]-bishop_data[row][column];
+        break;
+    case 8:
+        point=queen_data[NewRow][NewColumn]-bishop_data[row][column];
+        break;
+    case 10:
+        point=king1_data[NewRow][NewColumn]-bishop_data[row][column];
+        break;
+    }
+
+    return point;
+}
+
+
+void White_machine::get_point_of_table(int *datas)
+{
+    for(int i=0;i<v.size();i++){
+        for(int j=1;j<v[i].size();j++){
+            v[i][j][2]+=get_point_of_table_helper(datas,v[i][0][0],v[i][0][1],v[i][j][0],v[i][j][1]);
+        }
+    }
+}
 
 
 
-
-
-int White_machine::get_max_point(int* datas)
+int White_machine::get_max_point(int* datas, const bool &WhiteKingRookDidNotMoveRight, const bool &WhiteKingRookDidNotMoveLeft)
 {
     for(int i=0; i<8;i++){
         for(int j=0;j<8;j++){
-            make_v(datas,i,j);
+            make_v(datas,i,j,WhiteKingRookDidNotMoveRight,WhiteKingRookDidNotMoveLeft);
         }
     }
 
     max_point_move_search();
 
-
     return v1[0][1][2];
 }
 
 
-void White_machine::step(Ui::Game* ui, int* datas, int &BlackOrWhite)
+/*void White_machine::step(Ui::Game* ui, int* datas, int &BlackOrWhite,int &BlackKingRookDidNotMoveRight,int &BlackKingRookDidNotMoveLeft,int &WhiteKingRookDidNotMoveRight,int &WhiteKingRookDidNotMoveLeft)
 {
     Check check;
     int moving,coordinate,t;
@@ -278,12 +309,13 @@ void White_machine::step(Ui::Game* ui, int* datas, int &BlackOrWhite)
 
     for(int i=0; i<8;i++){
         for(int j=0;j<8;j++){
-            make_v(datas,i,j);
+            make_v(datas,i,j,WhiteKingRookDidNotMoveRight,WhiteKingRookDidNotMoveLeft);
         }
     }
 
 
-    minimum_point(datas);
+    minimum_point(datas,BlackKingRookDidNotMoveRight,BlackKingRookDidNotMoveLeft);
+    //get_point_of_table(datas);
     max_point_move_search();
 
     moving=rand()%v1.size();
@@ -326,7 +358,7 @@ void White_machine::step(Ui::Game* ui, int* datas, int &BlackOrWhite)
 
 
 
-void White_machine::make_v_check(int *datas, const int &AttackerRow,const int &AttackerColumn,const int &KnightBishop,const int &row, const int &column)
+void White_machine::make_v_check(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, const int &row, const int &column, int &WhiteKingRookDidNotMoveRight, int &WhiteKingRookDidNotMoveLeft)
 {
     White_bishop white_bishop;
     White_king white_king;
@@ -377,7 +409,7 @@ void White_machine::make_v_check(int *datas, const int &AttackerRow,const int &A
 
 
 
-void White_machine::step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop)
+void White_machine::step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, int &WhiteKingRookDidNotMoveRight, int &WhiteKingRookDidNotMoveLeft)
 {
     Check check;
     int moving,coordinate,t;
@@ -385,7 +417,7 @@ void White_machine::step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, cons
 
     for(int i=0; i<8;i++){
         for(int j=0;j<8;j++){
-            make_v_check(datas, AttackerRow,AttackerColumn, KnightBishop,i,j);
+            make_v_check(datas, AttackerRow,AttackerColumn, KnightBishop,i,j,WhiteKingRookDidNotMoveRight,WhiteKingRookDidNotMoveLeft);
         }
     }
     //minimum_point(datas);
@@ -426,3 +458,4 @@ void White_machine::step_check(Ui::Game* ui, int* datas, int &BlackOrWhite, cons
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
 }
+*/

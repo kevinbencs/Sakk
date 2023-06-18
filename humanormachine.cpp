@@ -36,8 +36,8 @@ HumanOrMachine::HumanOrMachine(QWidget *parent) :
     }
     else{
         qApp->setStyleSheet("HumanOrMachine{border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%)}");
-        ui->pushButton->setStyleSheet("");
-        ui->pushButton_2->setStyleSheet("");
+        ui->pushButton->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(81%,80%,80%); color: black");
+        ui->pushButton_2->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(81%,80%,80%); color: black");
         Action->setText("Bekapcsol");
         menuBar->setStyleSheet("border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%); color: rgb(0%,0%,0%)");
     }
@@ -58,8 +58,8 @@ void HumanOrMachine::on_Action_triggered()
     }
     else{
         qApp->setStyleSheet("HumanOrMachine{border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%)}");
-        ui->pushButton->setStyleSheet("");
-        ui->pushButton_2->setStyleSheet("");
+        ui->pushButton->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(81%,80%,80%); color: black");
+        ui->pushButton_2->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(81%,80%,80%); color: black");
         Action->setText("Bekapcsol");
         menuBar->setStyleSheet("border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%); color: rgb(0%,0%,0%)");
         theme=1;
@@ -80,6 +80,7 @@ void HumanOrMachine::on_pushButton_clicked()
 {
     hide();
     Game game;
+    game.table(0,0);
     game.show();
     game.exec();
 }

@@ -9,16 +9,17 @@ class White_bishop
 {
 public:
     White_bishop();
-    void step(Ui::Game* ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas);
-    void check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column,int* datas);
-    void check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn, int &BlackOrWhite,int* datas);
+    void step(Ui::Game* ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas,const int &WhiteOrBlackMachine);
+    void check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column,int* datas,const int &WhiteOrBlackMachine);
+    void check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn, int &BlackOrWhite,int* datas,const int &WhiteOrBlackMachine);
     bool get_checkmate_CanMove(int* datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop);
     bool get_draw_CanMove(int* datas);
 
     void step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<int>> &MoveAndPoint,const int &row, const int &column);
-    //void step_machine(int* datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
     void step_machine(int* datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
 private:
+    void change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine);
+
     void step_up(Ui::Game* ui, const int &row, const int &column, int *datas);
     void step_up_right(Ui::Game* ui, const int &row, const int &column, int *datas);
     void step_up_left(Ui::Game* ui, const int &row, const int &column, int *datas);

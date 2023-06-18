@@ -8,6 +8,47 @@ White_bishop::White_bishop()
 
 
 
+
+void White_bishop::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine)
+{
+    Check check;
+    QImage* img;
+
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+
+    if(row==0){
+        if(WhiteOrBlackMachine==-1){
+            img=new QImage("Gui/black_queen.png");
+        }
+        else{
+            img=new QImage("Gui/white_queen.png");
+        }
+        datas[row*8+column]=8;
+    }
+    else{
+        if(WhiteOrBlackMachine==-1){
+            img=new QImage("Gui/black_bishop.png");
+        }
+        else{
+            img=new QImage("Gui/white_bishop.png");
+        }
+        datas[row*8+column]=1;
+    }
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+
+    check.green_cell_disappear(ui);
+    piece=0;
+    BlackOrWhite=-1;
+}
+
+
+
+
+
 void White_bishop::step_up(Ui::Game* ui, const int &row, const int &column,  int *datas)
 {
     if(row>0){
@@ -43,41 +84,16 @@ void White_bishop::step_up_left(Ui::Game* ui, const int &row, const int &column,
 }
 
 
-void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas)
+void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine)
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-        datas[RowOld*8+ColumnOld]=0;
-
-
-        if(row==0){
-            QImage* img=new QImage("Gui/white_queen.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-            datas[row*8+column]=8;
-        }
-        else{
-            QImage* img=new QImage("Gui/white_bishop.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-
-            datas[row*8+column]=1;
-        }
-
-        check.green_cell_disappear(ui);
-
-        piece=0;
-        BlackOrWhite=-1;
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas,WhiteOrBlackMachine);
     }
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=1 && *(datas+row*8+column)==1){
             piece=1;
             if(check.step_white_up_and_down_check(datas,row,column)){
                 step_up(ui, row, column,datas);
@@ -90,9 +106,8 @@ void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
             }
         }
         else{
-            piece=0;
+            piece=100;
         }
-
 
         ColumnOld=column;
         RowOld=row;
@@ -213,42 +228,17 @@ void White_bishop::dialog_right_up(Ui::Game* ui, const int &row, const int &colu
 
 
 
-void White_bishop::check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column,int* datas)
+void White_bishop::check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column,int* datas,const int &WhiteOrBlackMachine)
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        datas[OldRow*8+OldColumn]=0;
-
-
-        if(row==0){
-            QImage* img=new QImage("Gui/white_queen.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-            datas[row*8+column]=8;
-        }
-        else{
-            QImage* img=new QImage("Gui/white_bishop.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-
-            datas[row*8+column]=1;
-        }
-
-        check.green_cell_disappear(ui);
-
-        piece=0;
-        BlackOrWhite=-1;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas,WhiteOrBlackMachine);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=1 && *(datas+row*8+column)==1){
             piece=1;
             //column
             if(king_column==AttackerColumn){
@@ -276,8 +266,9 @@ void White_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
             }
         }
         else{
-            piece=0;
+            piece=100;
         }
+
 
 
         OldColumn=column;
@@ -290,47 +281,22 @@ void White_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
 
 
 
-void White_bishop::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int* datas)
+void White_bishop::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int* datas,const int &WhiteOrBlackMachine)
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        datas[OldRow*8+OldColumn]=0;
-
-
-        if(row==0){
-            QImage* img=new QImage("Gui/white_queen.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-            datas[row*8+column]=8;
-        }
-        else{
-            QImage* img=new QImage("Gui/white_bishop.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-
-            datas[row*8+column]=1;
-        }
-
-        check.green_cell_disappear(ui);
-
-        piece=0;
-        BlackOrWhite=-1;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas,WhiteOrBlackMachine);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
         check.green_cell_disappear(ui);
 
-        if(piece==0){
+        if(piece!=1 && *(datas+row*8+column)==1){
             piece=1;
             check_step_move(ui,row,column,AttackerColumn,AttackerRow,datas);
         }
         else{
-            piece=0;
+            piece=100;
         }
 
 
@@ -611,7 +577,7 @@ void White_bishop::step_down_machine(int *datas, const int &row, const int &colu
             v.push_back(column);
 
             if(check.check_check(datas,row-1,column,1,row,column)){
-                point+=100;
+                point+=900;
             }
 
 
@@ -619,13 +585,12 @@ void White_bishop::step_down_machine(int *datas, const int &row, const int &colu
             MoveAndPoint.push_back(v);
 
             if(*(datas+(row-2)*8+column)==0 && row==6){
-                point=0;
                 std::vector<int> f;
                 f.push_back(row-2);
                 f.push_back(column);
 
                 if(check.check_check(datas,row-2,column,1,row,column)){
-                    point+=100;
+                    point+=900;
                 }
 
                 f.push_back(point);
@@ -646,7 +611,7 @@ void White_bishop::step_down_right_machine(int* datas, const int &row, const int
             v.push_back(row-1);
             v.push_back(column+1);
             if(check.check_check(datas,row-1,column+1,1,row,column)){
-                point+=100;
+                point+=900;
             }
 
             point+=check.occupying_an_black_piece(datas,row-1,column+1);
@@ -669,7 +634,7 @@ void White_bishop::step_down_left_machine(int* datas, const int &row, const int 
             v.push_back(row-1);
             v.push_back(column-1);
             if(check.check_check(datas,row-1,column-1,1,row,column)){
-                point+=100;
+                point+=900;
             }
 
             point+=check.occupying_an_black_piece(datas,row-1,column-1);
@@ -716,7 +681,7 @@ void White_bishop::check_step_move_machine(int* datas, const int &row, const int
             v.push_back(row-1);
             v.push_back(column-1);
             if(check.check_check(datas,row-1,column-1,1,row,column)){
-                point+=100;
+                point+=900;
             }
 
             point+=check.occupying_an_black_piece(datas,row-1,column-1);
@@ -730,7 +695,7 @@ void White_bishop::check_step_move_machine(int* datas, const int &row, const int
             v.push_back(row-1);
             v.push_back(column+1);
             if(check.check_check(datas,row-1,column+1,1,row,column)){
-                point+=100;
+                point+=900;
             }
 
             point+=check.occupying_an_black_piece(datas,row-1,column+1);
@@ -753,7 +718,7 @@ void White_bishop::check_step_move_machine(int *datas, const int &row, const int
                 f.push_back(row-1);
                 f.push_back(column);
                 if(check.check_check(datas,row+1,column,1,row,column)){
-                    point+=100;
+                    point+=900;
                 }
 
                 f.push_back(point);
@@ -764,7 +729,7 @@ void White_bishop::check_step_move_machine(int *datas, const int &row, const int
                 f.push_back(row-2);
                 f.push_back(column);
                 if(check.check_check(datas,row-2,column,1,row,column)){
-                    point+=100;
+                    point+=900;
                 }
 
                 f.push_back(point);

@@ -731,7 +731,7 @@ void Black_king::step_8(Ui::Game *ui, const int &row, const int &column,int *dat
 
 
 
-void Black_king::step_castling_right(Ui::Game* ui,const int &row, const int &column,int *datas)
+void Black_king::step_castling_right(Ui::Game* ui, const int &row, const int &column, int *datas)
 {
     if(row==0 && there_is_no_white_bishop(datas,row,column+2) && there_is_no_white_knight(datas,row,column+2) && there_is_no_white_queen_and_rook(datas,row,column+2) && there_is_no_white_queen_and_pawn(datas,row,column+2) && there_is_no_white_king(datas,row,column+2)){
         if(*(datas+row*8+column+1)==0 && *(datas+row*8+column+2)==0 && *(datas+row*8+column+3)==-5){
@@ -742,7 +742,7 @@ void Black_king::step_castling_right(Ui::Game* ui,const int &row, const int &col
 
 
 
-void Black_king::step_castling_left(Ui::Game* ui,const int &row, const int &column,int *datas)
+void Black_king::step_castling_left(Ui::Game* ui, const int &row, const int &column, int *datas)
 {
     if(row==0 && there_is_no_white_bishop(datas,row,column-2) && there_is_no_white_knight(datas,row,column-2) && there_is_no_white_queen_and_rook(datas,row,column-2) && there_is_no_white_queen_and_pawn(datas,row,column-2) && there_is_no_white_king(datas,row,column-2)){
         if(*(datas+row*8+column-1)==0 && *(datas+row*8+column-2)==0 && *(datas+row*8+column-3)==0 && *(datas+row*8+column-4)==-5){
@@ -813,9 +813,7 @@ void Black_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
                 }
             }
         }
-
-        if(piece==0){
-
+        if(piece!=-10 && *(datas+row*8+column)==-10){
             step_1(ui, row, column,datas);
             step_2(ui, row, column,datas);
             step_3(ui, row, column,datas);
@@ -833,7 +831,7 @@ void Black_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
             piece=-10;
         }
         else{
-            piece=0;
+            piece=100;
         }
 
         ColumnOld=column;
@@ -1239,7 +1237,7 @@ void Black_king::step_8_machine(int *datas, const int &row, const int &column, s
 
 
 
-void Black_king::step_castling_right_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
+void Black_king::step_castling_right_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
 {
     if(row==0 && there_is_no_white_bishop(datas,row,column+2) && there_is_no_white_knight(datas,row,column+2) && there_is_no_white_queen_and_rook(datas,row,column+2) && there_is_no_white_queen_and_pawn(datas,row,column+2) && there_is_no_white_king(datas,row,column+2)){
         if(*(datas+row*8+column+1)==0 && *(datas+row*8+column+2)==0 && *(datas+row*8+column+3)==-5){
@@ -1254,7 +1252,7 @@ void Black_king::step_castling_right_machine(int *datas,const int &row, const in
 
 
 
-void Black_king::step_castling_left_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
+void Black_king::step_castling_left_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
 {
     if(row==0 && there_is_no_white_bishop(datas,row,column-2) && there_is_no_white_knight(datas,row,column-2) && there_is_no_white_queen_and_rook(datas,row,column-2) && there_is_no_white_queen_and_pawn(datas,row,column-2) && there_is_no_white_king(datas,row,column-2)){
         if(*(datas+row*8+column-1)==0 && *(datas+row*8+column-2)==0 && *(datas+row*8+column-3)==0 && *(datas+row*8+column-4)==-5){
@@ -1271,7 +1269,7 @@ void Black_king::step_castling_left_machine(int *datas,const int &row, const int
 
 
 
-void Black_king::step_machine(int *datas,std::vector<std::vector<int>> &MoveAndPoint)
+void Black_king::step_machine(int *datas, std::vector<std::vector<int>> &MoveAndPoint, const bool &BlackKingRookDidNotMoveRight, const bool &BlackKingRookDidNotMoveLeft)
 {
     int row, column;
 
@@ -1289,8 +1287,12 @@ void Black_king::step_machine(int *datas,std::vector<std::vector<int>> &MoveAndP
                 step_6_machine(datas, row, column, MoveAndPoint);
                 step_7_machine(datas, row, column, MoveAndPoint);
                 step_8_machine(datas, row, column, MoveAndPoint);
-                step_castling_left_machine(datas,row, column, MoveAndPoint);
-                step_castling_right_machine(datas,row, column, MoveAndPoint);
+                if(BlackKingRookDidNotMoveLeft){
+                    step_castling_left_machine(datas,row, column, MoveAndPoint);
+                }
+                if(BlackKingRookDidNotMoveRight){
+                    step_castling_right_machine(datas,row, column, MoveAndPoint);
+                }
             }
         }
     }

@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include <fstream>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -23,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
     }
     else{
         qApp->setStyleSheet("MainWindow{border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%)}");
-        ui->pushButton->setStyleSheet("");
-        ui->pushButton_2->setStyleSheet("");
+        ui->pushButton->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(81%,80%,80%); color: black");
+        ui->pushButton_2->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(81%,80%,80%); color: black");
         ui->actionBekapcsol->setText("Bekapcsol");
         ui->menubar->setStyleSheet("border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%); color: rgb(0%,0%,0%)");
     }
@@ -50,10 +51,15 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     hide();
-    Game game;
-    game.saved_game_load();
-    game.show();
-    game.exec();
+
+
+    Load load;
+    load.show();
+    load.exec();
+    //Game game;
+    //game.saved_game_load();
+    //game.show();
+    //game.exec();
 
 }
 
@@ -73,8 +79,8 @@ void MainWindow::on_actionBekapcsol_triggered()
     }
     else{
         qApp->setStyleSheet("MainWindow{border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%)}");
-        ui->pushButton->setStyleSheet("");
-        ui->pushButton_2->setStyleSheet("");
+        ui->pushButton->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(81%,80%,80%); color: black");
+        ui->pushButton_2->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(81%,80%,80%); color: black");
         ui->actionBekapcsol->setText("Bekapcsol");
         ui->menubar->setStyleSheet("border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%); color: rgb(0%,0%,0%)");
         theme=1;

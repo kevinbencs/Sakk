@@ -128,8 +128,8 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>642</width>
-           <height>642</height>
+           <width>645</width>
+           <height>645</height>
           </size>
          </property>
          <property name="rowCount">

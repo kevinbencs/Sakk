@@ -33,7 +33,9 @@ class Game : public QDialog
 public:
     explicit Game(QWidget *parent = nullptr);
     ~Game();
-    void saved_game_load();
+    void saved_game_load(QString s);
+
+    void table(int difficulty_level,int WhiteOrBlackMachine);
 
 private slots:
     void on_pushButton_clicked();
@@ -50,9 +52,14 @@ private:
     bool get_Black_CanMove();
     bool be_draw_black();
     bool there_is_no_draw_and_checkmatt();
+    void check_check_checkmate_draw();
+    void table_white_machine();
+    void table_black_machine_or_human();
+    void change_the_table();
+
 
     Ui::Game *ui;
-    int piece=0;
+    int piece=100;
     int RowOld;
     int ColumnOld;
     int BlackOrWhite=1;
@@ -62,12 +69,15 @@ private:
     bool WhiteKingRookDidNotMoveLeft=true, WhiteKingRookDidNotMoveRight=true;
     bool BlackKingRookDidNotMoveLeft=true, BlackKingRookDidNotMoveRight=true;
     int *datas=new int[64];
-    int WhiteOrBlack=1;
+    int WhiteOrBlackMachine=0;
+    int difficulty_level;
+    void change_piece();
 
     QMenuBar* menuBar;
     QMenu* menu;
     QAction* Action;
     int theme;
+    QByteArray arr;
 
 };
 
