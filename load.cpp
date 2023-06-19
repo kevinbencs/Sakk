@@ -5,13 +5,24 @@
 #include <iostream>
 #include <fstream>
 
+
+//////////////////////////////////////////////////////////////
+/// Load::Load
+/// You can select/delete a saved game
+/////////////////////////////////////////////////////////////
+
+
 Load::Load(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Load)
 {
     ui->setupUi(this);
 
+    setWindowIcon(QIcon("Gui/Chess.jpg"));
 
+    ///////////////////////////////////////////////////////
+    /// This is the menu
+    //////////////////////////////////////////////////////
     menuBar=new QMenuBar();
     menu=new QMenu("Sötét téma");
     Action=new QAction("Bekapcsol");
@@ -20,6 +31,10 @@ Load::Load(QWidget *parent) :
 
     this->layout()->setMenuBar(menuBar);
     connect(Action,&QAction::triggered,this,&Load::on_Action_triggered);
+
+    ///////////////////////////////////////////////////////////////
+    /// Loading the theme of appearance
+    //////////////////////////////////////////////////////////////
 
     std::ifstream in("Theme");
     in>>theme;
@@ -42,12 +57,14 @@ Load::Load(QWidget *parent) :
         menuBar->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(80%,80%,80%); color: rgb(0%,0%,0%)");
     }
 
-
+    ///////////////////////////////////////////////////////////////
+    /// Loading the date of saved game
+    //////////////////////////////////////////////////////////////
 
     QFile fin("Saved.txt");
 
     if(fin.size()==0){
-        ui->listWidget->addItem(new QListWidgetItem("Nincs mentett adat"));
+        ui->listWidget->addItem(new QListWidgetItem("Nincs elmentett menet."));
     }
     else{
         if(!fin.open(QFile::ReadOnly)){
@@ -67,7 +84,9 @@ Load::Load(QWidget *parent) :
     fin.close();
 }
 
-
+///////////////////////////////////////////////////////////////
+/// This is the menu where you can select the window appearance.
+///////////////////////////////////////////////////////////////
 void Load::on_Action_triggered()
 {
     if(Action->text()=="Bekapcsol"){
@@ -103,18 +122,23 @@ Load::~Load()
     delete ui;
 }
 
+//////////////////////////////
+/// Load the saved game
+//////////////////////////////
 void Load::on_pushButton_clicked()
 {
-    hide();
-    Game game;
-    game.saved_game_load(ui->listWidget->currentItem()->text());
-    game.show();
-    game.exec();
+    if(ui->listWidget->currentItem()->text()!="Nincs elmentett menet."){
+        hide();
+        Game game;
+        game.saved_game_load(ui->listWidget->currentItem()->text());
+        game.show();
+        game.exec();
+    }
 }
 
-
-
-
+///////////////////////////////////////
+/// Go back to the Mainwindow ("Mégse")
+///////////////////////////////////////
 void Load::on_pushButton_3_clicked()
 {
     hide();
@@ -122,11 +146,12 @@ void Load::on_pushButton_3_clicked()
     mainWindow->show();
 }
 
-
+////////////////////////////////////////
+/// Writing the saves to the listwidget
+////////////////////////////////////////
 void Load::write_saved_datas_to_list()
 {
     ui->listWidget->clear();
-
     QFile fin("Saved.txt");
 
     if(!fin.open(QFile::ReadOnly)){
@@ -146,7 +171,9 @@ void Load::write_saved_datas_to_list()
     fin.close();
 }
 
-
+//////////////////////////////////
+/// Writing the saves to the file
+//////////////////////////////////
 void Load::write_saved_datas(QString s)
 {
     QFile out("Saved.txt");
@@ -164,18 +191,21 @@ void Load::write_saved_datas(QString s)
         else{
            str<<s[i];
         }
-
     }
 
     str.flush();
     out.close();
 }
 
-
+///////////////////////////////////////////////////
+/// Delete a save
+///////////////////////////////////////////////////
+/// Reading the saves except for the one you want to delete
+/// Writing the saves to the file and the listwidget
+///////////////////////////////////////////////////
 void Load::on_pushButton_2_clicked()
 {
     QFile fin("Saved.txt");
-
 
     if(!fin.open(QFile::ReadOnly)){
         return;
@@ -200,7 +230,5 @@ void Load::on_pushButton_2_clicked()
 
     write_saved_datas(s);
     write_saved_datas_to_list();
-
-
 }
 

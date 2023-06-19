@@ -74,6 +74,7 @@ private:
     void step_castling_left_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
     void step_castling_right_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
 
+    void change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas, bool &BlackKingRookDidNotMoveLeft, bool &BlackKingRookDidNotMoveRight);
 };
 
 #endif // BLACK_KING_H

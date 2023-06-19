@@ -39,7 +39,6 @@ private:
     Ui::Load *ui;
 
     QByteArray arr;
-
 };
 
 #endif // LOAD_H

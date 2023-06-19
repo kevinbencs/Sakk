@@ -117,6 +117,7 @@ private:
     void helper_up_right_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint);
     void helper_up_left_check_step_machine(int *datas,const int &row, const int &column,const int &x, const int &y,std::vector<std::vector<int>> &MoveAndPoint);
 
+    void change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas);
 };
 
 #endif // BLACK_PAWN_H

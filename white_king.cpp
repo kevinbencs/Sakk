@@ -5,8 +5,16 @@ White_king::White_king()
 
 }
 
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
 
 
+////////////////////////////////////////
+/// Check there will be check after the king steps
+/////////////////////////////////////////
 bool White_king::there_is_no_black_queen_and_rook_right(int *datas, const int &row, const int &column)
 {
     for(int i=column+1;i<8;i++){
@@ -596,7 +604,13 @@ bool White_king::there_is_no_black_bishop(int *datas, const int &row, const int 
 }
 
 
+////////////////////////////////////////
+/// Step
+////////////////////////////////////////
 
+////////////////////////////////////////
+/// Paint green the cells where the king can step
+////////////////////////////////////////
 void White_king::step_1(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
     if((row+1)<8 && there_is_no_black_bishop(datas,row+1,column) && there_is_no_black_knight(datas,row+1,column) && there_is_no_black_queen_and_rook(datas,row+1,column) && there_is_no_black_queen_and_pawn(datas,row+1,column) && there_is_no_black_king(datas,row+1,column)){
@@ -750,6 +764,9 @@ void White_king::step_castling_left(Ui::Game* ui,const int &row, const int &colu
 
 
 
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
 void White_king::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight)
 {
     QImage* img;
@@ -784,7 +801,7 @@ void White_king::change_piece_cell(Ui::Game *ui, const int &row, const int &colu
         picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
         ui->tableWidget->setItem(row,column+1,picture);
         datas[row*8+column+1]=5;
-        datas[row*8+column-1]=0;
+        datas[row*8+column-2]=0;
         ui->tableWidget->setItem(row,column-1,new QTableWidgetItem(""));
     }
 
@@ -854,9 +871,9 @@ void White_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
     }
 }
 
-
-
-
+/////////////////////////////
+/// King can step
+/////////////////////////////
 
 void White_king::step_1(int *datas, const int &row, const int &column,  bool &CanMove)
 {
@@ -991,8 +1008,6 @@ void White_king::step_8(int *datas, const int &row, const int &column,  bool &Ca
 
 
 
-
-
 bool White_king::get_CanMove(int *datas)
 {
     int row, column;
@@ -1018,6 +1033,13 @@ bool White_king::get_CanMove(int *datas)
     return CanMove;
 }
 
+
+
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 

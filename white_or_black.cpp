@@ -3,6 +3,12 @@
 #include <fstream>
 #include <ctime>
 
+
+//////////////////////////////////////////////////
+/// Select the color (white or black) when you play against thw machine
+//////////////////////////////////////////////////
+
+
 White_or_black::White_or_black(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::White_or_black)
@@ -10,20 +16,25 @@ White_or_black::White_or_black(QWidget *parent) :
     ui->setupUi(this);
     setWindowIcon(QIcon("Gui/Chess.jpg"));
 
+    ///////////////////////////////////////////////////////
+    /// This is the menu
+    //////////////////////////////////////////////////////
+
     menuBar=new QMenuBar();
     menu=new QMenu("Sötét téma");
     Action=new QAction("Bekapcsol");
     menu->addAction(Action);
     menuBar->addMenu(menu);
 
-
     this->layout()->setMenuBar(menuBar);
-
     connect(Action,&QAction::triggered,this,&White_or_black::on_Action_triggered);
+
+    ///////////////////////////////////////////////////////////////
+    /// Loading the theme of appearance
+    //////////////////////////////////////////////////////////////
 
     std::ifstream in("Theme");
     in>>theme;
-
     in.close();
 
     if(theme==0){
@@ -47,7 +58,9 @@ White_or_black::White_or_black(QWidget *parent) :
 }
 
 
-
+///////////////////////////////////////////////////////////////
+/// This is the menu where you can select the window appearance.
+///////////////////////////////////////////////////////////////
 void White_or_black::on_Action_triggered()
 {
     if(Action->text()=="Bekapcsol"){
@@ -73,7 +86,6 @@ void White_or_black::on_Action_triggered()
 
     std::ofstream out("Theme");
     out<<theme;
-
     out.close();
 }
 
@@ -90,7 +102,9 @@ White_or_black::~White_or_black()
     delete ui;
 }
 
-//white
+/////////////////////////
+/// Select the white pieces
+/////////////////////////
 void White_or_black::on_pushButton_clicked()
 {
     hide();
@@ -100,7 +114,9 @@ void White_or_black::on_pushButton_clicked()
     game.exec();
 }
 
-//black
+/////////////////////////
+/// Select the black pieces
+/////////////////////////
 void White_or_black::on_pushButton_2_clicked()
 {
     Game game;
@@ -110,7 +126,9 @@ void White_or_black::on_pushButton_2_clicked()
     game.exec();
 }
 
-
+/////////////////////////
+/// Random choice
+/////////////////////////
 void White_or_black::on_pushButton_3_clicked()
 {
     Game game;

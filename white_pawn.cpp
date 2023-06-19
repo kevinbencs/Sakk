@@ -7,8 +7,21 @@ White_pawn::White_pawn()
 
 }
 
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
 
 
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+/// Paint green the cells where the pawn and queen can step
+////////////////////////////////////////
 void White_pawn::step_left_up(Ui::Game* ui, const int &row, const int &column,int *datas)
 {
     for(int i=row-1, j=column-1;i>=0 && j>=0;i--, j--){
@@ -77,9 +90,9 @@ void White_pawn::step_right_down(Ui::Game* ui, const int &row, const int &column
 
 
 
-
-
-
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
 void White_pawn::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine)
 {
     Check check;
@@ -142,7 +155,9 @@ void White_pawn::step(Ui::Game *ui, const int &row, const int &column, int &RowO
 }
 
 
-
+////////////////////////
+/// Step when there is check
+////////////////////////
 void White_pawn::column_up_right_check_step(Ui::Game* ui,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,int *datas)
 {
     for(int i=row-1,j=column+1; j<=king_column && i>=0 ;i--,j++){
@@ -588,17 +603,14 @@ void White_pawn::check_step(Ui::Game *ui, const int &row, const int &column, int
         if(piece!=3 && *(datas+row*8+column)==3){
             piece=3;
 
-            //column
             if(king_column==AttackerColumn){
                 column_equal_check_step(ui,row, column, king_column, king_row,AttackerRow,datas);
             }
 
-            //row
             if(king_row==AttackerRow){
                 row_equal_check_step(ui,row, column, king_column, king_row,AttackerColumn,datas);
             }
 
-            //dialog
             if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
                 dialog_left_up(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow,datas);
             }
@@ -671,7 +683,9 @@ void White_pawn::check_knight_and_bishop_step(Ui::Game *ui, const int &row, cons
 
 
 
-
+////////////////////////
+/// Pawn can step when there is check
+///////////////////////
 
 void White_pawn::column_up_right_check_step(int *datas,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,bool &CanMove)
 {
@@ -1182,8 +1196,6 @@ bool White_pawn::get_checkmate_CanMove(int *datas, const int &AttackerRow, const
                 }
             }
         }
-
-
     }
 
     return CanMove;
@@ -1191,7 +1203,9 @@ bool White_pawn::get_checkmate_CanMove(int *datas, const int &AttackerRow, const
 
 
 
-
+////////////////////////
+/// Pawn can step when there is no check (for draw)
+///////////////////////
 
 
 
@@ -1294,7 +1308,11 @@ bool White_pawn::get_draw_CanMove(int *datas)
 
 
 
-
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 

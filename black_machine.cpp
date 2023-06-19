@@ -3,14 +3,21 @@
 #include <QFile>
 #include <fstream>
 
+
+///////////////////////////////////////
+/// This is the machine
+/// First I check there is check
+/// After that, I check the possible steps and put them into the vector named v
+/// Search which step has the max point (if there are more steps, I select one at random)
+///////////////////////////////////////
+
+
+
+
 Black_machine::Black_machine()
 {
 
 }
-
-
-
-
 
 void Black_machine::step_bishop(Ui::Game *ui, int *datas, const int &moving, const int &coordinate,const int &WhiteOrBlackMachine)
 {
@@ -44,7 +51,6 @@ void Black_machine::step_bishop(Ui::Game *ui, int *datas, const int &moving, con
 
 
 
-//sánc
 void Black_machine::step_king(Ui::Game *ui, int *datas, const int &moving, const int &coordinate, const int &WhiteOrBlackMachine, bool &BlackKingRookDidNotMoveRight, bool &BlackKingRookDidNotMoveLeft)
 {
     QImage* img;
@@ -204,6 +210,11 @@ void Black_machine::step_knight(Ui::Game *ui, int *datas, const int &moving, con
 }
 
 
+
+
+////////////////////////////////
+/// Check the possible steps and put them into the vector named v
+//////////////////////////////////
 void Black_machine::make_v(int *datas, int row , int column, const bool &BlackKingRookDidNotMoveRight, const bool &BlackKingRookDidNotMoveLeft)
 {
     Black_bishop black_bishop;
@@ -253,7 +264,9 @@ void Black_machine::make_v(int *datas, int row , int column, const bool &BlackKi
 
 
 
-
+///////////////////////////////
+/// Search the step which has the max point and put into vector named v1
+///////////////////////////////
 void Black_machine::max_point_move_search()
 {
     int max=-1000;
@@ -318,7 +331,9 @@ void Black_machine::max_point_move_search()
 
 
 
-
+/////////////////////////////////////
+/// Search the max point of the opponent's step
+/////////////////////////////////////
 void Black_machine::minimum_point(int *datas, const bool &WhiteKingRookDidNotMoveRight, const bool &WhiteKingRookDidNotMoveLeft)
 {
     int *datas1=new int[64];
@@ -347,7 +362,10 @@ void Black_machine::minimum_point(int *datas, const bool &WhiteKingRookDidNotMov
 
 
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/// The cells of table have point too
+/// (because e.g. a knight on the center of the board is better, than a knight on the edge of the board.)
+////////////////////////////////////////////////////////////////////////////////////////////////////
 int Black_machine::get_point_of_table_helper(int* datas,const int &row, const int &column,const int &NewRow,const int &NewColumn)
 {
     int point=0;
@@ -400,7 +418,9 @@ void Black_machine::get_point_of_table(int *datas)
 
 
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/// It is need in the minimum_point function of white machine "Search the max point of the opponent's step "
+/////////////////////////////////////////////////////////////////////////////////////////////////
 int Black_machine::get_max_point(int* datas, const int &BlackKingRookDidNotMoveRight, const int &BlackKingRookDidNotMoveLeft)
 {
     for(int i=0; i<8;i++){

@@ -6,24 +6,48 @@ Black_queen::Black_queen()
 }
 
 
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
+
+
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
+void Black_queen::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas)
+{
+    Check check;
+    QImage* img;
+
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+
+    img=new QImage("Gui/black_rook.png");
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+    datas[row*8+column]=-8;
+
+    check.green_cell_disappear(ui);
+    piece=0;
+    BlackOrWhite=1;
+}
+
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
 
 void Black_queen::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-
-        QImage* img=new QImage("Gui/black_queen.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=-8;
-        datas[RowOld*8+ColumnOld]=0;
-
-        piece=0;
-        BlackOrWhite=1;
-        check.green_cell_disappear(ui);
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas);
     }
     else{
         check.green_cell_disappear(ui);
@@ -58,26 +82,16 @@ void Black_queen::step(Ui::Game *ui, const int &row, const int &column, int &Row
 }
 
 
-
+////////////////////////
+/// Step when there is check
+////////////////////////
 
 void Black_queen::check_step(Ui::Game* ui,const int &row,const int &column,int &piece,int &OldRow, int &OldColumn, const int &AttackerRow, const int &AttackerColumn,int &BlackOrWhite,const int &king_row,const int &king_column,int *datas)
 {
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-
-        QImage* img=new QImage("Gui/black_queen.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=-8;
-        datas[OldRow*8+OldColumn]=0;
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -127,18 +141,7 @@ void Black_queen::check_knight_and_bishop_step(Ui::Game *ui, const int &row, con
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/black_queen.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=-8;
-        datas[OldRow*8+OldColumn]=0;
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -174,7 +177,9 @@ void Black_queen::check_knight_and_bishop_step(Ui::Game *ui, const int &row, con
     }
 }
 
-
+////////////////////////
+/// Queen can step when there is check
+///////////////////////
 
 
 bool Black_queen::get_checkmate_CanMove(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop)
@@ -266,7 +271,9 @@ bool Black_queen::get_checkmate_CanMove(int *datas, const int &AttackerRow, cons
 }
 
 
-
+////////////////////////
+/// Queen can step when there is no check (for draw)
+///////////////////////
 bool Black_queen::get_draw_CanMove(int *datas)
 {
     Check check;
@@ -307,7 +314,11 @@ bool Black_queen::get_draw_CanMove(int *datas)
 
 
 
-
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 
@@ -326,17 +337,14 @@ void Black_queen::step_check_machine(int *datas, const int &AttackerRow, const i
             }
         }
 
-        //column
         if(king_column==AttackerColumn){
             column_equal_check_step_machine(datas,row, column, king_column, king_row,AttackerRow,MoveAndPoint);
             king_column_black_queen_rook_column_equal_step_machine(datas,row,column,AttackerColumn,AttackerRow,MoveAndPoint,king_row,king_column);
         }
-        //row
         if(king_row==AttackerRow){
             row_equal_check_step_machine(datas,row, column, king_column, king_row,AttackerColumn,MoveAndPoint);
             king_row_black_queen_rook_row_equal_step_machine(datas,row,column,AttackerColumn,AttackerRow,MoveAndPoint,king_row,king_column);
         }
-        //dialog
         if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
             dialog_left_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
             king_dialog_black_queen_pawn_equal_left_down_step_machine(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,MoveAndPoint);

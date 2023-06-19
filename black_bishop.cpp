@@ -1,10 +1,50 @@
 #include "black_bishop.h"
 
+
 Black_bishop::Black_bishop()
 {
 
 }
 
+
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
+void Black_bishop::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas)
+{
+    Check check;
+    QImage* img;
+
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+
+    img=new QImage("Gui/black_bishop.png");
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+    datas[row*8+column]=-1;
+
+    check.green_cell_disappear(ui);
+    piece=0;
+    BlackOrWhite=1;
+}
+
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+/// Paint green the cells where the bishop can step
+////////////////////////////////////////
 void Black_bishop::step_down(Ui::Game* ui, const int &row, const int &column, int *datas)
 {
     if(row!=0){
@@ -15,7 +55,6 @@ void Black_bishop::step_down(Ui::Game* ui, const int &row, const int &column, in
             }
         }
     }
-
 }
 
 
@@ -27,8 +66,6 @@ void Black_bishop::step_down_right(Ui::Game* ui, const int &row, const int &colu
         }
     }
 }
-
-
 
 
 void Black_bishop::step_down_left(Ui::Game* ui, const int &row, const int &column, int *datas)
@@ -45,31 +82,7 @@ void Black_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-        datas[RowOld*8+ColumnOld]=0;
-
-        if(row==0){
-            QImage* img=new QImage("Gui/black_queen.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-            datas[row*8+column]=-8;
-        }
-        else{
-            QImage* img=new QImage("Gui/black_bishop.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-
-            datas[row*8+column]=-1;
-        }
-
-        check.green_cell_disappear(ui);
-
-        piece=0;
-        BlackOrWhite=1;
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas);
     }
     else{
         check.green_cell_disappear(ui);
@@ -90,14 +103,15 @@ void Black_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
             piece=100;
         }
 
-
         ColumnOld=column;
         RowOld=row;
     }
 }
 
 
-
+////////////////////////
+/// Step when there is check
+////////////////////////
 void Black_bishop::check_step_move(Ui::Game* ui, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow,int* datas)
 {
     Check check;
@@ -166,7 +180,6 @@ void Black_bishop::dialog_left_up(Ui::Game* ui, const int &row, const int &colum
 
 
 
-
 void Black_bishop::dialog_right_down(Ui::Game* ui, const int &row, const int &column, const int &king_column, const int &king_row, const int &AttackerColumn,const int &AttackerRow, int *datas)
 {
     std::vector<std::pair<int,int>> v;
@@ -177,7 +190,6 @@ void Black_bishop::dialog_right_down(Ui::Game* ui, const int &row, const int &co
 
     check_step_move(ui,row,column,v,AttackerColumn,AttackerRow,datas);
 }
-
 
 
 
@@ -207,37 +219,11 @@ void Black_bishop::dialog_right_up(Ui::Game* ui, const int &row, const int &colu
 
 
 
-
-
 void Black_bishop::check_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite,int &king_row, int &king_column, int *datas)
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        datas[OldRow*8+OldColumn]=0;
-
-        if(row==0){
-            QImage* img=new QImage("Gui/black_queen.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-            datas[row*8+column]=-8;
-        }
-        else{
-            QImage* img=new QImage("Gui/black_bishop.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-
-            datas[row*8+column]=-1;
-        }
-
-        check.green_cell_disappear(ui);
-
-        piece=0;
-        BlackOrWhite=1;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -245,27 +231,22 @@ void Black_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
 
         if(piece!=-1 && *(datas+row*8+column)==-1){
             piece=-1;
-            //column
+
             if(king_column==AttackerColumn){
                 check_step_move(ui,row,column,king_column,AttackerRow,datas);
             }
-            //row
             if(king_row==AttackerRow){
                 row_equal_check_step(ui,row,column,king_column,king_row,AttackerColumn,datas);
             }
-            //dialog
             if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
                 dialog_left_up(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow,datas);
             }
-
             if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
                 dialog_right_down(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow,datas);
             }
-
             if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
                 dialog_right_up(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow,datas);
             }
-
             if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
                 dialog_left_down(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow,datas);
             }
@@ -281,38 +262,11 @@ void Black_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
 
 
 
-
-
-
 void Black_bishop::check_knight_and_bishop_step(Ui::Game *ui, const int &row, const int &column, int &piece, int &OldRow, int &OldColumn, int &AttackerRow, int &AttackerColumn,int &BlackOrWhite, int *datas)
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        datas[OldRow*8+OldColumn]=0;
-
-        if(row==0){
-            QImage* img=new QImage("Gui/black_queen.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-            datas[row*8+column]=-8;
-        }
-        else{
-            QImage* img=new QImage("Gui/black_bishop.png");
-
-            QTableWidgetItem* picture=new QTableWidgetItem;
-            picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
-            ui->tableWidget->setItem(row,column,picture);
-
-            datas[row*8+column]=-1;
-        }
-
-        check.green_cell_disappear(ui);
-
-        piece=0;
-        BlackOrWhite=1;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -332,11 +286,9 @@ void Black_bishop::check_knight_and_bishop_step(Ui::Game *ui, const int &row, co
 }
 
 
-
-
-
-
-
+////////////////////////
+/// Bishop can step when there is check
+///////////////////////
 
 void Black_bishop::check_step_move(int* datas, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow,bool &CanMove)
 {
@@ -351,8 +303,6 @@ void Black_bishop::check_step_move(int* datas, const int &row, const int &column
             CanMove=true;
         }
     }
-
-
 }
 
 
@@ -472,23 +422,18 @@ bool Black_bishop::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
                     if(king_column==AttackerColumn){
                         check_step_move(datas,row,column,king_column,AttackerRow,CanMove);
                     }
-                    //row
                     if(king_row==AttackerRow){
                         row_equal_check_step(datas,row,column,king_column,king_row,AttackerColumn,CanMove);
                     }
-                    //dialog
                     if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
                         dialog_left_up(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                     }
-
                     if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
                         dialog_right_down(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                     }
-
                     if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
                         dialog_right_up(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                     }
-
                     if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
                         dialog_left_down(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                     }
@@ -513,9 +458,9 @@ bool Black_bishop::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
 }
 
 
-
-
-
+////////////////////////
+/// Bishop can step when there is no check (for draw)
+///////////////////////
 
 
 void Black_bishop::step_down(int *datas, const int &row, const int &column,bool &CanMove)
@@ -574,8 +519,6 @@ bool Black_bishop::get_draw_CanMove(int* datas)
                 if(check.step_white_right_up_and_left_down_check(datas,row,column)){
                     step_down_right(datas, row, column,CanMove);
                 }
-
-
             }
         }
     }
@@ -586,6 +529,12 @@ bool Black_bishop::get_draw_CanMove(int* datas)
 
 
 
+
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 void Black_bishop::step_down_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
@@ -601,7 +550,6 @@ void Black_bishop::step_down_machine(int *datas, const int &row, const int &colu
             if(check.check_check(datas,row+1,column,-1,row,column)){
                 point+=900;
             }
-
 
             v.push_back(point);
             MoveAndPoint.push_back(v);
@@ -665,6 +613,10 @@ void Black_bishop::step_down_left_machine(int* datas, const int &row, const int 
         }
     }
 }
+
+
+
+
 
 
 
@@ -851,23 +803,18 @@ void Black_bishop::step_check_machine(int *datas, const int &AttackerRow, const 
         if(king_column==AttackerColumn){
             check_step_move_machine(datas,row,column,king_column,AttackerRow,MoveAndPoint);
         }
-        //row
         if(king_row==AttackerRow){
             row_equal_check_step_machine(datas,row,column,king_column,king_row,AttackerColumn,MoveAndPoint);
         }
-        //dialog
         if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
             dialog_left_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
         }
-
         if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)<0){
             dialog_right_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
         }
-
         if((king_column-AttackerColumn)<0 && (king_row-AttackerRow)>0){
             dialog_right_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
         }
-
         if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
             dialog_left_down_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
         }

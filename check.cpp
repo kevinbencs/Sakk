@@ -1,11 +1,24 @@
 #include "check.h"
 
+
+
+////////////////////////////////////////////////////
+/// Check there is check and if you step one piece, there will be check
+/// Machine get point when hits one piece
+////////////////////////////////////////////////////
+
+
+
 Check::Check()
 {
 
 }
 
 
+
+/////////////////////////////////////
+/// Delete the green color cells
+/////////////////////////////////////
 void Check::green_cell_disappear(Ui::Game* ui)
 {
     for(int i=0;i<8;i++){
@@ -21,6 +34,9 @@ void Check::green_cell_disappear(Ui::Game* ui)
 }
 
 
+////////////////////////////////////////////////////
+/// Check there is check
+////////////////////////////////////////////////////
 bool Check::king_check(int *datas,const int &BlackOrWhite,const int &row, const int &column, int &AttackerRow, int &AttackerColumn,int &KnightAndBishop)
 {
     White_king white_king;
@@ -62,8 +78,9 @@ bool Check::king_check(int *datas,const int &BlackOrWhite,const int &row, const 
 }
 
 
-
-//white king
+////////////////////////////////////////////////////
+/// Check if you step one piece, there will be check (white king)
+////////////////////////////////////////////////////
 bool Check::white_king_right_check(int* datas,const int &row, const int &column)
 {
     for(int i=column+1;i<8;i++){
@@ -79,7 +96,6 @@ bool Check::white_king_right_check(int* datas,const int &row, const int &column)
 
     return false;
 }
-
 
 
 
@@ -498,21 +514,9 @@ bool Check::step_white_knight_check(int *datas, const int &row, const int &colum
 
 
 
-
-
-
-
-
-
-//black king
-
-
-
-
-
-
-
-
+////////////////////////////////////////////////////
+/// Check if you step one piece, there will be check (white king)
+////////////////////////////////////////////////////
 bool Check::black_king_right_check(int *datas,const int &row, const int &column)
 {
     for(int i=column+1;i<8;i++){
@@ -524,7 +528,6 @@ bool Check::black_king_right_check(int *datas,const int &row, const int &column)
                 return false;
             }
         }
-
     }
     return false;
 }
@@ -543,7 +546,6 @@ bool Check::black_king_left_check(int *datas,const int &row, const int &column)
                 return false;
             }
         }
-
     }
 
     return false;
@@ -562,7 +564,6 @@ bool Check::black_king_down_check(int *datas, const int &row, const int &column)
                 return false;
             }
         }
-
     }
     return false;
 }
@@ -581,7 +582,6 @@ bool Check::black_king_up_check(int *datas,const int &row, const int &column)
                 return false;
             }
         }
-
     }
     return false;
 }
@@ -940,6 +940,9 @@ bool Check::step_black_knight_check(int *datas, const int &row, const int &colum
 
 
 
+
+
+
 void Check::look_for_the_kings(int *datas, const int &BlackOrWhite, int &king_row, int &king_column)
 {
     if(BlackOrWhite==1){
@@ -965,6 +968,11 @@ void Check::look_for_the_kings(int *datas, const int &BlackOrWhite, int &king_ro
 }
 
 
+
+
+//////////////////////////////
+/// Check check when the machine steps
+//////////////////////////////
 bool Check::check_check(int *datas, const int &row, const int &column, const int &piece,const int &OldRow, const int &OldColumn)
 {
     bool check=false;
@@ -977,7 +985,6 @@ bool Check::check_check(int *datas, const int &row, const int &column, const int
     else{
         BlackOrWhite=-1;
     }
-
 
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
@@ -1004,10 +1011,12 @@ bool Check::check_check(int *datas, const int &row, const int &column, const int
 
 
 
-
+/////////////////////
+/// The machine get point when it hits one piece
+/////////////////////
 int Check::occupying_an_white_piece(int *datas, const int &row, const int &column)
 {
-    int point;
+    int point=0;
 
     switch (*(datas+8*row+column)){
     case 1:
@@ -1034,7 +1043,7 @@ int Check::occupying_an_white_piece(int *datas, const int &row, const int &colum
 
 int Check::occupying_an_black_piece(int *datas, const int &row, const int &column)
 {
-    int point;
+    int point=0;
 
     switch (*(datas+8*row+column)){
     case -1:

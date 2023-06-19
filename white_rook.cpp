@@ -9,9 +9,23 @@ White_rook::White_rook()
 
 
 
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
 
 
 
+
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+/// Paint green the cells where the rook and queen can step
+////////////////////////////////////////
 void White_rook::step_up(Ui::Game* ui, const int &row, const int &column,int *datas)
 {
     for(int i=row-1;i>=0 && i<8; i--){
@@ -80,7 +94,9 @@ void White_rook::step_right(Ui::Game* ui, const int &row, const int &column,int 
 }
 
 
-
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
 void White_rook::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine,bool &WhiteKingRookDidNotMoveLeft,bool &WhiteKingRookDidNotMoveRight)
 {
     Check check;
@@ -101,10 +117,10 @@ void White_rook::change_piece_cell(Ui::Game *ui, const int &row, const int &colu
     ui->tableWidget->setItem(row,column,picture);
     datas[row*8+column]=5;
 
-    if(ColumnOld==7){
+    if(ColumnOld==7 && RowOld==7){
         WhiteKingRookDidNotMoveRight=false;
     }
-    if(ColumnOld==0){
+    if(ColumnOld==0 && RowOld==7){
         WhiteKingRookDidNotMoveLeft=false;
     }
 
@@ -151,7 +167,9 @@ void White_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowO
 
 
 
-
+////////////////////////
+/// Step when there is check
+////////////////////////
 void White_rook::left_check_step(Ui::Game* ui, const int &row, const int &column,const int &AttackerColumn,int *datas)
 {
     for(int i=column+1;i<=AttackerColumn;i++){
@@ -487,7 +505,9 @@ void White_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, cons
 
 
 
-
+////////////////////////
+/// Rook can step when there is check
+///////////////////////
 
 
 void White_rook::left_check_step(int *datas, const int &row, const int &column,const int &AttackerColumn,bool &CanMove)
@@ -775,15 +795,12 @@ bool White_rook::get_checkmate_CanMove(int *datas, const int &AttackerRow, const
                     }
 
                     if((king_row<=row && row<=AttackerRow) || (king_row>=row && row>=AttackerRow) || (king_column<=column && column<=AttackerColumn) || (king_column>=column && column>=AttackerColumn)){
-                        //column
                         if(king_column==AttackerColumn){
                             king_column_black_queen_rook_column_equal_step(datas,row,column,AttackerColumn,AttackerRow,CanMove,king_row,king_column);
                         }
-                        //row
                         if(king_row==AttackerRow){
                             king_row_black_queen_rook_row_equal_step(datas,row,column,AttackerColumn,AttackerRow,CanMove,king_row,king_column);
                         }
-                        //diagonal
                         if((king_row-AttackerRow)>0 && (king_column-AttackerColumn)>0){
                             king_dialog_black_queen_pawn_equal_left_down_step(datas,row,column,AttackerColumn,AttackerRow,king_row,king_column,CanMove);
                         }
@@ -837,7 +854,9 @@ bool White_rook::get_checkmate_CanMove(int *datas, const int &AttackerRow, const
 
 
 
-
+////////////////////////
+/// Rook can step when there is no check (for draw)
+///////////////////////
 
 void White_rook::step_up(int *datas, const int &row, const int &column,bool &CanMove)
 {
@@ -942,7 +961,11 @@ bool White_rook::get_draw_CanMove(int *datas)
 
 
 
-
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 void White_rook::step_up_machine(int *datas, const int &row, const int &column,std::vector<std::vector<int>> &MoveAndPoint)

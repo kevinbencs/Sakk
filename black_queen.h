@@ -18,6 +18,8 @@ public:
     void step_machine(int *datas,const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint);
     void step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<int>> &MoveAndPoint, const int &row, const int &column);
 
+private:
+    void change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas);
 };
 
 #endif // BLACK_QUEEN_H

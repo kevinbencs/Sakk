@@ -7,7 +7,17 @@ White_queen::White_queen()
 
 }
 
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
 
+
+
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
 void White_queen::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine)
 {
     Check check;
@@ -33,6 +43,9 @@ void White_queen::change_piece_cell(Ui::Game *ui, const int &row, const int &col
     BlackOrWhite=-1;
 }
 
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
 
 void White_queen::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int* datas,const int &WhiteOrBlackMachine)
 {
@@ -74,7 +87,9 @@ void White_queen::step(Ui::Game *ui, const int &row, const int &column, int &Row
 
 
 
-
+////////////////////////
+/// Step when there is check
+////////////////////////
 void White_queen::check_step(Ui::Game* ui,const int &row,const int &column,int &piece,int &OldRow, int &OldColumn, const int &AttackerRow, const int &AttackerColumn,int &BlackOrWhite,const int &king_row,const int &king_column,int* datas,const int &WhiteOrBlackMachine)
 {
     Check check;
@@ -88,17 +103,14 @@ void White_queen::check_step(Ui::Game* ui,const int &row,const int &column,int &
 
         if(piece!=8 && *(datas+row*8+column)==8){
             piece=8;
-            //column
             if(king_column==AttackerColumn){
                 column_equal_check_step(ui,row, column, king_column, king_row,AttackerRow, datas);
                 king_column_black_queen_rook_column_equal_step(ui,row,column,AttackerColumn,AttackerRow,king_row,king_column, datas);
             }
-            //row
             if(king_row==AttackerRow){
                 row_equal_check_step(ui,row, column, king_column, king_row,AttackerColumn, datas);
                 king_row_black_queen_rook_row_equal_step(ui,row,column,AttackerColumn,AttackerRow,king_row,king_column, datas);
             }
-            //dialog
             if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
                 dialog_left_up(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow, datas);
                 king_dialog_black_queen_pawn_equal_left_down_step(ui,row,column,AttackerColumn,AttackerRow,king_row,king_column, datas);
@@ -171,7 +183,9 @@ void White_queen::check_knight_and_bishop_step(Ui::Game *ui, const int &row, con
 }
 
 
-
+////////////////////////
+/// Queen can step when there is check
+///////////////////////
 
 bool White_queen::get_checkmate_CanMove(int* datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop)
 {
@@ -261,7 +275,9 @@ bool White_queen::get_checkmate_CanMove(int* datas, const int &AttackerRow, cons
     return CanMove;
 }
 
-
+////////////////////////
+/// Queen can step when there is no check (for draw)
+///////////////////////
 
 bool White_queen::get_draw_CanMove(int* datas)
 {
@@ -303,6 +319,12 @@ bool White_queen::get_draw_CanMove(int* datas)
 
 
 
+
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 void White_queen::step_check_machine(int *datas, const int &AttackerRow, const int &AttackerColumn, const int &KnightBishop, std::vector<std::vector<int>> &MoveAndPoint,const int &row, const int &column)

@@ -6,8 +6,21 @@ White_knight::White_knight()
 
 }
 
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
 
 
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+/// Paint green the cells where the knight can step
+////////////////////////////////////////
 void White_knight::step_1(Ui::Game* ui, const int &row, const int &column,int *datas)
 {
     if((row+1)<8 && (column+2)<8){
@@ -137,7 +150,9 @@ void White_knight::step_8(Ui::Game* ui, const int &row, const int &column,int *d
 
 
 
-
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
 void White_knight::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine)
 {
     Check check;
@@ -203,7 +218,9 @@ void White_knight::step(Ui::Game *ui, const int &row, const int &column, int &Ro
 
 
 
-
+////////////////////////
+/// Step when there is check
+////////////////////////
 void White_knight::step_1_check(Ui::Game* ui, const int &row, const int &column,std::vector<std::pair<int,int>> v,int *datas)
 {
     if((row+1)<8 && (column+2)<8){
@@ -606,7 +623,9 @@ void White_knight::check_knight_and_bishop_step(Ui::Game *ui, const int &row, co
 
 
 
-
+////////////////////////
+/// Knight can step when there is check
+///////////////////////
 
 void White_knight::step_1_check(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,bool &CanMove)
 {
@@ -992,13 +1011,10 @@ bool White_knight::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
                         step_6_check(datas,row,column,v,CanMove);
                         step_7_check(datas,row,column,v,CanMove);
                         step_8_check(datas,row,column,v,CanMove);
-
                     }
                 }
             }
         }
-
-
     }
 
     return CanMove;
@@ -1006,7 +1022,9 @@ bool White_knight::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
 
 
 
-
+////////////////////////
+/// Knight can step when there is no check (for draw)
+///////////////////////
 
 
 
@@ -1171,7 +1189,11 @@ bool White_knight::get_draw_CanMove(int *datas)
 }
 
 
-
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 

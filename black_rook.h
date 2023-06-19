@@ -69,6 +69,8 @@ protected:
     void king_dialog_black_queen_pawn_equal_right_down_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint);
     void king_dialog_black_queen_pawn_equal_right_up_step_machine(int *datas,const int &row,const int &column,const int &AttackerColumn,const int &AttackerRow,const int &king_row,const int &king_column,std::vector<std::vector<int>> &MoveAndPoint);
 
+private:
+    void change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas, bool &BlackKingRookDidNotMoveLeft, bool &BlackKingRookDidNotMoveRight);
 };
 
 #endif // BLACK_ROOK_H

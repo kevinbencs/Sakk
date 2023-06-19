@@ -2,7 +2,12 @@
 #include "./ui_mainwindow.h"
 #include <fstream>
 
-
+/////////////////////////////////////////////////////////////////
+/// Mainwindow
+/// This is the first window
+/// You can choose the new game or the saved game
+////////////////////////////////////////////////////////////////
+///
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -10,9 +15,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setWindowIcon(QIcon("Gui/Chess.jpg"));
 
+
+    ///////////////////////////////////////////////////////////////
+    /// Loading the theme of appearance
+    //////////////////////////////////////////////////////////////
+
     std::ifstream in("Theme");
     in>>theme;
-
     in.close();
 
     if(theme==0){
@@ -29,7 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
         ui->actionBekapcsol->setText("Bekapcsol");
         ui->menubar->setStyleSheet("border-color: rgb(90%,90%,90%); background-color: rgb(90%,90%,90%); color: rgb(0%,0%,0%)");
     }
-
 }
 
 MainWindow::~MainWindow()
@@ -37,38 +45,33 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//new game
+///////////////
+///New game
+///////////////
 void MainWindow::on_pushButton_clicked()
 {
     hide();
     HumanOrMachine humanOrMachine;
     humanOrMachine.show();
     humanOrMachine.exec();
-
 }
 
-//load the saved game
+//////////////////////////
+/// Load the saved game
+//////////////////////////
 void MainWindow::on_pushButton_2_clicked()
 {
     hide();
-
-
     Load load;
     load.show();
     load.exec();
-    //Game game;
-    //game.saved_game_load();
-    //game.show();
-    //game.exec();
-
 }
 
-
-
-
+////////////////////////////////////////////////////////////////
+/// This is the menu where you can select the window appearance.
+////////////////////////////////////////////////////////////////
 void MainWindow::on_actionBekapcsol_triggered()
 {
-
     if(ui->actionBekapcsol->text()=="Bekapcsol"){
         qApp->setStyleSheet("MainWindow{border-color: rgb(19%,19%,19%); background-color: rgb(19%,19%,19%)}");
         ui->pushButton->setStyleSheet(" background-color: rgb(31%,30%,30%); color: rgb(80%,80%,80%)");
@@ -88,7 +91,6 @@ void MainWindow::on_actionBekapcsol_triggered()
 
     std::ofstream out("Theme");
     out<<theme;
-
     out.close();
 }
 

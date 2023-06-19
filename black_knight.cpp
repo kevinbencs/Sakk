@@ -5,6 +5,51 @@ Black_knight::Black_knight()
 
 }
 
+
+
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
+
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
+void Black_knight::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas)
+{
+    Check check;
+    QImage* img;
+
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+
+    img=new QImage("Gui/black_knight.png");
+
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+    datas[row*8+column]=-4;
+
+
+
+    check.green_cell_disappear(ui);
+    piece=0;
+    BlackOrWhite=1;
+}
+
+
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+/// Paint green the cells where the knight can step
+////////////////////////////////////////
 void Black_knight::step_1(Ui::Game* ui, const int &row, const int &column,int *datas)
 {
     if((row+1)<8 && (column+2)<8){
@@ -138,18 +183,7 @@ void Black_knight::step(Ui::Game *ui, const int &row, const int &column, int &Ro
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/black_knight.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=-4;
-        datas[RowOld*8+ColumnOld]=0;
-
-        check.green_cell_disappear(ui);
-        piece=0;
-        BlackOrWhite=1;
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas);
     }
     else{
         check.green_cell_disappear(ui);
@@ -180,7 +214,9 @@ void Black_knight::step(Ui::Game *ui, const int &row, const int &column, int &Ro
 
 
 
-
+////////////////////////
+/// Step when there is check
+////////////////////////
 void Black_knight::step_1_check(Ui::Game* ui, const int &row, const int &column,std::vector<std::pair<int,int>> v,int *datas)
 {
     if((row+1)<8 && (column+2)<8){
@@ -492,20 +528,7 @@ void Black_knight::check_step(Ui::Game* ui,const int &row,const int &column, int
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/black_knight.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=-4;
-        datas[OldRow*8+OldColumn]=0;
-
-        datas[row*8+column]=-4;
-        datas[OldRow*8+OldColumn]=0;
-
-        check.green_cell_disappear(ui);
-        piece=0;
-        BlackOrWhite=1;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -557,21 +580,7 @@ void Black_knight::check_knight_and_bishop_step(Ui::Game *ui, const int &row, co
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/black_knight.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=-4;
-        datas[OldRow*8+OldColumn]=0;
-
-        datas[row*8+column]=-4;
-        datas[OldRow*8+OldColumn]=0;
-
-        check.green_cell_disappear(ui);
-        piece=0;
-        BlackOrWhite=1;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -608,7 +617,9 @@ void Black_knight::check_knight_and_bishop_step(Ui::Game *ui, const int &row, co
 
 
 
-
+////////////////////////
+/// Knight can step when there is check
+///////////////////////
 
 void Black_knight::step_1_check(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,bool &CanMove)
 {
@@ -940,17 +951,14 @@ bool Black_knight::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
                     }
 
                     if(check.step_white_knight_check(datas,row,column)){
-                        //column
                         if(king_column==AttackerColumn){
                             column_equal_check_step(datas,row, column, king_column, king_row,AttackerRow,CanMove);
                         }
 
-                        //row
                         if(king_row==AttackerRow){
                             row_equal_check_step(datas,row, column, king_column, king_row,AttackerColumn,CanMove);
                         }
 
-                        //dialog
                         if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
                             dialog_left_up(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                         }
@@ -966,11 +974,7 @@ bool Black_knight::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
                         if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
                             dialog_left_down(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                         }
-
-
                     }
-
-
                 }
             }
         }
@@ -994,13 +998,10 @@ bool Black_knight::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
                         step_6_check(datas,row,column,v,CanMove);
                         step_7_check(datas,row,column,v,CanMove);
                         step_8_check(datas,row,column,v,CanMove);
-
                     }
                 }
             }
         }
-
-
     }
 
     return CanMove;
@@ -1011,7 +1012,9 @@ bool Black_knight::get_checkmate_CanMove(int *datas, const int &AttackerRow, con
 
 
 
-
+////////////////////////
+/// Knight can step when there is no check (for draw)
+///////////////////////
 void Black_knight::step_1(int *datas, const int &row, const int &column,bool &CanMove)
 {
     if((row+1)<8 && (column+2)<8){
@@ -1174,7 +1177,11 @@ bool Black_knight::get_draw_CanMove(int *datas)
 
 
 
-
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 void Black_knight::step_1_check_machine(int *datas, const int &row, const int &column,std::vector<std::pair<int,int>> v,std::vector<std::vector<int>> &MoveAndPoint)

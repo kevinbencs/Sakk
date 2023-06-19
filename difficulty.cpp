@@ -2,6 +2,13 @@
 #include "ui_difficulty.h"
 #include <fstream>
 
+
+////////////////////////////////////////////////////////////
+/// Difficulty::Difficulty
+/// You can select the difficulty level
+////////////////////////////////////////////////////////////
+
+
 Difficulty::Difficulty(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Difficulty)
@@ -10,19 +17,25 @@ Difficulty::Difficulty(QWidget *parent) :
     setWindowFlags(Qt::Window);
     setWindowIcon(QIcon("Gui/Chess.jpg"));
 
+    ///////////////////////////////////////////////////////
+    /// This is the menu
+    ///////////////////////////////////////////////////////
+
     menuBar=new QMenuBar();
     menu=new QMenu("Sötét téma");
     Action=new QAction("Bekapcsol");
     menu->addAction(Action);
     menuBar->addMenu(menu);
 
-
     this->layout()->setMenuBar(menuBar);
     connect(Action,&QAction::triggered,this,&Difficulty::on_Action_triggered);
 
+    ///////////////////////////////////////////////////////////////
+    /// Loading the theme of appearance
+    //////////////////////////////////////////////////////////////
+
     std::ifstream in("Theme");
     in>>theme;
-
     in.close();
 
     if(theme==0){
@@ -45,8 +58,9 @@ Difficulty::Difficulty(QWidget *parent) :
     }
 }
 
-
-
+/////////////////////////////////////////////////////////////
+/// This is the menu where you can select the window appearance.
+/////////////////////////////////////////////////////////////
 void Difficulty::on_Action_triggered()
 {
     if(Action->text()=="Bekapcsol"){
@@ -72,11 +86,8 @@ void Difficulty::on_Action_triggered()
 
     std::ofstream out("Theme");
     out<<theme;
-
     out.close();
 }
-
-
 
 
 Difficulty::~Difficulty()
@@ -84,7 +95,9 @@ Difficulty::~Difficulty()
     delete ui;
 }
 
-//easy
+//////////////////////////////////////////////
+/// Easy difficulty level
+/////////////////////////////////////////////
 void Difficulty::on_pushButton_clicked()
 {
     hide();
@@ -94,7 +107,9 @@ void Difficulty::on_pushButton_clicked()
     white_or_black.exec();
 }
 
-//medium
+/////////////////////////////////////////////
+/// Medium difficulty level
+////////////////////////////////////////////
 void Difficulty::on_pushButton_2_clicked()
 {
     hide();
@@ -104,7 +119,9 @@ void Difficulty::on_pushButton_2_clicked()
     white_or_black.exec();
 }
 
-//hard
+///////////////////////////////////////////
+/// Hard difficulty level
+///////////////////////////////////////////
 void Difficulty::on_pushButton_3_clicked()
 {
     hide();

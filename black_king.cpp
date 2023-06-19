@@ -6,7 +6,63 @@ Black_king::Black_king()
 }
 
 
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
 
+
+
+
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
+void Black_king::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,bool &BlackKingRookDidNotMoveLeft,bool &BlackKingRookDidNotMoveRight)
+{
+    QImage* img;
+    QImage *img2;
+
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+    datas[row*8+column]=-10;
+
+    img=new QImage("Gui/black_king.png");
+    img2=new QImage("Gui/black_rook.png");
+
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+
+
+    if(row==7 && column==6 && BlackKingRookDidNotMoveRight){
+        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
+        ui->tableWidget->setItem(row,column-1,picture);
+        datas[row*8+column-1]=-5;
+        datas[row*8+column+1]=0;
+        ui->tableWidget->setItem(row,column+1,new QTableWidgetItem(""));
+    }
+    if(row==7 && column==2 && BlackKingRookDidNotMoveLeft){
+        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
+        ui->tableWidget->setItem(row,column+1,picture);
+        datas[row*8+column+1]=-5;
+        datas[row*8+column-2]=0;
+        ui->tableWidget->setItem(row,column-1,new QTableWidgetItem(""));
+    }
+
+    BlackKingRookDidNotMoveLeft=false;
+    BlackKingRookDidNotMoveRight=false;
+
+    piece=0;
+    BlackOrWhite=1;
+    ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
+}
+
+
+////////////////////////////////////////
+/// Check there will be check after the king steps
+/////////////////////////////////////////
 bool Black_king::there_is_no_white_queen_and_rook_right(int *datas, const int &row, const int &column, int &AttackerRow, int &AttackerColumn)
 {
     for(int i=column+1;i<8;i++){
@@ -599,6 +655,13 @@ bool Black_king::there_is_no_white_bishop(int *datas, const int &row, const int 
 }
 
 
+////////////////////////////////////////
+/// Step
+////////////////////////////////////////
+
+////////////////////////////////////////
+/// Paint green the cells where the king can step
+////////////////////////////////////////
 void Black_king::step_1(Ui::Game *ui, const int &row, const int &column,int *datas)
 {
     if((row+1)<8 && there_is_no_white_bishop(datas,row+1,column) && there_is_no_white_knight(datas,row+1,column) && there_is_no_white_queen_and_rook(datas,row+1,column) && there_is_no_white_queen_and_pawn(datas,row+1,column) && there_is_no_white_king(datas,row+1,column)){
@@ -733,8 +796,8 @@ void Black_king::step_8(Ui::Game *ui, const int &row, const int &column,int *dat
 
 void Black_king::step_castling_right(Ui::Game* ui, const int &row, const int &column, int *datas)
 {
-    if(row==0 && there_is_no_white_bishop(datas,row,column+2) && there_is_no_white_knight(datas,row,column+2) && there_is_no_white_queen_and_rook(datas,row,column+2) && there_is_no_white_queen_and_pawn(datas,row,column+2) && there_is_no_white_king(datas,row,column+2)){
-        if(*(datas+row*8+column+1)==0 && *(datas+row*8+column+2)==0 && *(datas+row*8+column+3)==-5){
+    if(row==7 && there_is_no_white_bishop(datas,row,column+2) && there_is_no_white_knight(datas,row,column+2) && there_is_no_white_queen_and_rook(datas,row,column+2) && there_is_no_white_queen_and_pawn(datas,row,column+2) && there_is_no_white_king(datas,row,column+2)){
+        if(*(datas+row*8+column+1)==0 && *(datas+row*8+column+2)==0 && *(datas+row*8+column+3)==0 && *(datas+row*8+column+4)==-5){
             ui->tableWidget->item(row,column+2)->setBackground(Qt::green);
         }
     }
@@ -744,8 +807,8 @@ void Black_king::step_castling_right(Ui::Game* ui, const int &row, const int &co
 
 void Black_king::step_castling_left(Ui::Game* ui, const int &row, const int &column, int *datas)
 {
-    if(row==0 && there_is_no_white_bishop(datas,row,column-2) && there_is_no_white_knight(datas,row,column-2) && there_is_no_white_queen_and_rook(datas,row,column-2) && there_is_no_white_queen_and_pawn(datas,row,column-2) && there_is_no_white_king(datas,row,column-2)){
-        if(*(datas+row*8+column-1)==0 && *(datas+row*8+column-2)==0 && *(datas+row*8+column-3)==0 && *(datas+row*8+column-4)==-5){
+    if(row==7 && there_is_no_white_bishop(datas,row,column-2) && there_is_no_white_knight(datas,row,column-2) && there_is_no_white_queen_and_rook(datas,row,column-2) && there_is_no_white_queen_and_pawn(datas,row,column-2) && there_is_no_white_king(datas,row,column-2)){
+        if(*(datas+row*8+column-1)==0 && *(datas+row*8+column-2)==0 && *(datas+row*8+column-3)==-5){
             ui->tableWidget->item(row,column-2)->setBackground(Qt::green);
         }
     }
@@ -755,37 +818,7 @@ void Black_king::step_castling_left(Ui::Game* ui, const int &row, const int &col
 void Black_king::step(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, bool &BlackKingRookDidNotMoveRight, bool &BlackKingRookDidNotMoveLeft,int *datas)
 {
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-
-        QImage *img=new QImage("Gui/black_king.png");
-
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-        datas[row*8+column]=-10;
-
-        datas[RowOld*8+ColumnOld]=0;
-
-        if(row==0 && column==6 && BlackKingRookDidNotMoveRight){
-            ui->tableWidget->setItem(row,column+1,new QTableWidgetItem(""));
-            QImage *img2=new QImage("Gui/white_rook.png");
-            picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
-            ui->tableWidget->setItem(row,column-1,picture);
-            datas[row*8+column-1]=-5;
-            datas[row*8+column+1]=0;
-        }
-        if(row==0 && column==2 && BlackKingRookDidNotMoveLeft){
-            ui->tableWidget->setItem(row,column-1,new QTableWidgetItem(""));
-            QImage *img2=new QImage("Gui/white_rook.png");
-            picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img2).scaled(70,70));
-            ui->tableWidget->setItem(row,column+1,picture);
-            datas[row*8+column+1]=-5;
-            datas[row*8+column-1]=0;
-        }
-
-
-        BlackKingRookDidNotMoveLeft=false;
-        BlackKingRookDidNotMoveRight=false;
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas,BlackKingRookDidNotMoveLeft,BlackKingRookDidNotMoveRight);
 
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
@@ -797,10 +830,6 @@ void Black_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
                 }
             }
         }
-
-        piece=0;
-        BlackOrWhite=1;
-        ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
         for(int i=0;i<8;i++){
@@ -840,14 +869,9 @@ void Black_king::step(Ui::Game *ui, const int &row, const int &column, int &RowO
 }
 
 
-
-
-
-
-
-
-
-
+/////////////////////////////
+/// King can step
+/////////////////////////////
 
 void Black_king::step_1(int *datas, const int &row, const int &column,  bool &CanMove)
 {
@@ -1014,7 +1038,11 @@ bool Black_king::get_CanMove(int *datas)
 
 
 
-
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 

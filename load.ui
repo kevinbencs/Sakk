@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Sakk</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -24,7 +24,7 @@
        <item>
         <widget class="QPushButton" name="pushButton_2">
          <property name="text">
-          <string>Töröl</string>
+          <string>Mentés törlése</string>
          </property>
         </widget>
        </item>
@@ -38,7 +38,7 @@
        <item>
         <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>Ok</string>
+          <string>Mentett játék betöltése</string>
          </property>
         </widget>
        </item>

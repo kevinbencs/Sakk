@@ -7,6 +7,10 @@
 #include <ctime>
 #include <string>
 
+/////////////////////////////////////////////////////////
+/// Game::Game
+/// This is the game window
+/////////////////////////////////////////////////////////
 
 Game::Game(QWidget *parent) :
     QDialog(parent),
@@ -16,10 +20,19 @@ Game::Game(QWidget *parent) :
 
     setWindowFlag(Qt::Window);
     setWindowIcon(QIcon("Gui/Chess.jpg"));
+
+    ///////////////////////////////////////////////////////
+    /// Setting with and height of cells
+    ///////////////////////////////////////////////////////
+
     for(int i=0;i<8;i++){
         ui->tableWidget->setColumnWidth(i,80);
         ui->tableWidget->setRowHeight(i,80);
     }
+
+    ///////////////////////////////////////////////////////
+    /// This is the menu
+    ///////////////////////////////////////////////////////
 
     setWindowFlags(Qt::Window);
     menuBar=new QMenuBar();
@@ -30,6 +43,10 @@ Game::Game(QWidget *parent) :
 
     this->layout()->setMenuBar(menuBar);
     connect(Action,&QAction::triggered,this,&Game::on_Action_triggered);
+
+    ///////////////////////////////////////////////////////////////
+    /// Load the theme of appearance
+    //////////////////////////////////////////////////////////////
 
     std::ifstream in("Theme");
     in>>theme;
@@ -50,6 +67,10 @@ Game::Game(QWidget *parent) :
         menuBar->setStyleSheet("border-color: rgb(81%,80%,80%); background-color: rgb(80%,80%,80%); color: rgb(0%,0%,0%)");
     }
 
+    ///////////////////////////////////////////////////////////////
+    /// Read the saved games for save
+    ///////////////////////////////////////////////////////////////
+
     QFile fin("Saved.txt");
 
     if(fin.open(QIODevice::ReadOnly)){
@@ -62,7 +83,7 @@ Game::Game(QWidget *parent) :
 
 
 
-
+//Load the table when you play againts white machine
 void Game::table_white_machine()
 {
     for(int i=0;i<8;i++){
@@ -181,6 +202,7 @@ void Game::table_white_machine()
     }
 }
 
+//Load the table when you play againts black machine or human
 void Game::table_black_machine_or_human()
 {
     for(int i=0;i<8;i++){
@@ -300,7 +322,7 @@ void Game::table_black_machine_or_human()
 }
 
 
-
+//Load the table
 void Game::table(int difficulty_level,int WhiteOrBlackMachine)
 {
     Black_machine black_machine;
@@ -339,8 +361,9 @@ void Game::table(int difficulty_level,int WhiteOrBlackMachine)
 
 
 
-
-
+/////////////////////////////////////////////////////////////
+///Change the piece when change the table
+/// /////////////////////////////////////////////////////////
 void Game::change_piece()
 {
     QImage* img;
@@ -411,7 +434,9 @@ void Game::change_piece()
     }
 }
 
-
+/////////////////////////////////////////////////////////////
+///Change the table when two humans play and one of them stepped
+/// /////////////////////////////////////////////////////////
 void Game::change_the_table()
 {
     int *datas1=new int[64];
@@ -446,8 +471,9 @@ void Game::change_the_table()
 
 
 
-
-
+/////////////////////////////////////////////////////////////////
+//// This is the menu where you can select the window appearance.
+/////////////////////////////////////////////////////////////////
 void Game::on_Action_triggered()
 {
     if(Action->text()=="Bekapcsol"){
@@ -487,7 +513,6 @@ void Game::on_Action_triggered()
 
     std::ofstream out("Theme");
     out<<theme;
-
     out.close();
 }
 
@@ -495,13 +520,14 @@ void Game::on_Action_triggered()
 
 Game::~Game()
 {
-
     delete[] datas;
     delete ui;
 }
 
 
-
+//////////////////////////////////////////////////////
+/// Load the saved game
+//////////////////////////////////////////////////////
 void Game::saved_game_load(QString s)
 {
     QFile in("Saved.txt");
@@ -543,7 +569,6 @@ void Game::saved_game_load(QString s)
                     img=new QImage("Gui/white_pawn.png");
                 }
 
-
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
@@ -556,7 +581,6 @@ void Game::saved_game_load(QString s)
                 else{
                     img=new QImage("Gui/white_knight.png");
                 }
-
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
@@ -571,7 +595,6 @@ void Game::saved_game_load(QString s)
                     img=new QImage("Gui/white_rook.png");
                 }
 
-
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
@@ -584,7 +607,6 @@ void Game::saved_game_load(QString s)
                 else{
                     img=new QImage("Gui/white_queen.png");
                 }
-
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
@@ -599,7 +621,6 @@ void Game::saved_game_load(QString s)
                     img=new QImage("Gui/white_king.png");
                 }
 
-
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
@@ -612,7 +633,6 @@ void Game::saved_game_load(QString s)
                 else{
                     img=new QImage("Gui/black_bishop.png");
                 }
-
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
@@ -627,7 +647,6 @@ void Game::saved_game_load(QString s)
                     img=new QImage("Gui/black_pawn.png");
                 }
 
-
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
@@ -640,7 +659,6 @@ void Game::saved_game_load(QString s)
                 else{
                     img=new QImage("Gui/black_knight.png");
                 }
-
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
@@ -655,7 +673,6 @@ void Game::saved_game_load(QString s)
                     img=new QImage("Gui/black_rook.png");
                 }
 
-
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
@@ -668,7 +685,6 @@ void Game::saved_game_load(QString s)
                 else{
                     img=new QImage("Gui/black_queen.png");
                 }
-
 
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
@@ -683,7 +699,6 @@ void Game::saved_game_load(QString s)
                     img=new QImage("Gui/black_king.png");
                 }
 
-
                 QTableWidgetItem* picture=new QTableWidgetItem;
                 picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
                 ui->tableWidget->setItem(i,j,picture);
@@ -691,7 +706,6 @@ void Game::saved_game_load(QString s)
             if(datas[i*8+j]==0){
                 ui->tableWidget->setItem(i,j,new QTableWidgetItem(""));
             }
-
         }
     }
 
@@ -730,8 +744,17 @@ void Game::saved_game_load(QString s)
     }
     str>>s2;
 
-    if(s2=="S"){
+    /////////////////////////////////////////////
+    /// When there is check
+    /////////////////////////////////////////////
 
+    if(s2=="S"){
+        if(theme==0){
+            ui->label->setText("<p align=center><span style= color:white;font-size:22pt><b>Sakk<b><span><p>");
+        }
+        else{
+            ui->label->setText("<p align=center><span style= color:black;font-size:22pt><b>Sakk<b><span><p>");
+        }
     }
 
     str.flush();
@@ -739,26 +762,17 @@ void Game::saved_game_load(QString s)
 
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
-            if(!ui->tableWidget->item(i,j)){
-               ui->tableWidget->setItem(i,j,new QTableWidgetItem(""));
-            }
             if((i+j)%2==0){
                 ui->tableWidget->item(i,j)->setBackground(Qt::gray);
-
             }
-        }
-    }
-
-    for(int i=0;i<8;i++){
-        for(int j=0;j<8;j++){
             ui->tableWidget->item(i,j)->setFlags(Qt::NoItemFlags);
         }
     }
 }
 
-
-
-
+////////////////////////////////////////////
+/// Check (for checkmate) the white pieces can step
+////////////////////////////////////////////
 bool Game::get_White_CanMove()
 {
     White_king white_king;
@@ -791,9 +805,9 @@ bool Game::get_White_CanMove()
 }
 
 
-
-
-
+////////////////////////////////////////////
+/// Check (for checkmate) the black pieces can step
+////////////////////////////////////////////
 bool Game::get_Black_CanMove()
 {
     Black_king black_king;
@@ -825,8 +839,9 @@ bool Game::get_Black_CanMove()
     return false;
 }
 
-
-
+////////////////////////////////////////////
+////Check (for draw) the white pieces can step
+////////////////////////////////////////////
 bool Game::be_draw_white()
 {
     White_king white_king;
@@ -859,7 +874,9 @@ bool Game::be_draw_white()
 }
 
 
-
+////////////////////////////////////////////
+////Check (for draw) the black pieces can step
+////////////////////////////////////////////
 bool Game::be_draw_black()
 {
     Black_king black_king;
@@ -892,7 +909,9 @@ bool Game::be_draw_black()
 }
 
 
-
+//////////////////////////////////////
+/// Check there is no checkmate or draw text in the label
+//////////////////////////////////////
 bool Game::there_is_no_draw_and_checkmatt()
 {
     if(ui->label->text()=="<p align=center><span style= color:white;font-size:22pt><b>Sakkmatt<b><span><p>"){
@@ -913,10 +932,16 @@ bool Game::there_is_no_draw_and_checkmatt()
 
 
 
-
+///////////////////////////////////////
+/// Check there is check, checkmate or draw
+///////////////////////////////////////
 void Game::check_check_checkmate_draw()
 {
     Check check;
+
+    ///////////////////////////////////
+    /// Look for the coordinate of kings
+    //////////////////////////////////
 
     if(BlackOrWhite==-1){
         for(int i=0;i<8 ;i++){
@@ -939,7 +964,6 @@ void Game::check_check_checkmate_draw()
             }
         }
     }
-
 
 
     if(check.king_check(datas,BlackOrWhite,king_row,king_column,AttackerRow,AttackerColumn,KnightAndBishop)){
@@ -991,18 +1015,22 @@ void Game::check_check_checkmate_draw()
 
 
 
-
+///////////////////////////////////////
+/// Step
+///////////////////////////////////////
 void Game::on_tableWidget_cellClicked(int row, int column)
 {
     Black_machine black_machine;
 
     if(there_is_no_draw_and_checkmatt()){
         if(ui->label->text()=="<p align=center><span style= color:white;font-size:22pt><b>Sakk<b><span><p>" || ui->label->text()=="<p align=center><span style= color:black;font-size:22pt><b>Sakk<b><span><p>"){
+            ///////////////////////////////////////
+            /// Step when there is check
+            ///////////////////////////////////////
             if(BlackOrWhite==1){
                 if((piece==10 || datas[row*8+column]==10)){
                     White_king white_king;
                     white_king.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,WhiteKingRookDidNotMoveLeft,WhiteKingRookDidNotMoveRight,datas,WhiteOrBlackMachine);
-
                 }
                 if(KnightAndBishop==0){
                     if(piece==5 || datas[row*8+column]==5){
@@ -1076,7 +1104,6 @@ void Game::on_tableWidget_cellClicked(int row, int column)
                         Black_bishop black_bishop;
                         black_bishop.check_step(ui,row,column,piece,OldRow, OldColumn, AttackerRow, AttackerColumn,BlackOrWhite,king_row,king_column,datas);
                     }
-
                 }
                 else{
                     if(piece==-5 || datas[row*8+column]==-5){
@@ -1101,9 +1128,11 @@ void Game::on_tableWidget_cellClicked(int row, int column)
                     }
                 }
             }
-
         }
         else{
+            ///////////////////////////////////////
+            /// Step
+            ///////////////////////////////////////
             if((piece==1 || datas[row*8+column]==1) && BlackOrWhite==1){
                 White_bishop white_bishop;
                 white_bishop.step(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas,WhiteOrBlackMachine);
@@ -1165,8 +1194,16 @@ void Game::on_tableWidget_cellClicked(int row, int column)
             }
         }
 
+        ///////////////////////////////////////
+        /// Check there is check, checkmate or draw
+        ///////////////////////////////////////
+
         check_check_checkmate_draw();
     }
+
+    ///////////////////////////////////////
+    /// Machine step
+    ///////////////////////////////////////
 
     if(there_is_no_draw_and_checkmatt()){
         if(ui->label->text()=="<p align=center><span style= color:white;font-size:22pt><b>Sakk<b><span><p>" || ui->label->text()=="<p align=center><span style= color:black;font-size:22pt><b>Sakk<b><span><p>"){
@@ -1181,13 +1218,18 @@ void Game::on_tableWidget_cellClicked(int row, int column)
         }
     }
 
+    /////////////////////////////////////////////////////////////
+    ///Change the table when two humans play and one of them stepped
+    /// /////////////////////////////////////////////////////////
+
     if(WhiteOrBlackMachine==0 && piece==0){
         change_the_table();
         piece=100;
     }
 
-
-
+    ///////////////////////////////////////
+    /// Check there is check, checkmate or draw
+    ///////////////////////////////////////
 
     check_check_checkmate_draw();
 
@@ -1200,8 +1242,9 @@ void Game::on_tableWidget_cellClicked(int row, int column)
 
 
 
-
-//new game
+///////////////////////////////////////
+/// New game
+///////////////////////////////////////
 void Game::on_pushButton_clicked()
 {
     hide();
@@ -1211,7 +1254,9 @@ void Game::on_pushButton_clicked()
 }
 
 
-//save the game
+///////////////////////////////////////
+/// Save the game
+///////////////////////////////////////
 void Game::on_pushButton_2_clicked()
 {
     std::string date;
@@ -1259,7 +1304,6 @@ void Game::on_pushButton_2_clicked()
         else{
             arr+=" ";
         }
-
 
         out.write(arr);
         out.close();

@@ -6,6 +6,49 @@ Black_pawn::Black_pawn()
 }
 
 
+
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
+
+
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
+void Black_pawn::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite, int *datas)
+{
+    Check check;
+    QImage* img;
+
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+
+    img=new QImage("Gui/black_pawn.png");
+
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+    datas[row*8+column]=-3;
+
+    check.green_cell_disappear(ui);
+    piece=0;
+    BlackOrWhite=1;
+}
+
+
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+/// Paint green the cells where the pawn and queen can step
+////////////////////////////////////////
 void Black_pawn::step_left_up(Ui::Game* ui, const int &row, const int &column,int *datas)
 {
     for(int i=row-1, j=column-1;i>=0 && j>=0;i--, j--){
@@ -79,19 +122,7 @@ void Black_pawn::step(Ui::Game *ui, const int &row, const int &column, int &RowO
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/black_pawn.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-
-        datas[RowOld*8+ColumnOld]=0;
-        datas[row*8+column]=-3;
-
-        check.green_cell_disappear(ui);
-
-        piece=0;
-        BlackOrWhite=1;
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas);
     }
     else{
         check.green_cell_disappear(ui);
@@ -120,7 +151,9 @@ void Black_pawn::step(Ui::Game *ui, const int &row, const int &column, int &RowO
 }
 
 
-
+////////////////////////
+/// Step when there is check
+////////////////////////
 void Black_pawn::column_up_right_check_step(Ui::Game* ui,const int &row, const int &column, const int &king_column, const int &king_row,const int &AttackerRow,int *datas)
 {
     for(int i=row-1,j=column+1; j<=king_column && i>=0 ;i--,j++){
@@ -555,20 +588,7 @@ void Black_pawn::check_step(Ui::Game *ui, const int &row, const int &column, int
 {
     Check check;
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-
-        QImage* img=new QImage("Gui/black_pawn.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-
-        datas[row*8+column]=-3;
-        datas[OldRow*8+OldColumn]=0;
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -607,8 +627,6 @@ void Black_pawn::check_step(Ui::Game *ui, const int &row, const int &column, int
             piece=100;
         }
 
-
-
         OldRow=row;
         OldColumn=column;
     }
@@ -621,19 +639,7 @@ void Black_pawn::check_knight_and_bishop_step(Ui::Game *ui, const int &row, cons
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/black_pawn.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-
-        datas[row*8+column]=-3;
-        datas[OldRow*8+OldColumn]=0;
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -667,13 +673,9 @@ void Black_pawn::check_knight_and_bishop_step(Ui::Game *ui, const int &row, cons
 
 
 
-
-
-
-
-
-
-
+////////////////////////
+/// Pawn can step when there is check
+///////////////////////
 
 
 
@@ -1132,17 +1134,14 @@ bool Black_pawn::get_checkmate_CanMove(int *datas, const int &AttackerRow, const
                         }
                     }
 
-                    //column
                     if(king_column==AttackerColumn){
                         column_equal_check_step(datas,row, column, king_column, king_row,AttackerRow,CanMove);
                     }
 
-                    //row
                     if(king_row==AttackerRow){
                         row_equal_check_step(datas,row, column, king_column, king_row,AttackerColumn,CanMove);
                     }
 
-                    //dialog
                     if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
                         dialog_left_up(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                     }
@@ -1195,7 +1194,9 @@ bool Black_pawn::get_checkmate_CanMove(int *datas, const int &AttackerRow, const
 
 
 
-
+////////////////////////
+/// Pawn can step when there is no check (for draw)
+///////////////////////
 
 
 
@@ -1296,7 +1297,11 @@ bool Black_pawn::get_draw_CanMove(int *datas)
 
 
 
-
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 

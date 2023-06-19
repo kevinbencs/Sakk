@@ -6,6 +6,58 @@ Black_rook::Black_rook()
 }
 
 
+
+
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
+
+
+
+
+
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
+void Black_rook::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,bool &BlackKingRookDidNotMoveLeft,bool &BlackKingRookDidNotMoveRight)
+{
+    Check check;
+    QImage* img;
+
+    ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
+    datas[RowOld*8+ColumnOld]=0;
+
+    img=new QImage("Gui/black_rook.png");
+
+
+    QTableWidgetItem* picture=new QTableWidgetItem;
+    picture->setData(Qt::DecorationRole, QPixmap::fromImage(*img).scaled(70,70));
+    ui->tableWidget->setItem(row,column,picture);
+    datas[row*8+column]=-5;
+
+    if(ColumnOld==7 && RowOld==7){
+        BlackKingRookDidNotMoveRight=false;
+    }
+    if(ColumnOld==0 && RowOld==7){
+        BlackKingRookDidNotMoveLeft=false;
+    }
+
+    check.green_cell_disappear(ui);
+    piece=0;
+    BlackOrWhite=1;
+}
+
+
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
+
+
+////////////////////////////////////////
+/// Paint green the cells where the rook and queen can step
+////////////////////////////////////////
 void Black_rook::step_up(Ui::Game* ui,const int &row, const int &column,int *datas)
 {
     for(int i=row-1;i>=0 && i<8; i--){
@@ -81,25 +133,7 @@ void Black_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowO
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(RowOld,ColumnOld,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/black_rook.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-
-        datas[row*8+column]=-5;
-        datas[RowOld*8+ColumnOld]=0;
-
-        if(ColumnOld==7){
-            BlackKingRookDidNotMoveRight=false;
-        }
-        if(ColumnOld==0){
-            BlackKingRookDidNotMoveLeft=false;
-        }
-
-        check.green_cell_disappear(ui);
-        piece=0;
-        BlackOrWhite=1;
+        change_piece_cell(ui,row,column,RowOld,ColumnOld,piece,BlackOrWhite,datas,BlackKingRookDidNotMoveLeft,BlackKingRookDidNotMoveRight);
     }
     else{
         check.green_cell_disappear(ui);
@@ -120,8 +154,6 @@ void Black_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowO
             piece=100;
         }
 
-
-
         ColumnOld=column;
         RowOld=row;
     }
@@ -131,7 +163,9 @@ void Black_rook::step(Ui::Game *ui, const int &row, const int &column, int &RowO
 
 
 
-
+////////////////////////
+/// Step when there is check
+////////////////////////
 void Black_rook::left_check_step(Ui::Game* ui, const int &row, const int &column,const int &AttackerColumn,int *datas)
 {
     for(int i=column+1;i<=AttackerColumn;i++){
@@ -393,26 +427,7 @@ void Black_rook::check_step(Ui::Game *ui, const int &row, const int &column, int
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/black_rook.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-
-        datas[row*8+column]=-5;
-        datas[OldRow*8+OldColumn]=0;
-
-        if(OldColumn==7){
-            BlackKingRookDidNotMoveRight=false;
-        }
-        if(OldColumn==0){
-            BlackKingRookDidNotMoveLeft=false;
-        }
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas,BlackKingRookDidNotMoveLeft,BlackKingRookDidNotMoveRight);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -462,26 +477,7 @@ void Black_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, cons
     Check check;
 
     if(ui->tableWidget->item(row,column)->background()==Qt::green){
-        ui->tableWidget->setItem(OldRow,OldColumn,new QTableWidgetItem(""));
-        QImage* img=new QImage("Gui/black_rook.png");
-        QTableWidgetItem* picture=new QTableWidgetItem;
-        picture->setData(Qt::DecorationRole,QPixmap::fromImage(*img).scaled(70,70));
-        ui->tableWidget->setItem(row,column,picture);
-
-        datas[row*8+column]=-5;
-        datas[OldRow*8+OldColumn]=0;
-
-        if(OldColumn==7){
-            BlackKingRookDidNotMoveRight=false;
-        }
-        if(OldColumn==0){
-            BlackKingRookDidNotMoveLeft=false;
-        }
-
-        check.green_cell_disappear(ui);
-
-        BlackOrWhite=1;
-        piece=0;
+        change_piece_cell(ui,row,column,OldRow,OldColumn,piece,BlackOrWhite,datas,BlackKingRookDidNotMoveLeft,BlackKingRookDidNotMoveRight);
         ui->label->setText("<p align=center><span style= font-size:22pt><b><b><span><p>");
     }
     else{
@@ -517,7 +513,9 @@ void Black_rook::check_knight_and_bishop_step(Ui::Game *ui, const int &row, cons
 
 
 
-
+////////////////////////
+/// Rook can step when there is check
+///////////////////////
 
 void Black_rook::left_check_step(int *datas, const int &row, const int &column,const int &AttackerColumn,bool &CanMove)
 {
@@ -857,8 +855,6 @@ bool Black_rook::get_checkmate_CanMove(int *datas, const int &AttackerRow, const
                 }
             }
         }
-
-
     }
 
     return CanMove;
@@ -867,7 +863,9 @@ bool Black_rook::get_checkmate_CanMove(int *datas, const int &AttackerRow, const
 
 
 
-
+////////////////////////
+/// Rook can step when there is no check (for draw)
+///////////////////////
 
 
 
@@ -974,7 +972,11 @@ bool Black_rook::get_draw_CanMove(int *datas)
 
 
 
-
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 
 

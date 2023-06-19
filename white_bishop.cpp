@@ -7,8 +7,17 @@ White_bishop::White_bishop()
 }
 
 
+///////////////////////////////////////////
+//////////////////////////////////////////
+/// Human
+///////////////////////////////////////////
+///////////////////////////////////////////
 
 
+
+///////////////////////////////////////////
+/// Change the cell of piece
+///////////////////////////////////////////
 void White_bishop::change_piece_cell(Ui::Game *ui, const int &row, const int &column, int &RowOld, int &ColumnOld, int &piece, int &BlackOrWhite,int *datas,const int &WhiteOrBlackMachine)
 {
     Check check;
@@ -46,9 +55,13 @@ void White_bishop::change_piece_cell(Ui::Game *ui, const int &row, const int &co
 }
 
 
+////////////////////////////////////////
+/// Step when there is no check
+////////////////////////////////////////
 
-
-
+////////////////////////////////////////
+/// Paint green the cells where the bishop can step
+////////////////////////////////////////
 void White_bishop::step_up(Ui::Game* ui, const int &row, const int &column,  int *datas)
 {
     if(row>0){
@@ -60,6 +73,8 @@ void White_bishop::step_up(Ui::Game* ui, const int &row, const int &column,  int
         }
     }
 }
+
+
 
 
 void White_bishop::step_up_right(Ui::Game* ui, const int &row, const int &column, int *datas)
@@ -115,6 +130,10 @@ void White_bishop::step(Ui::Game *ui, const int &row, const int &column, int &Ro
 }
 
 
+////////////////////////
+/// Step when there is check
+////////////////////////
+
 void White_bishop::check_step_move(Ui::Game* ui, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow,int* datas)
 {
     Check check;
@@ -128,8 +147,6 @@ void White_bishop::check_step_move(Ui::Game* ui, const int &row, const int &colu
             ui->tableWidget->item(row-1,column+1)->setBackground(Qt::green);
         }
     }
-
-
 }
 
 
@@ -240,15 +257,15 @@ void White_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
 
         if(piece!=1 && *(datas+row*8+column)==1){
             piece=1;
-            //column
+
             if(king_column==AttackerColumn){
                 check_step_move(ui,row,column,king_column,AttackerRow,datas);
             }
-            //row
+
             if(king_row==AttackerRow){
                 row_equal_check_step(ui,row,column,king_column,king_row,AttackerColumn,datas);
             }
-            //dialog
+
             if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
                 dialog_left_up(ui,row, column, king_column, king_row,AttackerColumn,AttackerRow,datas);
             }
@@ -268,8 +285,6 @@ void White_bishop::check_step(Ui::Game *ui, const int &row, const int &column, i
         else{
             piece=100;
         }
-
-
 
         OldColumn=column;
         OldRow=row;
@@ -308,8 +323,9 @@ void White_bishop::check_knight_and_bishop_step(Ui::Game *ui, const int &row, co
 
 
 
-
-
+////////////////////////
+/// Bishop can step when there is check
+///////////////////////
 
 
 void White_bishop::check_step_move(int* datas, const int &row, const int &column, const int &AttackerColumn, const int &AttackerRow,bool &CanMove)
@@ -446,11 +462,11 @@ bool White_bishop::get_checkmate_CanMove(int* datas, const int &AttackerRow, con
                     if(king_column==AttackerColumn){
                         check_step_move(datas,row,column,king_column,AttackerRow,CanMove);
                     }
-                    //row
+
                     if(king_row==AttackerRow){
                         row_equal_check_step(datas,row,column,king_column,king_row,AttackerColumn,CanMove);
                     }
-                    //dialog
+
                     if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
                         dialog_left_up(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                     }
@@ -466,8 +482,6 @@ bool White_bishop::get_checkmate_CanMove(int* datas, const int &AttackerRow, con
                     if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)<0){
                         dialog_left_down(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,CanMove);
                     }
-
-
                 }
             }
         }
@@ -483,8 +497,6 @@ bool White_bishop::get_checkmate_CanMove(int* datas, const int &AttackerRow, con
                 }
             }
         }
-
-
     }
 
     return CanMove;
@@ -493,7 +505,9 @@ bool White_bishop::get_checkmate_CanMove(int* datas, const int &AttackerRow, con
 
 
 
-
+////////////////////////
+/// Bishop can step when there is no check (for draw)
+///////////////////////
 
 
 void White_bishop::step_up(int* datas, const int &row, const int &column,bool &CanMove)
@@ -562,9 +576,11 @@ bool White_bishop::get_draw_CanMove(int* datas)
 }
 
 
-
-
-
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
+/// Machine
+///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 
 void White_bishop::step_down_machine(int *datas, const int &row, const int &column, std::vector<std::vector<int>> &MoveAndPoint)
 {
@@ -579,7 +595,6 @@ void White_bishop::step_down_machine(int *datas, const int &row, const int &colu
             if(check.check_check(datas,row-1,column,1,row,column)){
                 point+=900;
             }
-
 
             v.push_back(point);
             MoveAndPoint.push_back(v);
@@ -834,11 +849,11 @@ void White_bishop::step_check_machine(int *datas, const int &AttackerRow, const 
         if(king_column==AttackerColumn){
             check_step_move_machine(datas,row,column,king_column,AttackerRow,MoveAndPoint);
         }
-        //row
+
         if(king_row==AttackerRow){
             row_equal_check_step_machine(datas,row,column,king_column,king_row,AttackerColumn,MoveAndPoint);
         }
-        //dialog
+
         if((king_column-AttackerColumn)>0 && (king_row-AttackerRow)>0){
             dialog_left_up_machine(datas,row, column, king_column, king_row,AttackerColumn,AttackerRow,MoveAndPoint);
         }
